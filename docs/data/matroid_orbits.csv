@@ -1,0 +1,231 @@
+orbit,lines,dim_polytope,dim_stratum,equations,realizable,nonempty_every_prime,matroids_in_orbit,representative
+1,1,0,0,0,true,true,27,a1
+2,2,1,1,0,true,true,216,a1 a2
+3,3,2,2,0,true,true,720,a1 a2 a3
+4,4,3,3,0,true,true,1080,a1 a2 a3 a4
+5,4,2,2,0,true,true,270,a1 a2 b1 b2
+6,5,4,4,0,true,true,432,a1 a2 a3 a4 a5
+7,5,4,4,0,true,true,216,a1 a2 a3 a4 c56
+8,5,3,3,0,true,true,1620,a1 a2 a3 c14 c24
+9,6,5,5,0,true,true,72,a1 a2 a3 a4 a5 a6
+10,6,4,4,0,true,true,3240,a1 a2 a3 a4 c15 c25
+11,6,3,3,0,true,true,720,a1 a2 a3 b1 b2 b3
+12,6,3,4,0,true,true,270,a1 a2 a3 c14 c24 c34
+13,7,5,5,0,true,true,2160,a1 a2 a3 a4 a5 c16 c26
+14,7,4,4,0,true,true,2160,a1 a2 a3 a4 c12 c13 c23
+15,7,4,5,0,true,true,1080,a1 a2 a3 a4 c15 c25 c35
+16,8,5,5,0,true,true,2160,a1 a2 a3 a4 a5 c12 c13 c23
+17,8,5,6,0,true,true,1080,a1 a2 a3 a4 a5 c16 c26 c36
+18,8,4,4,0,true,true,540,a1 a2 a3 a4 b1 b2 b3 b4
+19,8,4,4,0,true,true,3240,a1 a2 a3 a4 c12 c13 c24 c34
+20,8,4,6,0,true,true,135,a1 a2 a3 a4 c15 c25 c35 c45
+21,9,6,6,0,true,true,720,a1 a2 a3 a4 a5 a6 c12 c13 c23
+22,9,5,5,0,true,true,6480,a1 a2 a3 a4 a5 c12 c13 c24 c34
+23,9,5,7,0,true,true,270,a1 a2 a3 a4 a5 c16 c26 c36 c46
+24,9,5,5,0,true,true,540,a1 a2 a3 a4 b1 b2 b3 b4 c56
+25,9,4,5,0,true,true,2160,a1 a2 a3 a4 c12 c13 c14 c23 c24
+26,9,4,4,0,true,true,120,a1 a2 a3 b1 b2 b3 c12 c13 c23
+27,10,6,6,0,true,true,3240,a1 a2 a3 a4 a5 a6 c12 c13 c24 c34
+28,10,5,5,0,true,true,216,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5
+29,10,5,6,0,true,true,4320,a1 a2 a3 a4 a5 c12 c13 c14 c23 c24
+30,10,5,8,0,true,true,27,a1 a2 a3 a4 a5 c16 c26 c36 c46 c56
+31,10,5,5,0,true,true,6480,a1 a2 a3 a4 b1 b2 b3 b4 c15 c25
+32,10,4,6,0,true,true,216,a1 a2 a3 a4 c12 c13 c14 c23 c24 c34
+33,11,6,7,0,true,true,2160,a1 a2 a3 a4 a5 a6 c12 c13 c14 c23 c24
+34,11,6,6,0,true,true,6480,a1 a2 a3 a4 a5 b1 c23 c24 c26 c34 c56
+35,11,5,5,0,true,true,5184,a1 a2 a3 a4 a5 b6 c12 c13 c24 c35 c45
+36,11,5,7,0,true,true,432,a1 a2 a3 a4 a5 c12 c13 c14 c23 c24 c34
+37,11,5,6,0,true,true,4320,a1 a2 a3 a4 a5 c12 c13 c14 c25 c35 c45
+38,11,5,5,0,true,true,2160,a1 a2 a3 a4 b1 b2 b3 b4 c12 c13 c23
+39,12,6,6,0,true,true,36,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6
+40,12,6,6,0,true,true,5184,a1 a2 a3 a4 a5 a6 b1 c23 c24 c35 c46 c56
+41,12,6,8,0,true,true,216,a1 a2 a3 a4 a5 a6 c12 c13 c14 c23 c24 c34
+42,12,6,7,0,true,true,4320,a1 a2 a3 a4 a5 a6 c12 c13 c14 c25 c35 c45
+43,12,6,6,0,true,true,2160,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c16 c26
+44,12,5,6,0,true,true,1620,a1 a2 a3 a4 a5 b6 c12 c13 c14 c15 c23 c45
+45,12,5,6,0,true,true,12960,a1 a2 a3 a4 a5 b6 c12 c13 c14 c23 c25 c45
+46,12,5,7,0,true,true,1080,a1 a2 a3 a4 a5 c12 c13 c14 c15 c23 c24 c25
+47,12,5,6,0,true,true,720,a1 a2 a3 a4 b1 b2 b3 b4 c12 c13 c23 c56
+48,12,5,5,1,true,true,540,a1 a2 a3 a4 b1 b2 b3 b4 c12 c13 c24 c34
+49,12,5,6,1,true,true,1080,a1 a2 a3 a4 b1 b2 b3 b4 c15 c25 c36 c46
+50,13,6,7,0,true,true,1620,a1 a2 a3 a4 a5 a6 b1 c23 c24 c25 c26 c34 c56
+51,13,6,7,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 c23 c24 c25 c34 c36 c56
+52,13,6,8,0,true,true,1080,a1 a2 a3 a4 a5 a6 c12 c13 c14 c15 c23 c24 c25
+53,13,6,6,0,true,true,2160,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c23
+54,13,6,7,0,true,true,2160,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c16 c26 c36
+55,13,6,6,0,true,true,6480,a1 a2 a3 a4 a5 b1 b2 c13 c14 c23 c24 c36 c56
+56,13,6,7,1,true,true,1080,a1 a2 a3 a4 a5 b1 c23 c24 c25 c34 c35 c46 c56
+57,13,5,7,0,true,true,6480,a1 a2 a3 a4 a5 b6 c12 c13 c14 c15 c23 c24 c35
+58,13,5,7,0,true,true,4320,a1 a2 a3 a4 a5 b6 c12 c13 c14 c23 c24 c35 c45
+59,13,5,6,0,true,true,1620,a1 a2 a3 a4 b1 b2 b3 b4 c12 c13 c14 c23 c24
+60,14,6,8,0,true,true,6480,a1 a2 a3 a4 a5 a6 b1 c23 c24 c25 c26 c34 c35 c46
+61,14,6,8,0,true,true,4320,a1 a2 a3 a4 a5 a6 b1 c23 c24 c25 c34 c35 c46 c56
+62,14,6,8,0,true,true,1080,a1 a2 a3 a4 a5 a6 c12 c13 c14 c15 c26 c36 c46 c56
+63,14,6,6,1,true,true,3240,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c24 c34
+64,14,6,6,0,true,true,12960,a1 a2 a3 a4 a5 b1 b2 b3 b4 c12 c13 c16 c23 c46
+65,14,6,7,0,true,true,4320,a1 a2 a3 a4 a5 b1 b2 c13 c14 c23 c24 c34 c36 c56
+66,14,5,8,0,true,true,2160,a1 a2 a3 a4 a5 b6 c12 c13 c14 c15 c23 c24 c25 c34
+67,14,5,8,0,true,true,1080,a1 a2 a3 a4 a5 b6 c12 c13 c14 c15 c23 c24 c35 c45
+68,14,5,7,0,true,true,540,a1 a2 a3 a4 b1 b2 b3 b4 c12 c13 c14 c23 c24 c34
+69,15,6,7,0,true,true,720,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c23
+70,15,6,6,1,true,true,8640,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c24 c26 c35 c36
+71,15,6,7,0,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 c13 c14 c23 c24 c35 c36 c56
+72,15,6,7,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 c13 c14 c23 c24 c35 c46 c56
+73,15,6,9,0,true,true,2160,a1 a2 a3 a4 a5 a6 b1 c23 c24 c25 c26 c34 c35 c36 c45
+74,15,6,9,0,true,true,1080,a1 a2 a3 a4 a5 a6 b1 c23 c24 c25 c26 c34 c35 c46 c56
+75,15,6,9,0,true,true,216,a1 a2 a3 a4 a5 a6 c12 c13 c14 c15 c16 c23 c24 c25 c26
+76,15,6,8,0,true,true,720,a1 a2 a3 a4 a5 a6 c12 c13 c14 c25 c26 c35 c36 c45 c46
+77,15,6,7,0,true,true,6480,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c14 c23 c24
+78,15,6,7,0,true,true,12960,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c16 c23 c46
+79,15,6,7,1,true,true,720,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c23 c46 c56
+80,15,5,9,0,true,true,432,a1 a2 a3 a4 a5 b6 c12 c13 c14 c15 c23 c24 c25 c34 c35
+81,15,5,8,0,true,true,36,a1 a2 a3 a4 b1 b2 b3 b4 c12 c13 c14 c23 c24 c34 c56
+82,16,6,7,1,true,true,1620,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c24 c34
+83,16,6,6,2,true,true,5184,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c24 c35 c45
+84,16,6,7,0,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c34 c36
+85,16,6,7,1,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c24 c26 c35 c36 c45
+86,16,6,8,0,true,true,2160,a1 a2 a3 a4 a5 a6 b1 b2 c13 c14 c23 c24 c34 c35 c36 c56
+87,16,6,8,0,true,true,4320,a1 a2 a3 a4 a5 a6 b1 b2 c13 c14 c23 c24 c34 c35 c46 c56
+88,16,6,8,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 c13 c14 c23 c24 c35 c36 c45 c56
+89,16,6,10,0,true,true,432,a1 a2 a3 a4 a5 a6 b1 c23 c24 c25 c26 c34 c35 c36 c45 c46
+90,16,6,8,0,true,true,1080,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c14 c23 c24 c34
+91,16,6,7,1,true,true,1080,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c14 c25 c35 c45
+92,16,6,8,0,true,true,2160,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c16 c23 c46 c56
+93,16,6,7,1,true,true,3240,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c16 c24 c34 c46
+94,16,6,7,1,true,true,12960,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c16 c24 c34 c56
+95,16,5,10,0,true,true,27,a1 a2 a3 a4 a5 b6 c12 c13 c14 c15 c23 c24 c25 c34 c35 c45
+96,17,6,8,0,true,true,3240,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c23 c24
+97,17,6,7,2,true,true,2592,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c24 c35 c45
+98,17,6,7,0,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c45
+99,17,6,7,1,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c23 c25 c45
+100,17,6,8,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c26 c34 c35
+101,17,6,8,0,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c34 c36 c45
+102,17,6,8,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c34 c36 c56
+103,17,6,8,1,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c24 c26 c35 c36 c45 c46
+104,17,6,8,0,true,true,3240,a1 a2 a3 a4 a5 a6 b1 b2 c13 c14 c15 c23 c24 c25 c34 c36 c46
+105,17,6,9,0,true,true,4320,a1 a2 a3 a4 a5 a6 b1 b2 c13 c14 c23 c24 c34 c35 c36 c45 c56
+106,17,6,9,0,true,true,2160,a1 a2 a3 a4 a5 a6 b1 b2 c13 c14 c23 c24 c35 c36 c45 c46 c56
+107,17,6,11,0,true,true,27,a1 a2 a3 a4 a5 a6 b1 c23 c24 c25 c26 c34 c35 c36 c45 c46 c56
+108,17,6,8,0,true,true,1080,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c24 c25
+109,17,6,8,1,true,true,6480,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c14 c23 c24 c36 c46
+110,17,6,8,1,true,true,4320,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c14 c23 c24 c36 c56
+111,17,6,6,2,true,true,3240,a1 a2 a3 a4 a5 b1 b2 b3 b4 b6 c12 c13 c24 c35 c36 c45 c46
+112,18,6,8,0,true,true,3240,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c45
+113,18,6,9,0,true,true,540,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c23 c24 c34
+114,18,6,8,1,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c23 c25 c45
+115,18,6,8,1,true,true,2160,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c25 c35 c45
+116,18,6,8,3,true,true,120,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c23 c45 c46 c56
+117,18,6,7,3,true,true,2160,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c24 c35 c46 c56
+118,18,6,8,0,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c24 c35
+119,18,6,8,1,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c23 c24 c35 c45
+120,18,6,7,2,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c16 c24 c26 c35 c45
+121,18,6,7,2,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c16 c24 c35 c45 c46
+122,18,6,7,1,true,true,4320,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 c12 c13 c15 c16 c24 c25 c26 c34
+123,18,6,7,1,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 c12 c13 c15 c16 c24 c25 c34 c36
+124,18,6,9,0,true,true,1440,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c26 c34 c35 c36
+125,18,6,9,0,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c26 c34 c35 c45
+126,18,6,9,0,true,true,8640,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c26 c34 c35 c46
+127,18,6,9,0,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c34 c36 c45 c46
+128,18,6,9,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c34 c36 c45 c56
+129,18,6,9,1,true,true,1080,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c24 c26 c35 c36 c45 c46 c56
+130,18,6,10,0,true,true,720,a1 a2 a3 a4 a5 a6 b1 b2 c13 c14 c23 c24 c34 c35 c36 c45 c46 c56
+131,18,6,8,1,true,true,3240,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c24 c35 c45
+132,18,6,9,1,true,true,1080,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c14 c23 c24 c36 c46 c56
+133,18,6,7,3,true,true,2880,a1 a2 a3 a4 a5 b1 b2 b3 b4 b6 c12 c13 c14 c23 c25 c36 c45 c46
+134,19,6,9,0,true,true,2160,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c25
+135,19,6,9,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c35
+136,19,6,8,1,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c46 c56
+137,19,6,9,1,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c23 c24 c35 c45
+138,19,6,8,2,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c23 c25 c46 c56
+139,19,6,,2,false,false,1080,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c23 c45 c46 c56
+140,19,6,8,2,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c25 c26 c35 c46
+141,19,6,8,2,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c25 c35 c46 c56
+142,19,6,8,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c16 c23 c26 c45
+143,19,6,9,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c24 c25 c34
+144,19,6,9,0,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c24 c35 c45
+145,19,6,8,1,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c26 c45 c46
+146,19,6,8,1,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c16 c23 c25 c26 c45
+147,19,6,8,1,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c16 c23 c25 c36 c45
+148,19,6,8,1,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c16 c23 c25 c45 c46
+149,19,6,8,2,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c23 c25 c36 c45 c46
+150,19,6,8,2,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c16 c24 c26 c35 c45 c56
+151,19,6,8,0,true,true,3240,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 c12 c13 c14 c15 c16 c23 c24 c35 c46
+152,19,6,10,0,true,true,1080,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c26 c34 c35 c36 c45
+153,19,6,10,0,true,true,4320,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c26 c34 c35 c45 c46
+154,19,6,10,0,true,true,2160,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c26 c34 c35 c46 c56
+155,19,6,10,0,true,true,3240,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c34 c36 c45 c46 c56
+156,19,6,9,1,true,true,2160,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c24 c25 c34 c35
+157,20,6,9,0,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c56
+158,20,6,10,0,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c25 c34
+159,20,6,9,1,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c26 c56
+160,20,6,10,0,true,true,3240,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c35 c45
+161,20,6,9,1,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c36 c56
+162,20,6,9,1,true,true,2160,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c26 c36 c45
+163,20,6,9,1,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c26 c45 c46
+164,20,6,9,1,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c26 c46 c56
+165,20,6,9,1,true,true,270,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c26 c36 c46 c56
+166,20,6,9,1,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c23 c24 c35 c46 c56
+167,20,6,9,2,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c23 c25 c36 c45 c46
+168,20,6,9,2,true,true,2160,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c23 c25 c45 c46 c56
+169,20,6,9,2,true,true,3240,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c25 c26 c35 c36 c45
+170,20,6,9,0,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c16 c23 c24 c26 c35
+171,20,6,9,0,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c16 c23 c24 c35 c46
+172,20,6,10,0,true,true,4320,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c24 c25 c34 c35
+173,20,6,9,1,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c24 c26 c35 c36
+174,20,6,9,1,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c24 c26 c35 c56
+175,20,6,9,1,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c24 c35 c46 c56
+176,20,6,9,1,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c16 c23 c24 c26 c35 c45
+177,20,6,9,1,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c16 c23 c24 c35 c36 c45
+178,20,6,11,0,true,true,432,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c26 c34 c35 c36 c45 c46
+179,20,6,11,0,true,true,1080,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c26 c34 c35 c45 c46 c56
+180,20,6,10,1,true,true,216,a1 a2 a3 a4 a5 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c24 c25 c34 c35 c45
+181,21,6,10,0,true,true,270,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c26
+182,21,6,10,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c36
+183,21,6,10,0,true,true,720,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c34 c56
+184,21,6,10,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c35 c46
+185,21,6,11,0,true,true,2160,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c25 c34 c35
+186,21,6,10,1,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c25 c36 c46
+187,21,6,10,0,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c26 c34 c56
+188,21,6,10,1,true,true,4320,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c26 c35 c36
+189,21,6,10,1,true,true,4320,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c26 c35 c46
+190,21,6,10,1,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c26 c35 c56
+191,21,6,10,1,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c35 c46 c56
+192,21,6,10,1,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c36 c46 c56
+193,21,6,10,1,true,true,4320,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c26 c36 c45 c46
+194,21,6,10,1,true,true,1620,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c26 c36 c46 c56
+195,21,6,10,2,true,true,720,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c23 c25 c36 c45 c46 c56
+196,21,6,10,2,true,true,360,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c25 c26 c35 c36 c45 c46
+197,21,6,10,0,true,true,25920,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c16 c23 c24 c25 c34 c36
+198,21,6,10,0,true,true,5184,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c16 c23 c24 c26 c35 c36
+199,21,6,10,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c16 c23 c24 c26 c35 c45
+200,21,6,11,0,true,true,432,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c24 c25 c34 c35 c45
+201,21,6,10,1,true,true,6480,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 c12 c13 c14 c15 c23 c24 c25 c34 c36 c56
+202,21,6,12,0,true,true,72,a1 a2 a3 a4 a5 a6 b1 b2 b3 c14 c15 c16 c24 c25 c26 c34 c35 c36 c45 c46 c56
+203,22,6,11,0,true,true,1620,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c26 c34
+204,22,6,11,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c34 c36
+205,22,6,11,0,true,true,4320,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c34 c56
+206,22,6,11,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c36 c46
+207,22,6,11,0,true,true,2592,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c35 c46 c56
+208,22,6,12,0,true,true,216,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c25 c34 c35 c45
+209,22,6,11,1,true,true,1080,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c25 c34 c36 c46
+210,22,6,11,0,true,true,12960,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c25 c34 c36 c56
+211,22,6,11,1,true,true,2160,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c25 c36 c46 c56
+212,22,6,11,1,true,true,4320,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c26 c35 c36 c45
+213,22,6,11,1,true,true,3240,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c26 c35 c45 c56
+214,22,6,11,1,true,true,4320,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c26 c35 c46 c56
+215,22,6,11,1,true,true,270,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c26 c36 c45 c46 c56
+216,23,6,12,0,true,true,3240,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c26 c34 c35
+217,23,6,12,0,true,true,270,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c26 c34 c56
+218,23,6,12,0,true,true,4320,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c34 c35 c46
+219,23,6,12,0,true,true,4320,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c34 c36 c56
+220,23,6,12,0,true,true,2160,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c36 c46 c56
+221,23,6,12,0,true,true,1080,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c25 c34 c36 c46 c56
+222,23,6,12,1,true,true,1080,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c26 c35 c36 c45 c46
+223,24,6,13,0,true,true,720,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c26 c34 c35 c36
+224,24,6,13,0,true,true,1080,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c26 c34 c35 c46
+225,24,6,13,0,true,true,1080,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c34 c35 c46 c56
+226,24,6,13,1,true,true,45,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c23 c24 c26 c35 c36 c45 c46 c56
+227,25,6,14,0,true,true,216,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c26 c34 c35 c36 c45
+228,25,6,14,0,true,true,135,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c26 c34 c35 c46 c56
+229,26,6,15,0,true,true,27,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c26 c34 c35 c36 c45 c46
+230,27,6,16,0,true,true,1,a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c14 c15 c16 c23 c24 c25 c26 c34 c35 c36 c45 c46 c56

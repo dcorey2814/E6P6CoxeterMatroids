@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>The E₆-Grassmannian in numbers</title>
+<meta name="description" content="Coxeter matroids of type (E6,P6), the matroidal strata of the E6-Grassmannian, its tropicalization and its toric degenerations, in charts.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a78d6'/%3E%3Cpath d='M7 23 16 7l9 16z' fill='none' stroke='white' stroke-width='2.4' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  color-scheme:light;
+  --color-fg:#0b0b0b;--color-fg-muted:#52514e;--color-bg:#f9f9f7;--color-panel:#ffffff;--color-border-line:#e3e2dd;--color-skeleton:#efeeea;--color-link:#1f63b5;
+  --cds-text-secondary:#52514e;--cds-chart-grid:#ecebe7;--cds-chart-axis:#c4c3bd;--cds-chart-reference:#8b8a85;--cds-chart-muted:#c4c3bd;--cds-chart-status-critical:#d03b3b;
+  --cds-surface-popover:#ffffff;--cds-border:#dcdbd5;--cds-shadow-popover:0 6px 20px rgba(11,11,11,.12);
+  --series-0:#2a78d6;--series-1:#eb6834;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --color-fg:#f0efec;--color-fg-muted:#c3c2b7;--color-bg:#141413;--color-panel:#1a1a19;--color-border-line:#2f2e2b;--color-skeleton:#252523;--color-link:#7fb2f0;
+    --cds-text-secondary:#b3b2a8;--cds-chart-grid:#2a2a27;--cds-chart-axis:#4a4944;--cds-chart-reference:#8b8a85;--cds-chart-muted:#4a4944;--cds-chart-status-critical:#d03b3b;
+    --cds-surface-popover:#232321;--cds-border:#3a3936;--cds-shadow-popover:0 6px 20px rgba(0,0,0,.5);
+    --series-0:#3987e5;--series-1:#d95926;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --color-fg:#f0efec;--color-fg-muted:#c3c2b7;--color-bg:#141413;--color-panel:#1a1a19;--color-border-line:#2f2e2b;--color-skeleton:#252523;--color-link:#7fb2f0;
+  --cds-text-secondary:#b3b2a8;--cds-chart-grid:#2a2a27;--cds-chart-axis:#4a4944;--cds-chart-reference:#8b8a85;--cds-chart-muted:#4a4944;--cds-chart-status-critical:#d03b3b;
+  --cds-surface-popover:#232321;--cds-border:#3a3936;--cds-shadow-popover:0 6px 20px rgba(0,0,0,.5);
+  --series-0:#3987e5;--series-1:#d95926;
+}
+:root{
+  --font-sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --font-serif:"Iowan Old Style","Palatino Linotype",Palatino,Charter,Georgia,serif;
+  --cds-font-size-caption:12px;--cds-font-size-body:14px;--cds-font-size-heading:18px;--cds-font-size-title:28px;--cds-font-weight-medium:600;
+  --cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:16px;--cds-gap-lg:24px;--cds-gap-xl:32px;
+  --cds-pad-xs:4px;--cds-pad-sm:8px;--cds-pad-md:12px;--cds-pad-lg:18px;--cds-pad-xl:24px;--cds-radius:10px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
+body{font-family:var(--font-sans);font-size:var(--cds-font-size-body);line-height:1.4;-webkit-text-size-adjust:100%}
+.e6-page{max-width:1180px;margin:0 auto;padding:36px 24px 56px}
+@media (max-width:600px){.e6-page{padding:20px 16px 40px}}
+.e6 a{color:var(--color-link)}
+.e6 code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.95em}
+.e6-meta{margin:var(--cds-gap-xs) 0 0;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);max-width:90ch;line-height:1.5}
+.e6-banner{margin:var(--cds-gap-sm) 0 0;padding:var(--cds-pad-md);border:1px solid var(--cds-chart-status-critical);border-radius:var(--cds-radius);font-size:var(--cds-font-size-caption)}
+.e6-banner[hidden]{display:none}
+.dash-skeleton{color:transparent!important;background:var(--color-skeleton);border-radius:4px}
+
+.e6{display:flex;flex-direction:column;gap:var(--cds-gap-lg);font-family:var(--font-sans);color:var(--color-fg)}
+.e6-head{display:flex;flex-direction:column;gap:var(--cds-gap-xs)}
+.e6-title{font-family:var(--font-serif);font-weight:400;font-size:var(--cds-font-size-title);line-height:1.2;margin:0}
+.e6-lede{margin:0;color:var(--color-fg-muted);font-size:var(--cds-font-size-body);max-width:72ch;line-height:1.5}
+.e6-lede b,.e6-sub b,.e6-kpi-sub b,.e6-notes b{color:var(--color-fg);font-weight:var(--cds-font-weight-medium);font-variant-numeric:tabular-nums}
+.e6-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:var(--cds-gap-md)}
+.e6-card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);min-width:0;display:flex;flex-direction:column;gap:var(--cds-gap-sm)}
+.e6-kpi-label{margin:0;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.e6-kpi-value{margin:0;font-family:var(--font-serif);font-weight:400;font-size:calc(var(--cds-font-size-title) * 1.35);line-height:1.1;font-variant-numeric:tabular-nums}
+.e6-kpi-sub{margin:0;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);line-height:1.45}
+.e6-section{display:flex;flex-direction:column;gap:var(--cds-gap-md)}
+.e6-h2{margin:var(--cds-gap-md) 0 0;font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium)}
+.e6-intro{margin:0;color:var(--color-fg-muted);font-size:var(--cds-font-size-body);max-width:72ch;line-height:1.5}
+.e6-row{display:flex;flex-wrap:wrap;gap:var(--cds-gap-md)}
+.e6-wide{flex:2 1 440px}
+.e6-narrow{flex:1 1 280px}
+.e6-h3{margin:0;font-size:var(--cds-font-size-body);font-weight:var(--cds-font-weight-medium)}
+.e6-sub{margin:0;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);line-height:1.45}
+.e6-cardhead{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:var(--cds-gap-sm)}
+.e6-cardhead > div:first-child{display:flex;flex-direction:column;gap:var(--cds-gap-xs);min-width:0}
+.e6-legend{display:flex;flex-wrap:wrap;gap:var(--cds-gap-xs) var(--cds-gap-md);font-size:var(--cds-font-size-caption);color:var(--cds-text-secondary)}
+.e6-legend > span{white-space:nowrap}
+.e6-legend sub{line-height:0}
+.e6-sw{width:10px;height:10px;border-radius:2px;display:inline-block;background:var(--cds-chart-muted);margin-right:6px;vertical-align:-1px}
+.e6-sw-crit{background:var(--cds-chart-status-critical)}
+.e6-chart{position:relative;min-height:200px;width:100%}
+.e6-chart svg{display:block;overflow:visible}
+.e6-chart text{font-family:var(--font-sans);font-size:var(--cds-font-size-caption);fill:var(--cds-text-secondary)}
+.e6-chart text.e6-val{fill:var(--color-fg);font-variant-numeric:tabular-nums}
+.e6-chart text.e6-note{fill:var(--color-fg-muted)}
+.e6-chart .e6-gridlines line{stroke:var(--cds-chart-grid)}
+.e6-chart .e6-base{stroke:var(--cds-chart-axis)}
+.e6-chart .e6-cross{stroke:var(--cds-chart-reference);stroke-dasharray:3 3}
+.e6-axisnote{margin:0;font-size:var(--cds-font-size-caption);color:var(--cds-text-secondary);text-align:center}
+.e6-fail{margin:0;padding:var(--cds-pad-lg) 0;color:var(--color-fg-muted);font-size:var(--cds-font-size-caption)}
+.e6-tip{position:absolute;left:0;top:0;pointer-events:none;background:var(--cds-surface-popover);border:1px solid var(--cds-border);box-shadow:var(--cds-shadow-popover);border-radius:var(--cds-radius);padding:6px 10px;font-size:var(--cds-font-size-caption);color:var(--color-fg);white-space:nowrap;z-index:3;opacity:0;font-variant-numeric:tabular-nums}
+.e6-tip div+div{color:var(--cds-text-secondary)}
+.e6-tip div:first-child{font-weight:var(--cds-font-weight-medium)}
+.e6-toggle{display:inline-flex;border:1px solid var(--color-border-line);border-radius:var(--cds-radius);overflow:hidden;flex:none}
+.e6-toggle button{font:inherit;font-size:var(--cds-font-size-caption);padding:4px 10px;border:0;background:transparent;color:var(--color-fg-muted);cursor:pointer}
+.e6-toggle button[aria-pressed="true"]{background:var(--color-bg);color:var(--color-fg);font-weight:var(--cds-font-weight-medium)}
+.e6-toggle button + button{border-left:1px solid var(--color-border-line)}
+.e6-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:var(--cds-gap-md);margin:0}
+.e6-facts > div{display:flex;flex-direction:column;gap:2px}
+.e6-facts dt{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.e6-facts dd{margin:0;font-family:var(--font-serif);font-weight:400;font-size:var(--cds-font-size-heading);font-variant-numeric:tabular-nums}
+.e6-tablewrap{overflow:auto;max-height:420px;border:1px solid var(--color-border-line);border-radius:var(--cds-radius)}
+.e6-table{border-collapse:collapse;width:100%;font-size:var(--cds-font-size-caption);font-variant-numeric:tabular-nums}
+.e6-table th{position:sticky;top:0;background:var(--color-panel);text-align:left;font-weight:var(--cds-font-weight-medium);color:var(--color-fg-muted);padding:6px 10px;border-bottom:1px solid var(--color-border-line);white-space:nowrap}
+.e6-table td{padding:5px 10px;border-bottom:1px solid var(--color-border-line);white-space:nowrap}
+.e6-table .e6-num{text-align:right}
+.e6-table td.e6-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--color-fg-muted)}
+.e6-table tr.e6-known td{font-weight:var(--cds-font-weight-medium)}
+.e6-notes{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);line-height:1.5}
+.e6-notes summary{cursor:pointer;color:var(--color-fg);font-size:var(--cds-font-size-body)}
+.e6-notes dl{margin:var(--cds-gap-sm) 0 0;display:grid;gap:var(--cds-gap-sm);max-width:80ch}
+.e6-notes dt{color:var(--color-fg);font-weight:var(--cds-font-weight-medium)}
+.e6-notes dd{margin:0}
+
+</style>
+<script src="vendor/d3.min.js"></script>
+<script>
+/* A small stand-in for the Claude dashboard runtime: loads the CSV files, runs the
+   calculations once their inputs are loaded, and draws each [data-draw] element. */
+(function () {
+  const files = {
+    matroid_orbits: 'data/matroid_orbits.csv',
+    max_cone_orbits: 'data/maximal_cone_orbits.csv',
+    toric: 'data/toric_degenerations.csv',
+    trop_fvector: 'data/tropical_fvector.csv',
+    ray_orbits: 'data/ray_orbits.csv'
+  };
+  const sources = {};
+  const calcs = {};
+  const draws = new Map();
+  const widths = new WeakMap();
+  let started = false;
+  function data(id) {
+    if (sources[id]) return sources[id];
+    const c = calcs[id];
+    if (!c) return { status: 'missing', data: [] };
+    if (c.result) return c.result;
+    const inputs = c.inputs.map(data);
+    if (inputs.some((d) => d.status === 'loading')) return { status: 'loading', data: null };
+    if (inputs.some((d) => d.status !== 'ok')) return { status: 'error', data: null };
+    try { c.result = { status: 'ok', data: c.fn(...inputs.map((d) => d.data)) }; }
+    catch (e) { console.error('calc ' + id, e); c.result = { status: 'error', data: null }; }
+    return c.result;
+  }
+  function drawOne(name, el) {
+    try { draws.get(name)(el); } catch (e) { console.error('draw ' + name, e); }
+    widths.set(el, el.clientWidth);
+  }
+  function each(name, fn) { document.querySelectorAll('[data-draw="' + name + '"]').forEach(fn); }
+  function drawAll() { for (const name of draws.keys()) each(name, (el) => drawOne(name, el)); }
+  window.dash = {
+    colors: ['var(--series-0)', 'var(--series-1)'],
+    data,
+    calc(id, spec) { calcs[id] = { inputs: spec.inputs, fn: spec.fn }; },
+    draw(name, fn) {
+      if (fn) draws.set(name, fn);
+      if (started && draws.has(name)) each(name, (el) => drawOne(name, el));
+    },
+    start() {
+      started = true;
+      for (const [id, url] of Object.entries(files)) {
+        sources[id] = { status: 'loading', data: [] };
+        d3.csv(url).then((rows) => { sources[id] = { status: 'ok', data: rows }; drawAll(); })
+          .catch((err) => {
+            console.error('Could not load ' + url, err);
+            sources[id] = { status: 'error', data: [] };
+            const banner = document.getElementById('e6-load-error');
+            if (banner) banner.hidden = false;
+            drawAll();
+          });
+      }
+      drawAll();
+      let frame = 0;
+      new ResizeObserver(() => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          for (const name of draws.keys()) each(name, (el) => { if (widths.get(el) !== el.clientWidth) drawOne(name, el); });
+        });
+      }).observe(document.querySelector('.e6'));
+    }
+  };
+})();
+</script>
+</head>
+<body>
+<main class="e6-page">
+<div class="e6">
+  <header class="e6-head" id="overview">
+    <h1 class="e6-title">The E₆-Grassmannian in numbers</h1>
+    <p class="e6-lede">All but <b data-draw="num" class="dash-skeleton" data-source="matroid_totals" data-field="empty_orbits" data-row="0">—</b> of the <b data-draw="num" class="dash-skeleton" data-source="matroid_totals" data-field="orbits" data-row="0">—</b> orbits of (E₆,P₆)-matroids are realizable, and <b data-draw="num" class="dash-skeleton" data-source="cone_funnel" data-field="orbits" data-where="key=prime">—</b> of the <b data-draw="num" class="dash-skeleton" data-source="cone_funnel" data-field="orbits" data-where="key=all">—</b> orbits of maximal cones of the tropical E₆-Grassmannian give toric degenerations.</p>
+    <p class="e6-meta">A companion to D.&nbsp;Corey, <cite>The E₆-Grassmannian, its minuscule Coxeter matroids, and the lines on a cubic surface</cite>, extended abstract submitted to FPSAC&nbsp;2027. Code and data: <a href="https://github.com/dcorey2814/E6P6CoxeterMatroids">github.com/dcorey2814/E6P6CoxeterMatroids</a>.</p>
+    <p class="e6-banner" id="e6-load-error" hidden>The data files didn't load. If you opened this page from disk, serve the <code>docs</code> folder over HTTP instead, for example with <code>python3 -m http.server</code>.</p>
+  </header>
+
+  <section class="e6-kpis" id="headline" aria-label="Headline numbers">
+    <div class="e6-card" id="kpi-matroids">
+      <p class="e6-kpi-label">(E₆,P₆)-matroids</p>
+      <p class="e6-kpi-value"><span data-draw="num" class="dash-skeleton" data-source="matroid_totals" data-field="matroids" data-row="0">—</span></p>
+      <p class="e6-kpi-sub">in <b data-draw="num" class="dash-skeleton" data-source="matroid_totals" data-field="orbits" data-row="0">—</b> orbits under W(E₆)</p>
+    </div>
+    <div class="e6-card" id="kpi-realizable">
+      <p class="e6-kpi-label">Orbits realizable over every infinite field</p>
+      <p class="e6-kpi-value"><span data-draw="num" class="dash-skeleton" data-source="matroid_totals" data-field="realizable_orbits" data-row="0">—</span></p>
+      <p class="e6-kpi-sub"><b data-draw="num" class="dash-skeleton" data-source="matroid_totals" data-field="empty_orbits" data-row="0">—</b> orbit, Q<sub>nr</sub>, is empty over every field</p>
+    </div>
+    <div class="e6-card" id="kpi-cones">
+      <p class="e6-kpi-label">Maximal cones of the tropical E₆-Grassmannian</p>
+      <p class="e6-kpi-value"><span data-draw="num" class="dash-skeleton" data-source="trop_fvector" data-field="cones" data-where="dim_mod_lineality=10">—</span></p>
+      <p class="e6-kpi-sub"><b data-draw="num" class="dash-skeleton" data-source="trop_fvector" data-field="cone_orbits" data-where="dim_mod_lineality=10">—</b> orbits, spanned by <b data-draw="num" class="dash-skeleton" data-source="trop_fvector" data-field="cones" data-where="dim_mod_lineality=1">—</b> rays</p>
+    </div>
+    <div class="e6-card" id="kpi-toric">
+      <p class="e6-kpi-label">Toric degenerations (prime cone orbits)</p>
+      <p class="e6-kpi-value"><span data-draw="num" class="dash-skeleton" data-source="cone_funnel" data-field="orbits" data-where="key=prime">—</span></p>
+      <p class="e6-kpi-sub"><b data-draw="num" class="dash-skeleton" data-source="cone_funnel" data-field="orbits" data-where="key=known">—</b> match the order or chain polytope of the minuscule poset</p>
+    </div>
+  </section>
+
+  <section class="e6-section" id="matroids">
+    <h2 class="e6-h2">Coxeter matroids and their strata</h2>
+    <p class="e6-intro">A set Q of the 27 lines on a cubic surface is an (E₆,P₆)-matroid when it has the tritangent exchange property. Its stratum M<sub>Q</sub> is the set of points of E₆/P₆ whose nonzero coordinates are exactly the lines of Q.</p>
+    <div class="e6-row">
+      <div class="e6-card e6-wide" id="by-size">
+        <div class="e6-cardhead">
+          <div>
+            <h3 class="e6-h3">Matroids by number of lines</h3>
+            <p class="e6-sub">Orbits, or matroids, with |Q| lines. Hover a bar for both counts.</p>
+          </div>
+          <div class="e6-toggle" role="group" aria-label="Count">
+            <button type="button" data-e6-mode="orbits" aria-pressed="true">Orbits</button>
+            <button type="button" data-e6-mode="matroids" aria-pressed="false">Matroids</button>
+          </div>
+        </div>
+        <div class="e6-legend"><span><i class="e6-sw" data-e6-color="0"></i>Realizable</span><span><i class="e6-sw e6-sw-crit"></i>Empty over every field (Q<sub>nr</sub>)</span></div>
+        <div class="e6-chart dash-skeleton" data-draw="bysize" data-source="orbits_by_size"></div>
+        <p class="e6-axisnote">Number of lines |Q|</p>
+      </div>
+      <div class="e6-card e6-narrow" id="polytope-dim">
+        <h3 class="e6-h3">Dimension of the matroid polytope</h3>
+        <p class="e6-sub">Orbits by dim conv(Q).</p>
+        <div class="e6-chart dash-skeleton" data-draw="polydim" data-source="polytope_dims" style="min-height:180px"></div>
+        <p class="e6-axisnote">Orbits</p>
+      </div>
+    </div>
+    <div class="e6-row">
+      <div class="e6-card e6-wide" id="strata-grid">
+        <h3 class="e6-h3">Stratum dimension against size</h3>
+        <p class="e6-sub">Each cell counts orbits with |Q| lines and a stratum of that dimension. Darker cells hold more orbits.</p>
+        <div class="e6-legend"><span><i class="e6-sw" data-e6-color="0"></i>Nonempty stratum</span><span><i class="e6-sw e6-sw-crit"></i>Empty stratum</span></div>
+        <div class="e6-chart dash-skeleton" data-draw="stratagrid" data-source="strata_grid" style="min-height:280px"></div>
+        <p class="e6-axisnote">Number of lines |Q|</p>
+      </div>
+      <div class="e6-card e6-narrow" id="strata-dim">
+        <h3 class="e6-h3">Dimensions of the nonempty strata</h3>
+        <p class="e6-sub">The <b data-draw="num" class="dash-skeleton" data-source="matroid_totals" data-field="realizable_orbits" data-row="0">—</b> nonempty strata up to W(E₆), as in Table 1. Each is an open subscheme of a torus.</p>
+        <div class="e6-chart dash-skeleton" data-draw="stratadim" data-source="strata_by_dim"></div>
+        <p class="e6-axisnote">dim M<sub>Q</sub></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="e6-section" id="tropical">
+    <h2 class="e6-h2">The tropical E₆-Grassmannian</h2>
+    <p class="e6-intro">The tropicalization of the open stratum is a simplicial fan with a 6-dimensional lineality space Λ. Every cone induces a subdivision of the Gosset polytope 2<sub>21</sub> into matroid polytopes. Dimensions below are taken modulo Λ.</p>
+    <div class="e6-row">
+      <div class="e6-card e6-wide" id="f-vector">
+        <h3 class="e6-h3">Cones in each dimension</h3>
+        <p class="e6-sub">The f-vector, and the same count up to W(E₆), on a log scale.</p>
+        <div class="e6-legend"><span><i class="e6-sw" data-e6-color="0"></i>All cones</span><span><i class="e6-sw" data-e6-color="1"></i>Orbits under W(E₆)</span></div>
+        <div class="e6-chart dash-skeleton" data-draw="fvector" data-source="trop_fvector" style="min-height:260px"></div>
+        <p class="e6-axisnote">Dimension of the cone, modulo Λ</p>
+      </div>
+      <div class="e6-card e6-narrow" id="ray-orbits">
+        <h3 class="e6-h3">Orbits of rays</h3>
+        <p class="e6-sub">Rays in each W(E₆)-orbit. Three orbits are spanned, modulo Λ, by indicator vectors of a double six, its complement, or the complement of a line.</p>
+        <div class="e6-chart dash-skeleton" data-draw="rays" data-source="ray_orbits" style="min-height:240px"></div>
+        <p class="e6-axisnote">Rays in the orbit</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="e6-section" id="toric">
+    <h2 class="e6-h2">Toric degenerations</h2>
+    <p class="e6-intro">A maximal cone is prime when its initial ideal in<sub>w</sub>(I) is prime. It then degenerates E₆/P₆ flatly to a projectively normal Gorenstein toric Fano variety.</p>
+    <div class="e6-row">
+      <div class="e6-card e6-narrow" id="funnel">
+        <h3 class="e6-h3">From maximal cones to toric varieties</h3>
+        <p class="e6-sub">Orbits of maximal cones passing each test in turn.</p>
+        <div class="e6-chart dash-skeleton" data-draw="funnel" data-source="cone_funnel" style="min-height:180px"></div>
+      </div>
+      <div class="e6-card e6-wide" id="facets">
+        <h3 class="e6-h3">Facets of the toric polytopes</h3>
+        <p class="e6-sub">Prime orbits by the number of facets of Δ<sub>σ</sub>, as in Table 2.</p>
+        <div class="e6-legend"><span><i class="e6-sw" data-e6-color="0"></i>Ideal generated by the 27 quadrics</span><span><i class="e6-sw" data-e6-color="1"></i>Needs extra cubic binomials</span></div>
+        <div class="e6-chart dash-skeleton" data-draw="facets" data-source="facets_hist" style="min-height:230px"></div>
+        <p class="e6-axisnote">Facets of Δ<sub>σ</sub></p>
+      </div>
+    </div>
+    <div class="e6-card" id="toric-shared">
+      <h3 class="e6-h3">Shared by every toric polytope</h3>
+      <dl class="e6-facts">
+        <div><dt>Prime orbits</dt><dd><span data-draw="num" class="dash-skeleton" data-source="toric_shared" data-field="polytopes" data-row="0">—</span></dd></div>
+        <div><dt>Lattice points (all vertices)</dt><dd><span data-draw="num" class="dash-skeleton" data-source="toric_shared" data-field="lattice_points" data-row="0">—</span></dd></div>
+        <div><dt>Edges</dt><dd><span data-draw="num" class="dash-skeleton" data-source="toric_shared" data-field="edges" data-row="0">—</span></dd></div>
+        <div><dt>Normalized volume (degree of E₆/P₆)</dt><dd><span data-draw="num" class="dash-skeleton" data-source="toric_shared" data-field="normalized_volume" data-row="0">—</span></dd></div>
+        <div><dt>h*-vector</dt><dd><span data-draw="num" class="dash-skeleton" data-source="toric_shared" data-field="h_star" data-row="0">—</span></dd></div>
+      </dl>
+    </div>
+    <div class="e6-card" id="toric-table">
+      <h3 class="e6-h3">The prime orbits</h3>
+      <p class="e6-sub">Sorted by facets. Orbits are numbered from 1 in the order of MAXIMAL_CONES_ORBITS in the gfan output.</p>
+      <div class="e6-tablewrap">
+        <table class="e6-table" data-source="toric" data-row-key="orbit">
+          <thead><tr><th data-field="orbit">Orbit</th><th data-field="facets" class="e6-num">Facets</th><th data-field="quadric_generators" class="e6-num">Quadrics</th><th data-field="cubic_generators" class="e6-num">Cubics</th><th data-field="known_polytope">Known as</th><th data-field="f_vector">f-vector</th></tr></thead>
+          <tbody data-draw="torictable"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <details class="e6-notes" id="notes">
+    <summary>Definitions and where the numbers come from</summary>
+    <dl>
+      <dt>Orbit</dt>
+      <dd>A W(E₆)-orbit of subsets of the 27 lines. The number of matroids in each orbit was found by applying every element of W(E₆), generated by the six symmetries recorded in the gfan file.</dd>
+      <dt>Q<sub>nr</sub></dt>
+      <dd>Orbit <b data-draw="num" class="dash-skeleton" data-source="matroid_orbits" data-field="orbit" data-where="realizable=false">—</b>, of matroids with <b data-draw="num" class="dash-skeleton" data-source="matroid_orbits" data-field="lines" data-where="realizable=false">—</b> lines, is the only orbit whose stratum is empty over every field. Every other stratum has a point over the algebraic closure of every prime field.</dd>
+      <dt>Stratum dimension</dt>
+      <dd>dim M<sub>Q</sub>, read off in a chart that admits a leaf order.</dd>
+      <dt>Tropical dimensions</dt>
+      <dd>Cones of the tropical E₆-Grassmannian are counted modulo the lineality space Λ, so rays have dimension 1 and maximal cones dimension 10.</dd>
+      <dt>Prime orbits</dt>
+      <dd>Orbits of maximal cones whose initial ideal is binomial, with a saturated lattice, and saturated with respect to the variables. The order polytope gives the Hibi degeneration; the chain polytope is Stanley's chain polytope of the minuscule E₆ poset.</dd>
+      <dt>Data</dt>
+      <dd>The page reads five tables:
+        <a href="data/matroid_orbits.csv">matroid_orbits.csv</a>,
+        <a href="data/tropical_fvector.csv">tropical_fvector.csv</a>,
+        <a href="data/ray_orbits.csv">ray_orbits.csv</a>,
+        <a href="data/maximal_cone_orbits.csv">maximal_cone_orbits.csv</a> and
+        <a href="data/toric_degenerations.csv">toric_degenerations.csv</a>.
+        <code>scripts/dashboard_data.py</code> writes them from the files in <code>data/</code> of the repository and two outputs of the Macaulay2 and Normaliz computations made for the abstract; <a href="https://github.com/dcorey2814/E6P6CoxeterMatroids/blob/main/docs/data/README.md">docs/data/README.md</a> describes every column.</dd>
+    </dl>
+  </details>
+</div>
+</main>
+<script>
+dash.calc('matroid_totals', {
+  inputs: ['matroid_orbits'],
+  title: 'Matroid totals',
+  description: 'Orbits and matroids in all, and how many orbits have a nonempty stratum.',
+  fn: (orbits) => {
+    const matroids = (list) => list.reduce((sum, o) => sum + Number(o.matroids_in_orbit), 0);
+    const empty = orbits.filter((o) => o.realizable !== 'true');
+    return [{
+      orbits: orbits.length,
+      matroids: matroids(orbits),
+      realizable_orbits: orbits.length - empty.length,
+      empty_orbits: empty.length,
+      empty_matroids: matroids(empty)
+    }];
+  }
+});
+
+dash.calc('orbits_by_size', {
+  inputs: ['matroid_orbits'],
+  title: 'Orbits by number of lines',
+  description: 'Orbits and matroids for each size |Q|, split by whether the stratum is nonempty.',
+  fn: (orbits) => {
+    const matroids = (list) => list.reduce((sum, o) => sum + Number(o.matroids_in_orbit), 0);
+    const largest = Math.max(...orbits.map((o) => Number(o.lines)));
+    const rows = [];
+    for (let lines = 1; lines <= largest; lines++) {
+      const here = orbits.filter((o) => Number(o.lines) === lines);
+      const realizable = here.filter((o) => o.realizable === 'true');
+      rows.push({
+        lines,
+        orbits: here.length,
+        realizable_orbits: realizable.length,
+        empty_orbits: here.length - realizable.length,
+        matroids: matroids(here),
+        realizable_matroids: matroids(realizable),
+        empty_matroids: matroids(here) - matroids(realizable)
+      });
+    }
+    return rows;
+  }
+});
+
+dash.calc('polytope_dims', {
+  inputs: ['matroid_orbits'],
+  title: 'Orbits by polytope dimension',
+  description: 'Number of orbits for each dimension of conv(Q).',
+  fn: (orbits) => {
+    const top = Math.max(...orbits.map((o) => Number(o.dim_polytope)));
+    const rows = [];
+    for (let dim = 0; dim <= top; dim++) {
+      rows.push({ dim_polytope: dim, orbits: orbits.filter((o) => Number(o.dim_polytope) === dim).length });
+    }
+    return rows;
+  }
+});
+
+dash.calc('strata_by_dim', {
+  inputs: ['matroid_orbits'],
+  title: 'Nonempty strata by dimension',
+  description: 'Number of orbits with a nonempty stratum of each dimension (Table 1).',
+  fn: (orbits) => {
+    const realizable = orbits.filter((o) => o.realizable === 'true');
+    const top = Math.max(...realizable.map((o) => Number(o.dim_stratum)));
+    const rows = [];
+    for (let dim = 0; dim <= top; dim++) {
+      rows.push({ dim_stratum: dim, orbits: realizable.filter((o) => Number(o.dim_stratum) === dim).length });
+    }
+    return rows;
+  }
+});
+
+dash.calc('strata_grid', {
+  inputs: ['matroid_orbits'],
+  title: 'Orbits by size and stratum dimension',
+  description: 'Number of orbits for each size |Q| and stratum dimension; "empty" marks an empty stratum.',
+  fn: (orbits) => {
+    const counts = new Map();
+    for (const o of orbits) {
+      const dim = o.realizable === 'true' ? String(Number(o.dim_stratum)) : 'empty';
+      const key = Number(o.lines) + '|' + dim;
+      counts.set(key, (counts.get(key) || 0) + 1);
+    }
+    return [...counts].map(([key, n]) => {
+      const [lines, dim] = key.split('|');
+      return { lines: Number(lines), dim_stratum: dim, orbits: n };
+    });
+  }
+});
+
+dash.calc('cone_funnel', {
+  inputs: ['max_cone_orbits'],
+  title: 'Maximal-cone orbits at each test',
+  description: 'Orbits of maximal cones, those with a binomial initial ideal, those with a prime one, and those whose polytope is the order or chain polytope.',
+  fn: (cones) => {
+    const binomial = cones.filter((c) => c.binomial_initial_ideal === 'true');
+    const prime = binomial.filter((c) => c.prime === 'true');
+    const known = prime.filter((c) => c.known_polytope);
+    return [
+      { key: 'all', stage: 'Maximal-cone orbits', orbits: cones.length },
+      { key: 'binomial', stage: 'Binomial initial ideal', orbits: binomial.length },
+      { key: 'prime', stage: 'Prime initial ideal', orbits: prime.length },
+      { key: 'known', stage: 'Order or chain polytope', orbits: known.length }
+    ];
+  }
+});
+
+dash.calc('facets_hist', {
+  inputs: ['toric'],
+  title: 'Prime orbits by facets',
+  description: 'Prime orbits for each number of facets of the toric polytope, split by whether the initial ideal needs cubic generators (Table 2).',
+  fn: (toric) => {
+    const facets = toric.map((t) => Number(t.facets));
+    const rows = [];
+    for (let f = Math.min(...facets); f <= Math.max(...facets); f++) {
+      const here = toric.filter((t) => Number(t.facets) === f);
+      const cubic = here.filter((t) => Number(t.cubic_generators) > 0);
+      rows.push({
+        facets: f,
+        orbits: here.length,
+        quadrics_only: here.length - cubic.length,
+        with_cubics: cubic.length,
+        order_polytopes: here.filter((t) => /^Order/.test(t.known_polytope || '')).length,
+        chain_polytopes: here.filter((t) => /^Chain/.test(t.known_polytope || '')).length
+      });
+    }
+    return rows;
+  }
+});
+
+dash.calc('toric_shared', {
+  inputs: ['toric'],
+  title: 'Invariants shared by the toric polytopes',
+  description: 'Each invariant that takes a single value across all prime orbits, or "varies".',
+  fn: (toric) => {
+    const shared = (field) => {
+      const values = new Set(toric.map((t) => t[field]));
+      return values.size === 1 ? [...values][0] : 'varies';
+    };
+    const asNumber = (v) => (v === 'varies' ? v : Number(v));
+    const h = shared('h_star');
+    return [{
+      polytopes: toric.length,
+      lattice_points: asNumber(shared('lattice_points')),
+      edges: asNumber(shared('edges')),
+      normalized_volume: asNumber(shared('normalized_volume')),
+      h_star: h === 'varies' ? h : '(' + String(h).split(' ').join(', ') + ')'
+    }];
+  }
+});
+</script>
+
+<script>
+window.E6 = (function () {
+  const fmt = d3.format(',');
+  function rows(el, ids) {
+    const all = ids.map((id) => dash.data(id));
+    if (all.some((d) => d.status === 'loading')) return null;
+    el.classList.remove('dash-skeleton');
+    if (all.some((d) => d.status === 'error' || d.status === 'missing')) {
+      const p = document.createElement('p');
+      p.className = 'e6-fail';
+      p.textContent = 'Failed to load';
+      el.replaceChildren(p);
+      return null;
+    }
+    if (all.some((d) => d.status !== 'ok')) { el.textContent = '—'; return null; }
+    return all.map((d) => (Array.isArray(d.data) ? d.data : []));
+  }
+  function svg(el, height, label) {
+    el.replaceChildren();
+    const width = Math.max(200, el.clientWidth || 320);
+    const s = d3.select(el).append('svg')
+      .attr('width', width).attr('height', height)
+      .attr('viewBox', '0 0 ' + width + ' ' + height)
+      .attr('role', 'img').attr('aria-label', label);
+    return { s, width, height };
+  }
+  function textWidth(s, strings, cls) {
+    const g = s.append('g');
+    let w = 0;
+    for (const str of strings) {
+      const t = g.append('text').attr('class', cls || null).text(str);
+      w = Math.max(w, t.node().getComputedTextLength());
+    }
+    g.remove();
+    return w;
+  }
+  function tip(el) {
+    const t = document.createElement('div');
+    t.className = 'e6-tip';
+    el.append(t);
+    return {
+      show(lines, event) {
+        t.replaceChildren(...lines.map((line) => { const d = document.createElement('div'); d.textContent = line; return d; }));
+        t.style.opacity = '1';
+        const box = el.getBoundingClientRect();
+        const w = t.offsetWidth, h = t.offsetHeight;
+        const px = event.clientX - box.left, py = event.clientY - box.top;
+        let x = px + 14;
+        if (x + w > box.width) x = px - w - 14;
+        if (x < 0) x = Math.max(0, Math.min(box.width - w, px - w / 2));
+        let y = py - h - 10;
+        if (y < 0) y = py + 16;
+        t.style.left = x + 'px';
+        t.style.top = y + 'px';
+      },
+      hide() { t.style.opacity = '0'; }
+    };
+  }
+  function topBar(x, y, w, h, r) {
+    if (!(h > 0) || !(w > 0)) return '';
+    r = Math.min(r, w / 2, h);
+    return 'M' + x + ',' + (y + h) + 'V' + (y + r) + 'Q' + x + ',' + y + ' ' + (x + r) + ',' + y +
+      'H' + (x + w - r) + 'Q' + (x + w) + ',' + y + ' ' + (x + w) + ',' + (y + r) + 'V' + (y + h) + 'Z';
+  }
+  function rightBar(x, y, w, h, r) {
+    if (!(h > 0) || !(w > 0)) return '';
+    r = Math.min(r, h / 2, w);
+    return 'M' + x + ',' + y + 'H' + (x + w - r) + 'Q' + (x + w) + ',' + y + ' ' + (x + w) + ',' + (y + r) +
+      'V' + (y + h - r) + 'Q' + (x + w) + ',' + (y + h) + ' ' + (x + w - r) + ',' + (y + h) + 'H' + x + 'Z';
+  }
+  function color(i) { return (dash.colors && dash.colors[i]) || 'var(--cds-chart-muted)'; }
+  function every(step, labelWidth) { return Math.max(1, Math.ceil((labelWidth + 6) / step)); }
+  return { fmt, rows, svg, textWidth, tip, topBar, rightBar, color, every };
+})();
+
+document.querySelectorAll('[data-e6-color]').forEach((sw) => {
+  sw.style.background = E6.color(Number(sw.getAttribute('data-e6-color')));
+});
+
+window.E6mode = 'orbits';
+document.querySelectorAll('[data-e6-mode]').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    window.E6mode = btn.getAttribute('data-e6-mode');
+    document.querySelectorAll('[data-e6-mode]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+    dash.draw('bysize');
+  });
+});
+
+dash.draw('num', (el) => {
+  const d = dash.data(el.getAttribute('data-source'));
+  if (d.status === 'loading') { el.textContent = '—'; return; }
+  el.classList.remove('dash-skeleton');
+  if (d.status !== 'ok') { el.textContent = '—'; return; }
+  const list = Array.isArray(d.data) ? d.data : [d.data];
+  const at = el.getAttribute('data-row');
+  const where = el.getAttribute('data-where');
+  let row = null;
+  if (at != null) row = list[Number(at)];
+  else if (where) {
+    const conds = where.split('&').map((p) => p.split('=').map(decodeURIComponent));
+    row = list.find((r) => r && conds.every(([k, v]) => String(r[k]) === v));
+  }
+  const v = row ? row[el.getAttribute('data-field')] : null;
+  if (v == null || v === '') { el.textContent = '—'; return; }
+  const n = typeof v === 'number' ? v : (/^-?\d+(\.\d+)?$/.test(String(v)) ? Number(v) : NaN);
+  el.textContent = Number.isNaN(n) ? String(v) : E6.fmt(n);
+});
+</script>
+
+<script>
+dash.draw('bysize', (el) => {
+  const got = E6.rows(el, ['orbits_by_size']);
+  if (!got) return;
+  const data = got[0];
+  const mode = window.E6mode === 'matroids' ? 'matroids' : 'orbits';
+  const ok = (r) => Number(mode === 'orbits' ? r.realizable_orbits : r.realizable_matroids);
+  const bad = (r) => Number(mode === 'orbits' ? r.empty_orbits : r.empty_matroids);
+  const H = 240, base = H - 22;
+  const { s, width } = E6.svg(el, H, mode === 'orbits'
+    ? 'Bar chart of orbits of matroids by number of lines'
+    : 'Bar chart of matroids by number of lines');
+  const top = d3.max(data, (r) => ok(r) + bad(r)) || 1;
+  const y = d3.scaleLinear().domain([0, top * 1.1]).nice().range([base, 8]);
+  const ticks = y.ticks(4);
+  const tf = mode === 'orbits' ? d3.format(',') : d3.format('~s');
+  const ml = Math.ceil(E6.textWidth(s, ticks.map(tf))) + 8;
+  const x = d3.scaleBand().domain(data.map((r) => r.lines)).range([ml, width]).paddingInner(0.2).paddingOuter(0.1);
+  const bw = x.bandwidth();
+
+  s.append('g').attr('class', 'e6-gridlines').selectAll('line').data(ticks.filter((t) => t > 0)).join('line')
+    .attr('x1', ml).attr('x2', width).attr('y1', (t) => y(t)).attr('y2', (t) => y(t));
+  s.append('g').selectAll('text').data(ticks).join('text')
+    .attr('x', ml - 8).attr('y', (t) => y(t)).attr('dy', '0.32em').attr('text-anchor', 'end').text(tf);
+  s.append('line').attr('class', 'e6-base').attr('x1', ml).attr('x2', width).attr('y1', base).attr('y2', base);
+
+  s.append('g').selectAll('path').data(data).join('path')
+    .attr('d', (r) => E6.topBar(x(r.lines), y(ok(r)), bw, base - y(ok(r)), bad(r) > 0 ? 1 : 4))
+    .style('fill', E6.color(0));
+  const empties = data.filter((r) => bad(r) > 0);
+  s.append('g').selectAll('path').data(empties).join('path')
+    .attr('d', (r) => {
+      const h = Math.max(2, base - y(bad(r)));
+      return E6.topBar(x(r.lines), y(ok(r)) - 2 - h, bw, h, 4);
+    })
+    .style('fill', 'var(--cds-chart-status-critical)');
+  const label = s.append('g').selectAll('text').data(empties).join('text')
+    .attr('class', 'e6-note')
+    .attr('x', (r) => x(r.lines) - 4)
+    .attr('y', (r) => y(ok(r)) - 2 - Math.max(2, base - y(bad(r))) + 4)
+    .attr('text-anchor', 'end');
+  label.append('tspan').text('Q');
+  label.append('tspan').attr('dy', '0.3em').attr('font-size', '0.8em').text('nr');
+
+  const step = E6.every(x.step(), E6.textWidth(s, ['27']));
+  s.append('g').selectAll('text').data(data.filter((r) => (r.lines - 1) % step === 0)).join('text')
+    .attr('x', (r) => x(r.lines) + bw / 2).attr('y', H - 6).attr('text-anchor', 'middle').text((r) => r.lines);
+
+  const tt = E6.tip(el);
+  s.append('g').selectAll('rect').data(data).join('rect')
+    .attr('x', (r) => x(r.lines) - (x.step() - bw) / 2).attr('width', x.step())
+    .attr('y', 0).attr('height', base).attr('fill', 'transparent')
+    .on('pointerenter pointermove', (event, r) => {
+      const lines = ['|Q| = ' + r.lines,
+        E6.fmt(r.orbits) + (Number(r.orbits) === 1 ? ' orbit' : ' orbits') + ' · ' + E6.fmt(r.matroids) + ' matroids'];
+      if (Number(r.empty_orbits) > 0) {
+        lines.push(E6.fmt(r.empty_orbits) + ' empty (Qnr): ' + E6.fmt(r.empty_matroids) + ' matroids');
+      }
+      tt.show(lines, event);
+    })
+    .on('pointerleave', () => tt.hide());
+});
+
+dash.draw('polydim', (el) => {
+  const got = E6.rows(el, ['polytope_dims']);
+  if (!got) return;
+  const data = got[0];
+  const rowH = 24, H = data.length * rowH + 4;
+  const { s, width } = E6.svg(el, H, 'Bar chart of orbits of matroids by dimension of the matroid polytope');
+  const names = data.map((r) => 'dim ' + r.dim_polytope);
+  const ml = Math.ceil(E6.textWidth(s, names)) + 10;
+  const vw = Math.ceil(E6.textWidth(s, data.map((r) => E6.fmt(r.orbits)), 'e6-val')) + 8;
+  const x = d3.scaleLinear().domain([0, d3.max(data, (r) => Number(r.orbits)) || 1]).range([0, Math.max(20, width - ml - vw)]);
+  const y = d3.scaleBand().domain(data.map((r) => r.dim_polytope)).range([2, H - 2]).paddingInner(0.25);
+  const bh = y.bandwidth();
+  s.append('g').selectAll('text').data(data).join('text')
+    .attr('x', ml - 10).attr('y', (r) => y(r.dim_polytope) + bh / 2).attr('dy', '0.32em')
+    .attr('text-anchor', 'end').text((r) => 'dim ' + r.dim_polytope);
+  s.append('line').attr('class', 'e6-base').attr('x1', ml).attr('x2', ml).attr('y1', 0).attr('y2', H);
+  s.append('g').selectAll('path').data(data).join('path')
+    .attr('d', (r) => E6.rightBar(ml, y(r.dim_polytope), x(Number(r.orbits)), bh, 4))
+    .style('fill', E6.color(0));
+  s.append('g').selectAll('text').data(data).join('text')
+    .attr('class', 'e6-val')
+    .attr('x', (r) => ml + x(Number(r.orbits)) + 6).attr('y', (r) => y(r.dim_polytope) + bh / 2).attr('dy', '0.32em')
+    .text((r) => E6.fmt(r.orbits));
+  const tt = E6.tip(el);
+  s.append('g').selectAll('rect').data(data).join('rect')
+    .attr('x', 0).attr('width', width).attr('y', (r) => y(r.dim_polytope) - (y.step() - bh) / 2).attr('height', y.step())
+    .attr('fill', 'transparent')
+    .on('pointerenter pointermove', (event, r) => tt.show(['dim conv(Q) = ' + r.dim_polytope, E6.fmt(r.orbits) + (Number(r.orbits) === 1 ? ' orbit' : ' orbits')], event))
+    .on('pointerleave', () => tt.hide());
+});
+
+dash.draw('stratagrid', (el) => {
+  const got = E6.rows(el, ['strata_grid']);
+  if (!got) return;
+  const data = got[0];
+  const sizes = d3.range(1, (d3.max(data, (r) => Number(r.lines)) || 1) + 1);
+  const nonempty = data.filter((r) => r.dim_stratum !== 'empty');
+  const dims = d3.range(0, (d3.max(nonempty, (r) => Number(r.dim_stratum)) || 0) + 1).map(String).reverse();
+  const rowsY = data.some((r) => r.dim_stratum === 'empty') ? dims.concat(['empty']) : dims;
+  const cell = 14, H = rowsY.length * cell + 30;
+  const { s, width } = E6.svg(el, H, 'Grid of orbits of matroids by number of lines and dimension of the stratum');
+  const ml = Math.ceil(E6.textWidth(s, ['16', '∅'])) + 10;
+  const x = d3.scaleBand().domain(sizes).range([ml, width]).paddingInner(0.12);
+  const y = d3.scaleBand().domain(rowsY).range([2, H - 24]).paddingInner(0.12);
+  const most = d3.max(nonempty, (r) => Number(r.orbits)) || 1;
+  const shade = d3.scaleLinear().domain([1, Math.max(2, most)]).range([0.3, 1]);
+  s.append('g').selectAll('text').data(rowsY.filter((d) => d === 'empty' || Number(d) % 2 === 0)).join('text')
+    .attr('x', ml - 8).attr('y', (d) => y(d) + y.bandwidth() / 2).attr('dy', '0.32em').attr('text-anchor', 'end')
+    .text((d) => (d === 'empty' ? '∅' : d));
+  s.append('g').selectAll('rect').data(data).join('rect')
+    .attr('x', (r) => x(Number(r.lines))).attr('y', (r) => y(r.dim_stratum))
+    .attr('width', x.bandwidth()).attr('height', y.bandwidth()).attr('rx', 2)
+    .style('fill', (r) => (r.dim_stratum === 'empty' ? 'var(--cds-chart-status-critical)' : E6.color(0)))
+    .style('fill-opacity', (r) => (r.dim_stratum === 'empty' ? 1 : shade(Number(r.orbits))));
+  const step = E6.every(x.step(), E6.textWidth(s, ['27']));
+  s.append('g').selectAll('text').data(sizes.filter((k) => (k - 1) % step === 0)).join('text')
+    .attr('x', (k) => x(k) + x.bandwidth() / 2).attr('y', H - 6).attr('text-anchor', 'middle').text((k) => k);
+  const tt = E6.tip(el);
+  const at = new Map(data.map((r) => [Number(r.lines) + '|' + r.dim_stratum, r]));
+  const hover = s.append('rect').attr('rx', 2).attr('fill', 'none')
+    .style('stroke', 'var(--color-fg)').style('stroke-width', 1.5).style('display', 'none');
+  s.append('rect').attr('x', ml).attr('y', 0).attr('width', width - ml).attr('height', H - 24).attr('fill', 'transparent')
+    .on('pointerenter pointermove', (event) => {
+      const [px, py] = d3.pointer(event);
+      const k = sizes[Math.max(0, Math.min(sizes.length - 1, Math.floor((px - ml) / x.step())))];
+      const d = rowsY[Math.max(0, Math.min(rowsY.length - 1, Math.floor((py - 2) / y.step())))];
+      const r = at.get(k + '|' + d);
+      hover.style('display', null).attr('x', x(k) - 1).attr('y', y(d) - 1).attr('width', x.bandwidth() + 2).attr('height', y.bandwidth() + 2);
+      const n = r ? Number(r.orbits) : 0;
+      tt.show([
+        '|Q| = ' + k + (d === 'empty' ? ' · empty stratum' : ' · dim M_Q = ' + d),
+        E6.fmt(n) + (n === 1 ? ' orbit' : ' orbits')
+      ], event);
+    })
+    .on('pointerleave', () => { tt.hide(); hover.style('display', 'none'); });
+});
+
+dash.draw('stratadim', (el) => {
+  const got = E6.rows(el, ['strata_by_dim']);
+  if (!got) return;
+  const data = got[0];
+  const H = 200, base = H - 22;
+  const { s, width } = E6.svg(el, H, 'Bar chart of nonempty strata by dimension');
+  const top = d3.max(data, (r) => Number(r.orbits)) || 1;
+  const y = d3.scaleLinear().domain([0, top]).range([base, 18]);
+  const x = d3.scaleBand().domain(data.map((r) => r.dim_stratum)).range([0, width]).paddingInner(0.2).paddingOuter(0.05);
+  const bw = x.bandwidth();
+  s.append('line').attr('class', 'e6-base').attr('x1', 0).attr('x2', width).attr('y1', base).attr('y2', base);
+  s.append('g').selectAll('path').data(data).join('path')
+    .attr('d', (r) => E6.topBar(x(r.dim_stratum), y(Number(r.orbits)), bw, base - y(Number(r.orbits)), 4))
+    .style('fill', E6.color(0));
+  const vstep = E6.every(x.step(), E6.textWidth(s, ['43'], 'e6-val'));
+  s.append('g').selectAll('text').data(data.filter((r, i) => vstep === 1 || Number(r.orbits) === top || i % vstep === 0)).join('text')
+    .attr('class', 'e6-val').attr('x', (r) => x(r.dim_stratum) + bw / 2).attr('y', (r) => y(Number(r.orbits)) - 4)
+    .attr('text-anchor', 'middle').text((r) => E6.fmt(r.orbits));
+  const step = E6.every(x.step(), E6.textWidth(s, ['16']));
+  s.append('g').selectAll('text').data(data.filter((r) => Number(r.dim_stratum) % step === 0)).join('text')
+    .attr('x', (r) => x(r.dim_stratum) + bw / 2).attr('y', H - 6).attr('text-anchor', 'middle').text((r) => r.dim_stratum);
+  const tt = E6.tip(el);
+  s.append('g').selectAll('rect').data(data).join('rect')
+    .attr('x', (r) => x(r.dim_stratum) - (x.step() - bw) / 2).attr('width', x.step()).attr('y', 0).attr('height', base)
+    .attr('fill', 'transparent')
+    .on('pointerenter pointermove', (event, r) => tt.show(['dim M_Q = ' + r.dim_stratum, E6.fmt(r.orbits) + (Number(r.orbits) === 1 ? ' orbit' : ' orbits')], event))
+    .on('pointerleave', () => tt.hide());
+});
+</script>
+
+<script>
+dash.draw('fvector', (el) => {
+  const got = E6.rows(el, ['trop_fvector']);
+  if (!got) return;
+  const data = got[0].map((r) => ({ k: Number(r.dim_mod_lineality), cones: Number(r.cones), orbits: Number(r.cone_orbits) }));
+  if (!data.length) { el.textContent = '—'; return; }
+  const H = 260, base = H - 22;
+  const { s, width } = E6.svg(el, H, 'Line chart on a log scale of the number of cones and of cone orbits in each dimension');
+  const lo = Math.floor(Math.log10(d3.min(data, (d) => Math.min(d.cones, d.orbits)) || 1));
+  const hi = Math.ceil(Math.log10(d3.max(data, (d) => d.cones) || 10));
+  const y = d3.scaleLog().domain([Math.pow(10, lo), Math.pow(10, hi)]).range([base, 8]);
+  const ticks = d3.range(lo, hi + 1).map((e) => Math.pow(10, e));
+  const tf = d3.format('~s');
+  const ml = Math.ceil(E6.textWidth(s, ticks.map(tf))) + 8;
+  const ends = ['All cones', 'Orbits'];
+  const mr = Math.ceil(E6.textWidth(s, ends)) + 14;
+  const x = d3.scalePoint().domain(data.map((d) => d.k)).range([ml + 10, width - mr]);
+  s.append('g').attr('class', 'e6-gridlines').selectAll('line').data(ticks).join('line')
+    .attr('x1', ml).attr('x2', width - mr + 6).attr('y1', (t) => y(t)).attr('y2', (t) => y(t));
+  s.append('g').selectAll('text').data(ticks).join('text')
+    .attr('x', ml - 8).attr('y', (t) => y(t)).attr('dy', '0.32em').attr('text-anchor', 'end').text(tf);
+  s.append('g').selectAll('text').data(data).join('text')
+    .attr('x', (d) => x(d.k)).attr('y', H - 6).attr('text-anchor', 'middle').text((d) => d.k);
+  const cross = s.append('line').attr('class', 'e6-cross').attr('y1', 8).attr('y2', base).style('display', 'none');
+  const series = [{ key: 'cones', name: ends[0], c: E6.color(0) }, { key: 'orbits', name: ends[1], c: E6.color(1) }];
+  for (const sr of series) {
+    s.append('path').datum(data)
+      .attr('d', d3.line().x((d) => x(d.k)).y((d) => y(Math.max(1, d[sr.key]))))
+      .attr('fill', 'none').style('stroke', sr.c).style('stroke-width', 2).style('stroke-linejoin', 'round');
+    s.append('g').selectAll('circle').data(data).join('circle')
+      .attr('cx', (d) => x(d.k)).attr('cy', (d) => y(Math.max(1, d[sr.key]))).attr('r', 4)
+      .style('fill', sr.c).style('stroke', 'var(--color-panel)').style('stroke-width', 2);
+    const last = data[data.length - 1];
+    s.append('text').attr('class', 'e6-val').attr('x', x(last.k) + 10).attr('y', y(Math.max(1, last[sr.key])))
+      .attr('dy', '0.32em').text(sr.name);
+  }
+  const tt = E6.tip(el);
+  s.append('rect').attr('x', ml).attr('y', 0).attr('width', width - ml).attr('height', base).attr('fill', 'transparent')
+    .on('pointerenter pointermove', (event) => {
+      const [px] = d3.pointer(event);
+      const d = data.reduce((best, cur) => (Math.abs(x(cur.k) - px) < Math.abs(x(best.k) - px) ? cur : best), data[0]);
+      cross.style('display', null).attr('x1', x(d.k)).attr('x2', x(d.k));
+      tt.show(['Dimension ' + d.k + ' (mod Λ)', E6.fmt(d.cones) + ' cones', E6.fmt(d.orbits) + ' orbits'], event);
+    })
+    .on('pointerleave', () => { tt.hide(); cross.style('display', 'none'); });
+});
+
+dash.draw('rays', (el) => {
+  const got = E6.rows(el, ['ray_orbits']);
+  if (!got) return;
+  const data = got[0].slice().sort((a, b) => Number(b.rays) - Number(a.rays));
+  const rowH = 22, H = data.length * rowH + 4;
+  const { s, width } = E6.svg(el, H, 'Bar chart of the number of rays in each orbit');
+  const labels = data.map((r) => E6.fmt(r.rays) + (r.description ? ' · ' + r.description : ''));
+  const lw = Math.ceil(E6.textWidth(s, labels, 'e6-val')) + 8;
+  const x = d3.scaleLinear().domain([0, d3.max(data, (r) => Number(r.rays)) || 1]).range([0, Math.max(24, width - lw)]);
+  const y = d3.scaleBand().domain(data.map((r) => r.ray_orbit)).range([2, H - 2]).paddingInner(0.25);
+  const bh = y.bandwidth();
+  s.append('line').attr('class', 'e6-base').attr('x1', 0.5).attr('x2', 0.5).attr('y1', 0).attr('y2', H);
+  s.append('g').selectAll('path').data(data).join('path')
+    .attr('d', (r) => E6.rightBar(1, y(r.ray_orbit), Math.max(2, x(Number(r.rays))), bh, 4))
+    .style('fill', E6.color(0));
+  const t = s.append('g').selectAll('text').data(data).join('text')
+    .attr('x', (r) => 1 + Math.max(2, x(Number(r.rays))) + 6).attr('y', (r) => y(r.ray_orbit) + bh / 2).attr('dy', '0.32em');
+  t.append('tspan').attr('class', 'e6-val').style('fill', 'var(--color-fg)').text((r) => E6.fmt(r.rays));
+  t.append('tspan').text((r) => (r.description ? ' · ' + r.description : ''));
+  const tt = E6.tip(el);
+  s.append('g').selectAll('rect').data(data).join('rect')
+    .attr('x', 0).attr('width', width).attr('y', (r) => y(r.ray_orbit) - (y.step() - bh) / 2).attr('height', y.step())
+    .attr('fill', 'transparent')
+    .on('pointerenter pointermove', (event, r) => tt.show(['Ray orbit ' + r.ray_orbit, E6.fmt(r.rays) + ' rays'].concat(r.description ? [r.description] : []), event))
+    .on('pointerleave', () => tt.hide());
+});
+</script>
+
+<script>
+dash.draw('funnel', (el) => {
+  const got = E6.rows(el, ['cone_funnel']);
+  if (!got) return;
+  const data = got[0];
+  const rowH = 42, H = data.length * rowH;
+  const { s, width } = E6.svg(el, H, 'Bars showing how many orbits of maximal cones pass each test');
+  const vw = Math.ceil(E6.textWidth(s, data.map((r) => E6.fmt(r.orbits)), 'e6-val')) + 8;
+  const x = d3.scaleLinear().domain([0, d3.max(data, (r) => Number(r.orbits)) || 1]).range([0, Math.max(24, width - vw)]);
+  const g = s.append('g').selectAll('g').data(data).join('g').attr('transform', (r, i) => 'translate(0,' + i * rowH + ')');
+  g.append('text').attr('x', 0).attr('y', 12).text((r) => r.stage);
+  g.append('path').attr('d', (r) => E6.rightBar(0, 18, Math.max(2, x(Number(r.orbits))), 16, 4)).style('fill', E6.color(0));
+  g.append('text').attr('class', 'e6-val').attr('x', (r) => Math.max(2, x(Number(r.orbits))) + 6).attr('y', 26).attr('dy', '0.32em')
+    .text((r) => E6.fmt(r.orbits));
+});
+
+dash.draw('facets', (el) => {
+  const got = E6.rows(el, ['facets_hist']);
+  if (!got) return;
+  const data = got[0];
+  const H = 230, base = H - 22;
+  const { s, width } = E6.svg(el, H, 'Stacked bar chart of prime orbits by number of facets of the toric polytope');
+  const top = d3.max(data, (r) => Number(r.orbits)) || 1;
+  const y = d3.scaleLinear().domain([0, top]).range([base, 40]);
+  const x = d3.scaleBand().domain(data.map((r) => r.facets)).range([0, width]).paddingInner(0.2).paddingOuter(0.05);
+  const bw = x.bandwidth();
+  s.append('line').attr('class', 'e6-base').attr('x1', 0).attr('x2', width).attr('y1', base).attr('y2', base);
+  const q = (r) => Number(r.quadrics_only), c = (r) => Number(r.with_cubics);
+  s.append('g').selectAll('path').data(data.filter((r) => q(r) > 0)).join('path')
+    .attr('d', (r) => E6.topBar(x(r.facets), y(q(r)), bw, base - y(q(r)), c(r) > 0 ? 1 : 4))
+    .style('fill', E6.color(0));
+  s.append('g').selectAll('path').data(data.filter((r) => c(r) > 0)).join('path')
+    .attr('d', (r) => {
+      const bottom = q(r) > 0 ? y(q(r)) - 2 : base;
+      const h = base - y(c(r));
+      return E6.topBar(x(r.facets), bottom - h, bw, h, 4);
+    })
+    .style('fill', E6.color(1));
+  const topOf = (r) => y(q(r) + c(r)) - (q(r) > 0 && c(r) > 0 ? 2 : 0);
+  s.append('g').selectAll('text').data(data.filter((r) => Number(r.orbits) > 0)).join('text')
+    .attr('class', 'e6-val').attr('x', (r) => x(r.facets) + bw / 2).attr('y', (r) => topOf(r) - 5)
+    .attr('text-anchor', 'middle').text((r) => E6.fmt(r.orbits));
+  const notes = data.filter((r) => Number(r.order_polytopes) > 0 || Number(r.chain_polytopes) > 0);
+  const noteText = (r) => {
+    const parts = [];
+    if (Number(r.order_polytopes) > 0) parts.push('Hibi' + (Number(r.order_polytopes) > 1 ? ' ×' + r.order_polytopes : ''));
+    if (Number(r.chain_polytopes) > 0) parts.push('chain' + (Number(r.chain_polytopes) > 1 ? ' ×' + r.chain_polytopes : ''));
+    return parts.join(', ');
+  };
+  s.append('g').selectAll('text').data(notes).join('text')
+    .attr('class', 'e6-note').attr('x', (r) => x(r.facets) + bw / 2).attr('y', (r) => topOf(r) - 20)
+    .attr('text-anchor', 'middle').text(noteText);
+  const step = E6.every(x.step(), E6.textWidth(s, ['38']));
+  s.append('g').selectAll('text').data(data.filter((r, i) => i % step === 0)).join('text')
+    .attr('x', (r) => x(r.facets) + bw / 2).attr('y', H - 6).attr('text-anchor', 'middle').text((r) => r.facets);
+  const tt = E6.tip(el);
+  s.append('g').selectAll('rect').data(data).join('rect')
+    .attr('x', (r) => x(r.facets) - (x.step() - bw) / 2).attr('width', x.step()).attr('y', 0).attr('height', base)
+    .attr('fill', 'transparent')
+    .on('pointerenter pointermove', (event, r) => {
+      const lines = [r.facets + ' facets', E6.fmt(r.orbits) + (Number(r.orbits) === 1 ? ' prime orbit' : ' prime orbits')];
+      if (Number(r.orbits) > 0) lines.push(E6.fmt(r.quadrics_only) + ' quadrics only · ' + E6.fmt(r.with_cubics) + ' with cubics');
+      const note = noteText(r);
+      if (note) lines.push('Includes: ' + note);
+      tt.show(lines, event);
+    })
+    .on('pointerleave', () => tt.hide());
+});
+
+dash.draw('torictable', (tbody) => {
+  const d = dash.data('toric');
+  if (d.status !== 'ok' || !Array.isArray(d.data)) { tbody.replaceChildren(); return; }
+  const rows = d.data.slice().sort((a, b) => Number(a.facets) - Number(b.facets) || Number(a.orbit) - Number(b.orbit));
+  tbody.replaceChildren(...rows.map((r) => {
+    const tr = document.createElement('tr');
+    tr.setAttribute('data-key', String(r.orbit));
+    if (r.known_polytope) tr.className = 'e6-known';
+    const cells = [[r.orbit, ''], [r.facets, 'e6-num'], [r.quadric_generators, 'e6-num'], [r.cubic_generators, 'e6-num'], [r.known_polytope, ''], [r.f_vector, 'e6-mono']];
+    for (const [v, cls] of cells) {
+      const td = document.createElement('td');
+      if (cls) td.className = cls;
+      td.textContent = v == null ? '' : String(v);
+      tr.append(td);
+    }
+    return tr;
+  }));
+});
+</script>
+<script>dash.start();</script>
+</body>
+</html>

@@ -14,10 +14,15 @@ The abstract has three parts, and so does this repository:
 
 `docs/overview.md` lists, for each statement of the abstract, the function, notebook cell or script that checks it.
 
+## Website
+
+The classification, the strata, the tropical variety and the toric degenerations are also drawn as charts at <https://dcorey2814.github.io/E6P6CoxeterMatroids/>, served by GitHub Pages from `docs/index.html`. To view it locally, run `python3 -m http.server` in `docs/` and open <http://localhost:8000>.
+
 ## Requirements
 
 * [Julia](https://julialang.org) 1.10 or later with [Oscar](https://www.oscar-system.org) 1.7 (and IJulia for the notebooks).
 * [gfan](https://users-math.au.dk/jensen/software/gfan/gfan.html) 0.6.2, only to recompute the tropical variety.
+* Python 3 with numpy, only to rebuild the tables of the website.
 
 Nothing else is used. Polyhedral computations go through Oscar (whose backend is polymake).
 
@@ -43,7 +48,7 @@ src/         the code, one file per topic (see the table above)
 notebooks/   three notebooks explaining the three parts of the abstract
 scripts/     the long computations, which write their results to data/
 data/        orbit representatives, gfan input and output, tables (see data/README.md)
-docs/        the extended abstract and an overview of where each result is computed
+docs/        the extended abstract, an overview of where each result is computed, and the website
 test/        quick checks
 ```
 
@@ -56,6 +61,7 @@ test/        quick checks
 | `scripts/gfan_input.jl`, `scripts/gfan_traverse.sh` | the tropical variety, with gfan (Theorem 4.1) | 5 minutes |
 | `scripts/matroid_subdivisions.jl` | matroid subdivisions for all 14155 orbits of cones (Theorem 4.1) | long |
 | `scripts/toric_degenerations.jl` | the 60 prime cones and their polytopes (Theorem 4.2, Table 2) | long |
+| `scripts/dashboard_data.py` | the tables of the website in `docs/data/` (see `docs/data/README.md`) | seconds |
 
 Each script overwrites its output in `data/`, so `git diff data/` shows whether a run reproduces the stored results.
 
