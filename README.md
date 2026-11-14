@@ -2,7 +2,7 @@
 
 Code and data for the extended abstract
 
-> D. Corey, *Coxeter matroids of type $(E_6,P_6)$ and the $E_6$-Grassmannian* (`docs/corey_e6p6.pdf`).
+> D. Corey, *Coxeter matroids of type $(E_6,P_6)$ and the $E_6$-Grassmannian*.
 
 The abstract has three parts, and so does this repository:
 
@@ -48,7 +48,7 @@ src/         the code, one file per topic (see the table above)
 notebooks/   three notebooks explaining the three parts of the abstract
 scripts/     the long computations, which write their results to data/
 data/        orbit representatives, gfan input and output, tables (see data/README.md)
-docs/        the extended abstract, an overview of where each result is computed, and the website
+docs/        an overview of where each result is computed, and the website
 test/        quick checks
 ```
 

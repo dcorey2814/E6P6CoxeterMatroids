@@ -10,26 +10,22 @@ Writes the five CSV files read by docs/index.html into docs/data/:
   toric_degenerations.csv  data/toric_degenerations.csv with the degrees of the
                            generators of the initial ideal
 
-The last two also use two outputs of the computations made for the abstract with
-Macaulay2 and Normaliz, which are not stored in data/: prime.txt (one line
-"index|lattice saturated|rank|saturated w.r.t. the variables" for each of the 388
-binomial initial ideals, 0-based) and summary.json (invariants of the 60 prime
-orbits, keyed by 0-based index).
+The last two also read data/binomial_initial_ideals.txt and data/toric_summary.json,
+written with Macaulay2 and Normaliz for the abstract.
 
-  python3 scripts/dashboard_data.py --prime PATH/prime.txt --summary PATH/summary.json
+  python3 scripts/dashboard_data.py
 
 Needs Python 3 and numpy. W(E6) is generated from the six symmetries in the gfan
 output, acting on the 27 lines, to count the matroids in each orbit and the rays in
 each ray orbit.
 """
-import argparse, csv, json, os, re
+import csv, json, os, re
 from collections import Counter
 import numpy as np
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 DATA = os.path.join(ROOT, "data")
 OUT = os.path.join(ROOT, "docs", "data")
-COMP = os.path.join(ROOT, "..", "fpsac2027_abstract", "computations")
 
 NAMES = [f"a{i}" for i in range(1, 7)] + [f"b{i}" for i in range(1, 7)] + \
         [f"c{i}{j}" for i in range(1, 7) for j in range(i + 1, 7)]
@@ -72,13 +68,6 @@ def weyl_group(gens):
 
 
 def main():
-    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--prime", default=os.path.join(COMP, "prime.txt"))
-    ap.add_argument("--summary", default=os.path.join(COMP, "summary.json"))
-    args = ap.parse_args()
-    for p in (args.prime, args.summary):
-        if not os.path.exists(p):
-            raise SystemExit(f"missing {p}: pass --prime and --summary (see the docstring)")
     os.makedirs(OUT, exist_ok=True)
 
     gfan = read_gfan(os.path.join(DATA, "gfan", "cayley_plane_trop.dat"))
@@ -156,7 +145,7 @@ def main():
 
     # maximal-cone orbits
     prime = {}
-    for l in open(args.prime):
+    for l in open(os.path.join(DATA, "binomial_initial_ideals.txt")):
         if l.strip():
             i, _lattice, _rank, varsat = l.strip().split("|")
             prime[int(i)] = varsat == "true"
@@ -169,7 +158,7 @@ def main():
                for i in range(len(gfan["MAXIMAL_CONES_ORBITS"]))])
 
     # toric degenerations
-    summary = json.load(open(args.summary))
+    summary = json.load(open(os.path.join(DATA, "toric_summary.json")))
     known = {"order": "Order polytope (Hibi)", "chain": "Chain polytope"}
     rows = []
     for t in toric:
