@@ -1,12 +1,12 @@
 # Data for the website
 
-These tables are read by `docs/index.html`. They are written by
+These tables are read by `docs/index.html`. They are written from the files in `data/` by
 
 ```sh
-python3 scripts/dashboard_data.py --prime PATH/prime.txt --summary PATH/summary.json
+python3 scripts/dashboard_data.py
 ```
 
-from the files in `data/` and from two outputs of the computations made for the abstract with Macaulay2 and Normaliz, which are not stored in `data/`: `prime.txt` (for each of the 388 binomial initial ideals, whether its lattice is saturated, its rank, and whether it is saturated with respect to the variables) and `summary.json` (Normaliz invariants of the 60 prime orbits). The script needs Python 3 and numpy.
+which needs Python 3 and numpy.
 
 Lines are named a1..a6, b1..b6, c12..c56 as in `data/README.md`. Orbits are W(E6)-orbits. W(E6) is generated from the six symmetries in `data/gfan/cayley_plane_trop.dat`.
 
@@ -45,7 +45,7 @@ One row per orbit of (E6,P6)-matroids, in the order of `data/matroid_orbit_reps.
 
 ## `maximal_cone_orbits.csv`
 
-One row per orbit of maximal cones, numbered from 1 in the order of `MAXIMAL_CONES_ORBITS` in the gfan output (`prime.txt` numbers them from 0).
+One row per orbit of maximal cones, numbered from 1 in the order of `MAXIMAL_CONES_ORBITS` in the gfan output (`data/binomial_initial_ideals.txt` and `data/toric_summary.json` number them from 0).
 
 | column | content |
 |---|---|
