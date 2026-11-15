@@ -16,13 +16,13 @@ The abstract has three parts, and so does this repository:
 
 ## Website
 
-The classification, the strata, the tropical variety and the toric degenerations are also drawn as charts at <https://dcorey2814.github.io/E6P6CoxeterMatroids/>, served by GitHub Pages from `docs/index.html`. To view it locally, run `python3 -m http.server` in `docs/` and open <http://localhost:8000>.
+The classification, the strata, the tropical variety and the toric degenerations are also drawn as charts at <https://dcorey2814.github.io/E6P6CoxeterMatroids/>, served by GitHub Pages from `docs/index.html`. Its explorer shows, for each of the 230 orbits of matroids, the graph Gamma_Q and the equations of the stratum in a chart, solved along a leaf order as in Figure 1 of the abstract. It also lists all 14155 orbits of cones of the tropical variety, and draws for each of them the dual graph of the subdivision of 2_21 it induces, in a projection that shows the symmetry of the cone. To view it locally, run `python3 -m http.server` in `docs/` and open <http://localhost:8000>.
 
 ## Requirements
 
 * [Julia](https://julialang.org) 1.10 or later with [Oscar](https://www.oscar-system.org) 1.7 (and IJulia for the notebooks).
 * [gfan](https://users-math.au.dk/jensen/software/gfan/gfan.html) 0.6.2, only to recompute the tropical variety.
-* Python 3 with numpy, only to rebuild the tables of the website.
+* Python 3 with numpy and scipy, only to rebuild the tables of the website.
 
 Nothing else is used. Polyhedral computations go through Oscar (whose backend is polymake).
 
@@ -61,7 +61,7 @@ test/        quick checks
 | `scripts/gfan_input.jl`, `scripts/gfan_traverse.sh` | the tropical variety, with gfan (Theorem 4.1) | 5 minutes |
 | `scripts/matroid_subdivisions.jl` | matroid subdivisions for all 14155 orbits of cones (Theorem 4.1) | long |
 | `scripts/toric_degenerations.jl` | the 60 prime cones and their polytopes (Theorem 4.2, Table 2) | long |
-| `scripts/dashboard_data.py` | the tables of the website in `docs/data/` (see `docs/data/README.md`) | seconds |
+| `scripts/dashboard_data.py` | the tables of the website in `docs/data/` (see `docs/data/README.md`) | a few minutes |
 
 Each script overwrites its output in `data/`, so `git diff data/` shows whether a run reproduces the stored results.
 

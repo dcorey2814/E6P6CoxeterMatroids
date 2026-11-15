@@ -10,18 +10,36 @@ Writes the five CSV files read by docs/index.html into docs/data/:
   toric_degenerations.csv  data/toric_degenerations.csv with the degrees of the
                            generators of the initial ideal
 
+and docs/data/matroids.json, with the graph Gamma_Q of each orbit, a chart, its
+equations and a leaf order (Section 3), checked against data/strata.csv.
+
+For the cone browser it also writes
+
+  cones.csv                the 14155 orbits of cones of the tropical variety, in the
+                           order of CONES_ORBITS in the gfan output, with their rays,
+                           the number of cones in each orbit and of maximal cells
+  rays.csv                 the 12885 rays and their orbits
+  subdivisions/*.json      for every orbit of cones, the maximal cells of the subdivision
+                           of 2_21 it induces, each checked exactly and identified with
+                           an orbit of matroids, and a plane preserved by the stabilizer
+                           of the cone to draw its dual graph in
+  subdivisions.json        the list of those files and coordinates of 2_21
+
 The last two also read data/binomial_initial_ideals.txt and data/toric_summary.json,
 written with Macaulay2 and Normaliz for the abstract.
 
   python3 scripts/dashboard_data.py
 
-Needs Python 3 and numpy. W(E6) is generated from the six symmetries in the gfan
+Needs Python 3, numpy and scipy, and runs in a few minutes on several cores. W(E6) is generated from the six symmetries in the gfan
 output, acting on the 27 lines, to count the matroids in each orbit and the rays in
 each ray orbit.
 """
 import csv, json, os, re
 from collections import Counter
+from multiprocessing import Pool
 import numpy as np
+from scipy.sparse.csgraph import connected_components
+from scipy.spatial import ConvexHull
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 DATA = os.path.join(ROOT, "data")
@@ -67,6 +85,586 @@ def weyl_group(gens):
     return np.array(sorted(seen), dtype=np.int64)
 
 
+# --- Lines, charts and leaf orders (Section 3 of the abstract) -----------------
+# A port of chart_matchings, exchange_graph, leaf_order and good_chart from
+# src/strata.jl, with the signs of the quadrics D_y of D = a^T C b + Pf(C).
+
+def line_classes():
+    """Classes of the 27 lines in I_{1,6} = Zh + Za1 + ... + Za6, in the order of NAMES."""
+    cl = []
+    for i in range(6):
+        v = [0] * 7
+        v[1 + i] = 1
+        cl.append(v)                                    # a_i
+    for i in range(6):
+        v = [2] + [-1] * 6
+        v[1 + i] = 0
+        cl.append(v)                                    # b_i = 2h - sum_{j != i} a_j
+    for i in range(6):
+        for j in range(i + 1, 6):
+            v = [1] + [0] * 6
+            v[1 + i] = v[1 + j] = -1
+            cl.append(v)                                # c_ij = h - a_i - a_j
+    return cl
+
+
+CLASSES = line_classes()
+CLASS_INDEX = {tuple(v): k for k, v in enumerate(CLASSES)}
+
+
+def intersection(x, y):
+    return x[0] * y[0] - sum(x[k] * y[k] for k in range(1, 7))
+
+
+MEETS = [[i != j and intersection(CLASSES[i], CLASSES[j]) == 1 for j in range(27)] for i in range(27)]
+
+
+def lozenge(y):
+    """The 10 lines meeting y."""
+    return [x for x in range(27) if MEETS[x][y]]
+
+
+def neighbours(y):
+    """The 16 lines skew to y."""
+    return [x for x in range(27) if x != y and not MEETS[x][y]]
+
+
+def antipode(x, y):
+    """The third line of the tritangent plane through the meeting lines x and y."""
+    return next(z for z in lozenge(y) if MEETS[z][x])
+
+
+def tritangent_pairs_of(y):
+    pairs = []
+    for x in lozenge(y):
+        p = tuple(sorted((x, antipode(x, y))))
+        if p not in pairs:
+            pairs.append(p)
+    return pairs
+
+
+TRITANGENT_PAIRS = [tritangent_pairs_of(y) for y in range(27)]
+
+
+def edge_label(u, w, y):
+    """The line u + w - y (in I_{1,6}) labelling an edge {u, w} of Gamma_Q on N(y)."""
+    return CLASS_INDEX[tuple(CLASSES[u][k] + CLASSES[w][k] - CLASSES[y][k] for k in range(7))]
+
+
+def quadrics():
+    """D_w = dD/dp_w for D = a^T C b + Pf(C), as {sorted pair of lines: coefficient}."""
+    def c(i, j):                       # entry C_ij (i != j) as (sign, line)
+        lo, hi = min(i, j), max(i, j)
+        return (1 if i < j else -1), NAMES.index(f"c{lo + 1}{hi + 1}")
+    D = Counter()
+    for i in range(6):
+        for j in range(6):
+            if i != j:
+                s, cij = c(i, j)
+                D[tuple(sorted((i, cij, 6 + j)))] += s
+    def matchings(rest):               # perfect matchings of rest, for the Pfaffian
+        if not rest:
+            yield []
+            return
+        for k in range(1, len(rest)):
+            for m in matchings(rest[1:k] + rest[k + 1:]):
+                yield [(rest[0], rest[k])] + m
+    for m in matchings(list(range(6))):
+        seq = [x for p in m for x in p]
+        coef = (-1) ** sum(seq[i] > seq[j] for i in range(6) for j in range(i + 1, 6))
+        mono = []
+        for i, j in m:
+            s, cij = c(i, j)
+            coef *= s
+            mono.append(cij)
+        D[tuple(sorted(mono))] += coef
+    Dw = [Counter() for _ in range(27)]
+    for mono, coef in D.items():
+        if coef:
+            for w in mono:
+                Dw[w][tuple(x for x in mono if x != w)] += coef
+    for w in range(27):   # a signed sum over the 5 tritangent pairs of lozenge(w), equation (2)
+        assert sorted(Dw[w]) == sorted(TRITANGENT_PAIRS[w]) and all(abs(v) == 1 for v in Dw[w].values())
+    return Dw
+
+
+QUADRICS = quadrics()
+
+
+def g_terms(v, y, Q):
+    """g_v in the chart y, with the coordinates outside Q set to 0: [(sign, u, w), ...],
+    where D_{v*} = s (p_v p_y - g_v)."""
+    vs = antipode(v, y)
+    vy = tuple(sorted((v, y)))
+    s = QUADRICS[vs][vy]
+    return [(-s * coef, u, w) for (u, w), coef in sorted(QUADRICS[vs].items())
+            if (u, w) != vy and u in Q and w in Q]
+
+
+def chart_matchings(Q, y):
+    S = set(Q)
+    return {v: [p for p in TRITANGENT_PAIRS[antipode(v, y)] if p != tuple(sorted((v, y))) and set(p) <= S]
+            for v in lozenge(y)}
+
+
+def exchange_graph(Q, y):
+    """The equations of the chart: (v, matching) for v in lozenge(y) outside Q with g_v != 0."""
+    m = chart_matchings(Q, y)
+    return [(v, m[v]) for v in lozenge(y) if v not in Q and m[v]]
+
+
+def leaf_order(matchings):
+    """Indices of the matchings in a leaf order, with the leaf solved for in each, or None."""
+    remaining, order = list(range(len(matchings))), []
+    while remaining:
+        def deg(u):
+            return sum(u in p for i in remaining for p in matchings[i])
+        k = next((k for k, i in enumerate(remaining)
+                  if any(deg(u) == 1 for p in matchings[i] for u in p)), None)
+        if k is None:
+            return None
+        i = remaining[k]
+        leaf = next(u for p in matchings[i] for u in p if deg(u) == 1)
+        order.append((remaining.pop(k), leaf))
+    return order
+
+
+def good_chart(Q):
+    """A chart in Q with a leaf order and as few equations as possible (the first such), or None."""
+    charts = [y for y in Q if leaf_order([m for _, m in exchange_graph(Q, y)]) is not None]
+    return min(charts, key=lambda y: len(exchange_graph(Q, y))) if charts else None
+
+
+def path_order(vertices, edges):
+    """Order vertices so that the given edges are short: components in turn, each from a leaf."""
+    adj = {u: set() for u in vertices}
+    for u, w in edges:
+        adj[u].add(w)
+        adj[w].add(u)
+    order, seen = [], set()
+    for start in sorted(vertices, key=lambda u: (len(adj[u]) == 0, len(adj[u]), u)):
+        if start in seen:
+            continue
+        stack = [start]
+        while stack:
+            u = stack.pop()
+            if u in seen:
+                continue
+            seen.add(u)
+            order.append(u)
+            stack.extend(sorted(adj[u] - seen, key=lambda w: (-len(adj[w]), -w)))
+    return order
+
+
+def matroid_entry(orbit, Q, row, count, kind, chart=None):
+    """Everything the website shows about one matroid Q in a chart (by default good_chart(Q))."""
+    Qs = set(Q)
+    named = lambda xs: [NAMES[x] for x in xs]
+    signed = lambda terms: [[s, NAMES[u], NAMES[w]] for s, u, w in terms]
+    gamma = [(u, w) for u in Q for w in Q if u < w and MEETS[u][w]]
+    degrees = [sum(MEETS[u][w] for w in Q) for u in Q]
+    planes = sum(1 for y in Q for p in TRITANGENT_PAIRS[y] if set(p) <= Qs) // 3
+    y = chart if chart is not None else good_chart(Q) if kind == "leaf" else Q[0]
+    eqs = exchange_graph(Q, y)
+    order = leaf_order([m for _, m in eqs]) if kind == "leaf" else [(i, None) for i in range(len(eqs))]
+    bottom_all = [x for x in Q if x in set(neighbours(y))]
+    solid = [p for _, m in eqs for p in m]
+    dashed = [p for v, m in chart_matchings(Q, y).items() if v in Qs for p in m]
+    bottom = path_order(bottom_all, solid)
+    rest = [x for x in bottom if not any(x in p for p in solid)]
+    bottom = [x for x in bottom if x not in rest] + path_order(rest, [p for p in dashed if p[0] in rest and p[1] in rest])
+    pos = {x: k for k, x in enumerate(bottom)}
+    middle = [x for x in Q if MEETS[x][y]]
+    def bary(x):
+        nb = [pos[w] for w in bottom if MEETS[x][w]]
+        return (sum(nb) / len(nb) if nb else len(bottom), x)
+    middle.sort(key=bary)
+    for u, w in gamma:     # every edge of Gamma_Q on N(y) is in exactly one matching of the chart
+        if u in pos and w in pos:
+            assert edge_label(u, w, y) in lozenge(y)
+    equations = []
+    for i, leaf in order:
+        v, m = eqs[i]
+        terms = g_terms(v, y, Q)
+        assert sorted((u, w) for _, u, w in terms) == sorted(m)
+        e = {"line": NAMES[v], "terms": signed(terms)}
+        if leaf is not None:
+            s, u, w = next(t for t in terms if leaf in t[1:])
+            partner = w if u == leaf else u
+            e["leaf"] = NAMES[leaf]
+            e["solution"] = {"over": NAMES[partner],
+                             "terms": [[-s * s2, NAMES[u2], NAMES[w2]] for s2, u2, w2 in terms if leaf not in (u2, w2)]}
+        equations.append(e)
+    leaves = {e["leaf"] for e in equations if "leaf" in e}
+    return {
+        "orbit": orbit, "lines": named(Q), "size": len(Q),
+        "dim_polytope": int(row["dim_polytope"]),
+        "dim_stratum": None if row["nonempty"] != "true" else int(row["dim_stratum"]),
+        "nonempty_every_prime": row["all_primes"] == "true",
+        "matroids_in_orbit": count, "stabilizer_order": 51840 // count,
+        "gamma_edges": [[NAMES[u], NAMES[w]] for u, w in gamma],
+        "degree_min": min(degrees), "degree_max": max(degrees), "tritangent_planes": planes,
+        "kind": kind,
+        "chart": NAMES[y], "meeting_chart": named(middle), "skew_to_chart": named(bottom),
+        "units": [{"line": NAMES[v], "terms": signed(g_terms(v, y, Q))} for v in middle],
+        "equations": equations,
+        "free": [NAMES[x] for x in bottom if NAMES[x] not in leaves] if kind == "leaf" else None,
+    }
+
+
+def write_matroids(reps, strata, counts, G):
+    """docs/data/matroids.json: one entry per orbit, and the example of Figure 1 of the
+    abstract (its matroid Q in the chart a3), for the matroid explorer."""
+    Q1 = sorted(NAMES.index(n) for n in "a1 a2 a3 a4 a5 a6 b1 b2 b3 b4 b5 b6 c12 c13 c23 c45 c46 c56".split())
+    Qnr = sorted(Q1 + [NAMES.index("c14")])
+    example = sorted(NAMES.index(n) for n in "a1 a2 a3 a4 a5 b1 b2 b3 b4 b6 c12 c13 c24 c35 c36 c45 c46".split())
+    example_rep = min(tuple(sorted(int(x) for x in g[example])) for g in G)
+    entries, example_entry = [], None
+    for k, (r, row, n) in enumerate(zip(reps, strata, counts), 1):
+        Q = sorted(x - 1 for x in r)
+        kind = "Q1" if Q == Q1 else "Qnr" if Q == Qnr else "leaf"
+        y = good_chart(Q)
+        assert (y is None) == (kind == "Q1")
+        if kind == "leaf":      # agrees with data/strata.csv
+            eqs = exchange_graph(Q, y)
+            assert len(eqs) == int(row["equations"])
+            assert len(set(Q) & set(neighbours(y))) - len(eqs) == int(row["dim_stratum"])
+        entries.append(matroid_entry(k, Q, row, n, kind))
+        if tuple(Q) == example_rep:
+            example_entry = matroid_entry(k, example, row, n, "leaf", chart=NAMES.index("a3"))
+    assert [e["line"] for e in example_entry["equations"]] == ["b5", "c23", "c34"]
+    assert [e["leaf"] for e in example_entry["equations"]] == ["b3", "a1", "a2"]
+    with open(os.path.join(OUT, "matroids.json"), "w") as f:
+        json.dump({"example": example_entry, "orbits": entries}, f, separators=(",", ":"))
+        f.write("\n")
+    print("wrote docs/data/matroids.json")
+
+
+# --- Cones of the tropical variety and their matroid subdivisions (Section 4) ---
+
+def parse_cone_sets(lines):
+    """Cones of a gfan section as lists of 0-based ray indices."""
+    out = []
+    for l in lines:
+        s = l.split("#")[0].strip().strip("{}").strip()
+        out.append([int(x) for x in s.split()] if s else [])
+    return out
+
+
+# 2_21 up to an affine isomorphism, with integer coordinates: the a-coordinates of
+# the classes of the lines (used for the subdivisions and the facets of cells) ...
+GOSSET = np.array([c[1:] for c in CLASSES], dtype=np.int64)
+
+
+def gosset_euclidean():
+    """... and with coordinates in which W(E6) acts orthogonally: the vertices
+    a_i = 2e_i + 2e_7, b_i = 2e_i + 2e_8, c_ij = 1 - 2e_i - 2e_j of src/gosset.jl,
+    centred and written in the orthonormal basis that Gram-Schmidt makes of them in order."""
+    pts = []
+    for i in range(6):
+        v = np.zeros(8); v[i] = v[6] = 2; pts.append(v)
+    for i in range(6):
+        v = np.zeros(8); v[i] = v[7] = 2; pts.append(v)
+    for i in range(6):
+        for j in range(i + 1, 6):
+            v = np.ones(8); v[i] = v[j] = -1; pts.append(v)
+    X = np.array(pts) - np.mean(pts, axis=0)
+    basis = []
+    for v in X:
+        u = v - sum((v @ b) * b for b in basis)
+        if np.linalg.norm(u) > 1e-9:
+            basis.append(u / np.linalg.norm(u))
+    assert len(basis) == 6
+    return X @ np.array(basis).T
+
+
+EUCLID = gosset_euclidean()
+EUCLID_PINV = np.linalg.pinv(EUCLID)
+
+
+def affine_rank(ix):
+    ix = list(ix)
+    return int(np.linalg.matrix_rank(GOSSET[ix[1:]] - GOSSET[ix[0]])) if len(ix) > 1 else 0
+
+
+def upper_cells(w):
+    """Maximal cells of the regular subdivision of 2_21 induced by w (upper hull, max
+    convention). Each cell is checked exactly: an integer normal vector of the lifted
+    cell, with every other lifted vertex strictly below it."""
+    lifted = np.column_stack([GOSSET, w]).astype(float)
+    hull = ConvexHull(lifted, qhull_options="Qt")
+    cells = set()
+    for eq in hull.equations:
+        if eq[-2] > 1e-9:
+            vals = lifted @ eq[:-1] + eq[-1]
+            cells.add(tuple(int(k) for k in np.flatnonzero(np.abs(vals) < 1e-7)))
+    H = np.column_stack([GOSSET, w, np.ones(27, dtype=np.int64)])
+    for cell in cells:
+        basis = [cell[0]]
+        for k in cell[1:]:
+            if affine_rank(basis + [k]) == len(basis):
+                basis.append(k)
+            if len(basis) == 7:
+                break
+        assert len(basis) == 7, "a cell is not full-dimensional"
+        B = H[basis]
+        n = np.array([round((-1) ** j * np.linalg.det(np.delete(B, j, axis=1))) for j in range(8)], dtype=np.int64)
+        assert not (B @ n).any() and n[6] != 0
+        v = H @ n
+        inside = np.zeros(27, dtype=bool)
+        inside[list(cell)] = True
+        assert not v[inside].any() and (np.sign(v[~inside]) == -np.sign(n[6])).all()
+    return sorted(cells)
+
+
+def is_E6P6_matroid(Q):
+    S = set(Q)
+    return all(sum(set(p) <= S for p in TRITANGENT_PAIRS[y]) != 1 for y in range(27))
+
+
+def null_projector(K):
+    """Orthogonal projector onto the kernel of K."""
+    _, s, Vt = np.linalg.svd(K)
+    N = Vt[np.concatenate([s, np.zeros(len(Vt) - len(s))]) < 1e-8]
+    return N.T @ N
+
+
+def basis_of(Pr, X, k=2):
+    """Up to k orthonormal vectors in the image of the projector Pr: the projections of the
+    rows of X in order (then of coordinate vectors), made orthonormal."""
+    vecs = []
+    for v in list(X @ Pr) + list(np.eye(len(Pr)) @ Pr):
+        u = v - sum((v @ b) * b for b in vecs)
+        if np.linalg.norm(u) > 1e-6:
+            vecs.append(u / np.linalg.norm(u))
+        if len(vecs) == k:
+            break
+    return vecs
+
+
+def count_apart(Y, tol=1e-6):
+    """The number of distinct points among the rows of Y, up to tol."""
+    close = np.abs(Y[:, None, :] - Y[None, :, :]).max(axis=2) < tol
+    return int(connected_components(close, directed=False)[0])
+
+
+def canonical(P, X):
+    """The same plane, with a basis fixed by the points X: the first axis along the first
+    point not projected to 0, the second towards the next point off that axis."""
+    vecs = basis_of(P @ P.T, X)
+    return np.column_stack(vecs) if len(vecs) == 2 else None
+
+
+def symmetric_plane(points, mats, orders):
+    """A plane in R^6 to draw `points` in, preserved by as much of the group `mats` (acting
+    orthogonally; `orders` are the orders of its elements) as possible while keeping at
+    least half of the points apart and the picture not too flat. Candidates: the
+    2-dimensional irreducible pieces of the action, pairs of 1-dimensional ones, the
+    rotation planes of elements of order at least 3, and the two main axes of the points.
+    Every choice depends only on projectors, so that the result does not depend on the
+    linear algebra library. Returns the plane (6 x 2), the largest rotation order and the
+    number of mirrors in the picture."""
+    mats = np.array(mats)
+    X = points - points.mean(axis=0)
+    M = np.random.default_rng(12345).standard_normal((6, 6))
+    M = M + M.T
+    MG = np.einsum("nji,jk,nkl->il", mats, M, mats) / len(mats)   # invariant: eigenspaces are G-stable
+    vals, vecs = np.linalg.eigh(MG)
+    groups, k = [], 0
+    while k < 6:
+        j = k + 1
+        while j < 6 and abs(vals[j] - vals[k]) < 1e-7:
+            j += 1
+        groups.append(vecs[:, k:j] @ vecs[:, k:j].T)               # projector onto the eigenspace
+        k = j
+    rng = np.random.default_rng(2024)
+    planes, lines = [], []
+    for Pr in groups:
+        r = int(round(np.trace(Pr)))
+        if r == 1:
+            lines += basis_of(Pr, X)[:1]
+        elif r == 2:
+            planes.append(np.column_stack(basis_of(Pr, X)))
+        else:                                   # generic planes inside a larger piece
+            planes += [Pr @ rng.standard_normal((6, 2)) for _ in range(6)]
+    planes += [np.column_stack([a, b]) for i, a in enumerate(lines) for b in lines[i + 1:]]
+    for m in sorted({o for o in orders if o >= 3}, reverse=True):
+        seen = []
+        for A, o in zip(mats, orders):
+            if o != m or len(seen) >= 40:
+                continue
+            Pr = null_projector(A @ A - 2 * np.cos(2 * np.pi / m) * A + np.eye(6))
+            if any(np.allclose(Pr, q, atol=1e-8) for q in seen):
+                continue
+            seen.append(Pr)
+            for _ in range(3):                  # planes span{x, Ax}, on which A is a rotation
+                x = Pr @ rng.standard_normal(6)
+                planes.append(np.column_stack([x, A @ x]))
+    # the main axes of the points: the top eigenspaces of their covariance (a generic
+    # plane inside them when the top two directions are not unique)
+    cvals, cvecs = np.linalg.eigh(X.T @ X)
+    cvals, cvecs = cvals[::-1], cvecs[:, ::-1]
+    k = 0
+    while k < 2 or (k < 6 and abs(cvals[k] - cvals[k - 1]) < 1e-9 * max(1.0, cvals[0])):
+        k += 1
+    Pr = cvecs[:, :k] @ cvecs[:, :k].T
+    planes += [np.column_stack(basis_of(Pr, X))] if k == 2 else [Pr @ rng.standard_normal((6, 2)) for _ in range(3)]
+    planes += [rng.standard_normal((6, 2)) for _ in range(12)]
+    total = (X ** 2).sum() or 1.0
+    best = None
+    for P in planes:
+        P = canonical(P, X)
+        if P is None:
+            continue
+        B = np.einsum("ji,njk,kl->nil", P, mats, P)                   # P^T A P
+        keep = np.abs(mats @ P - P @ B).max(axis=(1, 2)) < 1e-8
+        images = {tuple(np.round(b, 6).ravel()) for b in B[keep]}
+        distinct = count_apart(points @ P)
+        sv = np.linalg.svd(X @ P, compute_uv=False)
+        ok = distinct >= max(2, 0.5 * len(points)) and sv[0] > 1e-6 and sv[1] >= 0.3 * sv[0]
+        key = (ok, len(images) if ok else 0, distinct)
+        spread = float(((X @ P) ** 2).sum() / total)
+        if best is None or key > best[0] or (key == best[0] and spread > best[1] + 1e-6):
+            best = (key, spread, P, images)
+    _, _, P, images = best
+    rotation, mirrors, axis = 1, 0, None
+    for m in sorted(images):
+        m = np.array(m).reshape(2, 2)
+        if np.linalg.det(m) > 0:
+            angle = abs(np.arctan2(m[1, 0], m[0, 0]))
+            if angle > 1e-6:
+                rotation = max(rotation, int(round(2 * np.pi / angle)))
+        else:
+            mirrors += 1
+            w, v = np.linalg.eigh((m + m.T) / 2)
+            d = v[:, np.argmax(w)]
+            d = d if (d[0] > 1e-9 or (abs(d[0]) <= 1e-9 and d[1] > 0)) else -d
+            if axis is None or abs(d[0]) > abs(axis[0]) + 1e-9:   # the mirror closest to the first axis
+                axis = d
+    if axis is not None:      # turn the picture so that this mirror is vertical
+        c, s_ = axis[1], axis[0]
+        P = P @ np.array([[c, -s_], [s_, c]])
+    return P, rotation, mirrors
+
+
+def permutation_order(g):
+    seen, order = set(), 1
+    for i in range(len(g)):
+        if i not in seen:
+            n, j = 0, i
+            while j not in seen:
+                seen.add(j)
+                j = int(g[j])
+                n += 1
+            order = order * n // np.gcd(order, n)
+    return int(order)
+
+
+_WORKER = {}
+
+
+def _init_worker(rays, Qb, G, keys, ids):
+    _WORKER.update(rays=rays, Qb=Qb, G=G, keys=keys, ids=ids)
+
+
+def cone_subdivision(c):
+    """Cells (matroid orbit, mask), projection plane and picture symmetry for the cone c."""
+    rays, Qb, G, keys, ids = (_WORKER[k] for k in ("rays", "Qb", "G", "keys", "ids"))
+    w = rays[c].sum(axis=0)
+    cells = upper_cells(w)
+    assert all(is_E6P6_matroid(cell) for cell in cells)
+    labelled = []
+    for cell in cells:
+        mask = sum(1 << k for k in cell)
+        j = np.searchsorted(keys, mask)
+        assert keys[j] == mask
+        labelled.append((int(ids[j]), mask))
+    labelled.sort()
+    # the stabilizer: g fixes the cone exactly when it fixes w modulo the lineality space
+    v = w.astype(float)
+    p = np.round((v - Qb @ (Qb.T @ v)) * 1e6).astype(np.int64)
+    cand = np.arange(len(G))
+    for i in range(27):
+        cand = cand[p[G[cand, i]] == p[i]]
+    mats = [EUCLID_PINV @ EUCLID[G[g]] for g in cand]
+    bary = np.array([EUCLID[[k for k in range(27) if mask >> k & 1]].mean(axis=0) for _, mask in labelled])
+    P, rotation, mirrors = symmetric_plane(bary, mats, [permutation_order(G[g]) for g in cand])
+    return labelled, P, rotation, mirrors, len(cand)
+
+
+def b36(n):
+    s = ""
+    while True:
+        n, r = divmod(n, 36)
+        s = "0123456789abcdefghijklmnopqrstuvwxyz"[r] + s
+        if n == 0:
+            return s
+
+
+def write_tropical(gfan, G, ray_orbit_of, orbit_masks):
+    """cones.csv, rays.csv, and the subdivisions of all cones for the cone browser."""
+    lin = int(gfan["LINEALITY_DIM"][0])
+    rays = np.array([list(map(int, l.split("#")[0].split())) for l in gfan["RAYS"]], dtype=np.int64)
+    cones = parse_cone_sets(gfan["CONES_ORBITS"])
+    dims, d = [], None
+    for l in gfan["CONES_ORBITS"]:
+        m = re.search(r"# Dimension (\d+)", l)
+        if m:
+            d = int(m.group(1))
+        dims.append(d - lin)
+    assert cones[0] == [] and all(len(c) == k for c, k in zip(cones, dims))   # simplicial
+    maximal = parse_cone_sets(gfan["MAXIMAL_CONES_ORBITS"])
+    index = {frozenset(c): i for i, c in enumerate(cones)}
+    maximal_number = {index[frozenset(c)]: k for k, c in enumerate(maximal, 1)}
+
+    L = np.array([list(map(int, l.split())) for l in gfan["LINEALITY_SPACE"]], dtype=float)
+    Qb, _ = np.linalg.qr(L.T)
+    keys = np.concatenate(orbit_masks)
+    ids = np.concatenate([np.full(len(m), k, dtype=np.int64) for k, m in enumerate(orbit_masks, 1)])
+    order = np.argsort(keys)
+    args = (rays, Qb, G, keys[order], ids[order])
+    with Pool(os.cpu_count(), initializer=_init_worker, initargs=args) as pool:
+        results = pool.map(cone_subdivision, cones[1:], chunksize=50)
+    sizes = [len(G) // r[4] for r in results]
+    fvec = list(map(int, gfan["F_VECTOR"][0].split()))
+    for k in range(1, len(fvec)):     # the orbit sizes add up to the f-vector
+        assert sum(n for n, dk in zip(sizes, dims[1:]) if dk == k) == fvec[k]
+    volume = lambda ix: ConvexHull(GOSSET[list(ix)].astype(float)).volume
+    total = volume(range(27))
+    for i in maximal_number:          # the maximal cells of each maximal cone fill 2_21
+        cells = [[k for k in range(27) if mask >> k & 1] for _, mask in results[i - 1][0]]
+        assert abs(sum(volume(c) for c in cells) - total) < 1e-6 * total
+    counts = [len(results[i - 1][0]) for i in maximal_number]
+    print(f"  maximal cells: {min(counts)} to {max(counts)} for maximal cones, "
+          f"{sum(len(r[0]) for r in results)} cells in all")
+
+    write_csv("cones.csv", ["cone", "dim", "rays", "ray_orbits", "cones_in_orbit", "maximal_cone_orbit", "cells"],
+              [[i, dims[i], " ".join(map(str, c)), " ".join(str(ray_orbit_of[r]) for r in c), n,
+                maximal_number.get(i, ""), len(res[0])]
+               for i, (c, n, res) in enumerate(zip(cones[1:], sizes, results), 1)])
+    write_csv("rays.csv", ["ray", "ray_orbit", "vector"],
+              [[r, ray_orbit_of[r], " ".join(map(str, v))] for r, v in enumerate(rays)])
+    chunk = 500
+    folder = os.path.join(OUT, "subdivisions")
+    os.makedirs(folder, exist_ok=True)
+    files = []
+    for start in range(0, len(results), chunk):
+        name = f"{start + 1:05d}.json"
+        entries = [[start + k + 1, " ".join(b36(o) + "." + b36(m) for o, m in labelled),
+                    [round(float(x), 5) + 0.0 for x in P.ravel()], rotation, mirrors]   # + 0.0: no -0.0
+                   for k, (labelled, P, rotation, mirrors, _) in enumerate(results[start:start + chunk])]
+        with open(os.path.join(folder, name), "w") as f:
+            json.dump(entries, f, separators=(",", ":"))
+            f.write("\n")
+        files.append(name)
+    with open(os.path.join(OUT, "subdivisions.json"), "w") as f:
+        json.dump({"chunk": chunk, "files": files,
+                   "gosset": GOSSET.tolist(),
+                   "euclidean": [[round(float(x), 6) for x in row] for row in EUCLID]}, f, separators=(",", ":"))
+        f.write("\n")
+    print(f"wrote docs/data/subdivisions.json and {len(files)} files in docs/data/subdivisions/")
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
 
@@ -79,11 +677,12 @@ def main():
     reps = [list(map(int, l.split())) for l in open(os.path.join(DATA, "matroid_orbit_reps.dat")) if l.strip()]
     strata = list(csv.DictReader(open(os.path.join(DATA, "strata.csv"))))
     assert len(reps) == len(strata)
-    rows = []
+    rows, orbit_masks = [], []
     for row, r in zip(strata, reps):
         assert int(row["size"]) == len(r)
         imgs = G[:, [x - 1 for x in r]]
-        n = len(np.unique(np.bitwise_or.reduce(np.left_shift(1, imgs), axis=1)))
+        orbit_masks.append(np.unique(np.bitwise_or.reduce(np.left_shift(1, imgs), axis=1)))
+        n = len(orbit_masks[-1])
         rows.append([row["orbit"], row["size"], row["dim_polytope"],
                      "" if row["dim_stratum"] == "-1" else row["dim_stratum"],
                      row["equations"], row["nonempty"], row["all_primes"], n,
@@ -92,6 +691,7 @@ def main():
               ["orbit", "lines", "dim_polytope", "dim_stratum", "equations", "realizable",
                "nonempty_every_prime", "matroids_in_orbit", "representative"], rows)
     print("  matroids:", sum(r[7] for r in rows))
+    write_matroids(reps, strata, [r[7] for r in rows], G)
 
     # f-vector and cone orbits by dimension
     fvec = list(map(int, gfan["F_VECTOR"][0].split()))
@@ -139,9 +739,11 @@ def main():
                     (-line, "Complements of lines")):
         if canon(v) in key:
             labels[find(key[canon(v)])] = name
+    numbered = sorted(sizes.items(), key=lambda t: (t[1], t[0]))
     write_csv("ray_orbits.csv", ["ray_orbit", "rays", "description"],
-              [[k, n, labels.get(root, "")]
-               for k, (root, n) in enumerate(sorted(sizes.items(), key=lambda t: (t[1], t[0])), 1)])
+              [[k, n, labels.get(root, "")] for k, (root, n) in enumerate(numbered, 1)])
+    number = {root: k for k, (root, _) in enumerate(numbered, 1)}
+    write_tropical(gfan, G, [number[find(i)] for i in range(len(rays))], orbit_masks)
 
     # maximal-cone orbits
     prime = {}

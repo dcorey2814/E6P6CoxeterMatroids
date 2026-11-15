@@ -13,7 +13,7 @@
   --color-fg:#0b0b0b;--color-fg-muted:#52514e;--color-bg:#f9f9f7;--color-panel:#ffffff;--color-border-line:#e3e2dd;--color-skeleton:#efeeea;--color-link:#1f63b5;
   --cds-text-secondary:#52514e;--cds-chart-grid:#ecebe7;--cds-chart-axis:#c4c3bd;--cds-chart-reference:#8b8a85;--cds-chart-muted:#c4c3bd;--cds-chart-status-critical:#d03b3b;
   --cds-surface-popover:#ffffff;--cds-border:#dcdbd5;--cds-shadow-popover:0 6px 20px rgba(11,11,11,.12);
-  --series-0:#2a78d6;--series-1:#eb6834;
+  --series-0:#2a78d6;--series-1:#eb6834;--series-2:#1baf7a;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -21,7 +21,7 @@
     --color-fg:#f0efec;--color-fg-muted:#c3c2b7;--color-bg:#141413;--color-panel:#1a1a19;--color-border-line:#2f2e2b;--color-skeleton:#252523;--color-link:#7fb2f0;
     --cds-text-secondary:#b3b2a8;--cds-chart-grid:#2a2a27;--cds-chart-axis:#4a4944;--cds-chart-reference:#8b8a85;--cds-chart-muted:#4a4944;--cds-chart-status-critical:#d03b3b;
     --cds-surface-popover:#232321;--cds-border:#3a3936;--cds-shadow-popover:0 6px 20px rgba(0,0,0,.5);
-    --series-0:#3987e5;--series-1:#d95926;
+    --series-0:#3987e5;--series-1:#d95926;--series-2:#199e70;
   }
 }
 :root[data-theme="dark"]{
@@ -29,7 +29,7 @@
   --color-fg:#f0efec;--color-fg-muted:#c3c2b7;--color-bg:#141413;--color-panel:#1a1a19;--color-border-line:#2f2e2b;--color-skeleton:#252523;--color-link:#7fb2f0;
   --cds-text-secondary:#b3b2a8;--cds-chart-grid:#2a2a27;--cds-chart-axis:#4a4944;--cds-chart-reference:#8b8a85;--cds-chart-muted:#4a4944;--cds-chart-status-critical:#d03b3b;
   --cds-surface-popover:#232321;--cds-border:#3a3936;--cds-shadow-popover:0 6px 20px rgba(0,0,0,.5);
-  --series-0:#3987e5;--series-1:#d95926;
+  --series-0:#3987e5;--series-1:#d95926;--series-2:#199e70;
 }
 :root{
   --font-sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -109,6 +109,64 @@ body{font-family:var(--font-sans);font-size:var(--cds-font-size-body);line-heigh
 .e6-notes dt{color:var(--color-fg);font-weight:var(--cds-font-weight-medium)}
 .e6-notes dd{margin:0}
 
+
+.e6-nav{display:flex;flex-wrap:wrap;gap:var(--cds-gap-xs) var(--cds-gap-md);margin:var(--cds-gap-sm) 0 0;font-size:var(--cds-font-size-caption)}
+.e6-pickrow{display:flex;flex-wrap:wrap;align-items:center;gap:var(--cds-gap-sm)}
+.e6-picklabel{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.e6-select{font:inherit;font-size:var(--cds-font-size-body);padding:6px 10px;border:1px solid var(--color-border-line);border-radius:8px;background:var(--color-panel);color:var(--color-fg);min-width:0;max-width:100%;flex:1 1 240px}
+.e6-btn{font:inherit;font-size:var(--cds-font-size-caption);line-height:1.3;padding:5px 10px;border:1px solid var(--color-border-line);border-radius:8px;background:var(--color-panel);color:var(--color-fg);cursor:pointer}
+.e6-btn:hover{background:var(--color-bg)}
+.e6-btn sub{line-height:0}
+.e6-quick{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.e6-facts-sm{grid-template-columns:repeat(auto-fit,minmax(min(100%,120px),1fr));gap:var(--cds-gap-sm) var(--cds-gap-md)}
+.e6-facts-sm dd{font-size:var(--cds-font-size-heading)}
+.e6-chips{display:flex;flex-wrap:wrap;gap:4px}
+.e6-chip{font-family:var(--font-serif);font-size:14px;line-height:1.2;padding:2px 8px 3px;border:1px solid var(--color-border-line);border-radius:999px}
+.e6-chip sub{font-size:.72em;line-height:0}
+.e6-chip.is-chart{background:var(--color-fg);color:var(--color-bg);border-color:var(--color-fg)}
+.e6-chip.is-meet{background:var(--color-skeleton)}
+.e6-scroll{overflow-x:auto;overflow-y:hidden;margin:0 calc(-1 * var(--cds-pad-lg));padding:0 var(--cds-pad-lg)}
+.e6-graph{position:relative;width:100%}
+.e6-graph svg{display:block}
+.e6-graph text{font-family:var(--font-serif);font-size:13px;fill:var(--color-fg)}
+.e6-graph text.e6-sans{font-family:var(--font-sans);font-size:11px}
+.e6-math{font-family:var(--font-serif);font-size:15px;line-height:1.6}
+.e6-math sub{font-size:.72em;line-height:0}
+.e6-steps{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:var(--cds-gap-md)}
+.e6-steps li{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:baseline}
+.e6-stepno{grid-row:span 3;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:var(--color-panel);font-size:12px;font-weight:var(--cds-font-weight-medium);align-self:start;margin-top:2px}
+.e6-steps .e6-sub{grid-column:2}
+.e6-leaf{font-weight:700;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+.e6-text{margin:0;font-size:var(--cds-font-size-body);line-height:1.5}
+.e6-units summary{cursor:pointer;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.e6-units ul{margin:var(--cds-gap-xs) 0 0;padding-left:1.1em}
+.e6-legend .e6-dash{display:inline-block;width:18px;border-top:2px dashed var(--cds-chart-axis);margin-right:6px;vertical-align:3px}
+.e6-legend .e6-solid{display:inline-block;width:18px;border-top:3px solid;margin-right:6px;vertical-align:3px}
+
+.e6-filters{display:flex;flex-wrap:wrap;gap:var(--cds-gap-sm) var(--cds-gap-md);align-items:flex-end}
+.e6-field{display:flex;flex-direction:column;gap:4px;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);min-width:0}
+.e6-field .e6-select{flex:none;max-width:100%}
+.e6-goto{display:flex;gap:6px}
+.e6-input{font:inherit;font-size:var(--cds-font-size-body);padding:6px 10px;border:1px solid var(--color-border-line);border-radius:8px;background:var(--color-panel);color:var(--color-fg);width:8em}
+.e6-count{margin:0;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.e6-vlist{position:relative;height:380px;overflow-y:auto;overflow-x:hidden;border:1px solid var(--color-border-line);border-radius:var(--cds-radius);background:var(--color-panel)}
+.e6-vrow,.e6-vhead{display:grid;grid-template-columns:5.2em 2.6em 6em 3em minmax(0,1fr) minmax(0,10em);gap:10px;align-items:center;padding:0 12px;font-size:var(--cds-font-size-caption);font-variant-numeric:tabular-nums}
+.e6-vhead{position:sticky;top:0;z-index:1;height:30px;background:var(--color-panel);color:var(--color-fg-muted);font-weight:var(--cds-font-weight-medium);border-bottom:1px solid var(--color-border-line)}
+.e6-vrow{position:absolute;left:0;right:0;height:32px;border:0;border-bottom:1px solid var(--color-border-line);background:transparent;color:var(--color-fg);font-family:inherit;text-align:left;cursor:pointer}
+.e6-vrow:hover{background:var(--color-bg)}
+.e6-vrow[aria-selected="true"]{background:var(--color-skeleton);font-weight:var(--cds-font-weight-medium)}
+.e6-vrow span,.e6-vhead span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.e6-r{text-align:right}
+@media (max-width:600px){.e6-vrow,.e6-vhead{grid-template-columns:4.6em 2.2em 2.6em minmax(0,1fr) minmax(0,5.5em)}.e6-hide-sm{display:none}}
+.e6-raytable{border-collapse:collapse;width:100%;font-size:var(--cds-font-size-caption);font-variant-numeric:tabular-nums}
+.e6-raytable th{text-align:left;font-weight:var(--cds-font-weight-medium);color:var(--color-fg-muted);padding:4px 8px;border-bottom:1px solid var(--color-border-line);white-space:nowrap}
+.e6-raytable td{padding:4px 8px;border-bottom:1px solid var(--color-border-line);white-space:nowrap}
+.e6-raytable td.e6-vec{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--color-fg-muted)}
+.e6-raytable tr.e6-sum td{font-weight:var(--cds-font-weight-medium);color:var(--color-fg)}
+.e6-chipbtn{font:inherit;font-size:var(--cds-font-size-caption);padding:2px 8px;border:1px solid var(--color-border-line);border-radius:999px;background:var(--color-panel);color:var(--color-fg);cursor:pointer}
+.e6-chipbtn:hover{background:var(--color-bg)}
+.e6-ramp{display:inline-block;width:60px;height:10px;border-radius:2px;vertical-align:-1px;margin:0 6px}
+.e6-rayids{margin:0;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);line-height:1.6}
 </style>
 <script src="vendor/d3.min.js"></script>
 <script>
@@ -120,14 +178,33 @@ body{font-family:var(--font-sans);font-size:var(--cds-font-size-body);line-heigh
     max_cone_orbits: 'data/maximal_cone_orbits.csv',
     toric: 'data/toric_degenerations.csv',
     trop_fvector: 'data/tropical_fvector.csv',
-    ray_orbits: 'data/ray_orbits.csv'
+    ray_orbits: 'data/ray_orbits.csv',
+    matroids: 'data/matroids.json',
+    cones: 'data/cones.csv',
+    rays: 'data/rays.csv',
+    subdivisions: 'data/subdivisions.json'
   };
+  const lazy = new Set(['cones', 'rays', 'subdivisions']);   // loaded on first use
   const sources = {};
   const calcs = {};
   const draws = new Map();
   const widths = new WeakMap();
   let started = false;
+  function load(id) {
+    const url = files[id];
+    sources[id] = { status: 'loading', data: [] };
+    (url.endsWith('.json') ? d3.json(url) : d3.csv(url)).then((rows) => { sources[id] = { status: 'ok', data: rows }; drawAll(); })
+      .catch((err) => {
+        console.error('Could not load ' + url, err);
+        sources[id] = { status: 'error', data: [] };
+        const banner = document.getElementById('e6-load-error');
+        if (banner) banner.hidden = false;
+        drawAll();
+      });
+  }
   function data(id) {
+    if (!files[id] && /^subdivisions\/\d+$/.test(id)) { files[id] = 'data/' + id + '.json'; lazy.add(id); }
+    if (!sources[id] && lazy.has(id) && started) load(id);
     if (sources[id]) return sources[id];
     const c = calcs[id];
     if (!c) return { status: 'missing', data: [] };
@@ -146,26 +223,23 @@ body{font-family:var(--font-sans);font-size:var(--cds-font-size-body);line-heigh
   function each(name, fn) { document.querySelectorAll('[data-draw="' + name + '"]').forEach(fn); }
   function drawAll() { for (const name of draws.keys()) each(name, (el) => drawOne(name, el)); }
   window.dash = {
-    colors: ['var(--series-0)', 'var(--series-1)'],
+    colors: ['var(--series-0)', 'var(--series-1)', 'var(--series-2)'],
     data,
     calc(id, spec) { calcs[id] = { inputs: spec.inputs, fn: spec.fn }; },
     draw(name, fn) {
+      if (fn && typeof fn !== 'function') {   // {mount, update}: mount once per element
+        const spec = fn, made = new WeakMap();
+        fn = (el) => {
+          if (!made.has(el)) made.set(el, spec.mount(el));
+          if (spec.update) spec.update(el, made.get(el));
+        };
+      }
       if (fn) draws.set(name, fn);
       if (started && draws.has(name)) each(name, (el) => drawOne(name, el));
     },
     start() {
       started = true;
-      for (const [id, url] of Object.entries(files)) {
-        sources[id] = { status: 'loading', data: [] };
-        d3.csv(url).then((rows) => { sources[id] = { status: 'ok', data: rows }; drawAll(); })
-          .catch((err) => {
-            console.error('Could not load ' + url, err);
-            sources[id] = { status: 'error', data: [] };
-            const banner = document.getElementById('e6-load-error');
-            if (banner) banner.hidden = false;
-            drawAll();
-          });
-      }
+      for (const id of Object.keys(files)) if (!lazy.has(id)) load(id);
       drawAll();
       let frame = 0;
       new ResizeObserver(() => {
@@ -186,6 +260,7 @@ body{font-family:var(--font-sans);font-size:var(--cds-font-size-body);line-heigh
     <h1 class="e6-title">(E₆,P₆) Coxeter matroids and the E₆-Grassmannian</h1>
     <p class="e6-lede">All but <b data-draw="num" class="dash-skeleton" data-source="matroid_totals" data-field="empty_orbits" data-row="0">—</b> of the <b data-draw="num" class="dash-skeleton" data-source="matroid_totals" data-field="orbits" data-row="0">—</b> orbits of (E₆,P₆)-matroids are realizable, and <b data-draw="num" class="dash-skeleton" data-source="cone_funnel" data-field="orbits" data-where="key=prime">—</b> of the <b data-draw="num" class="dash-skeleton" data-source="cone_funnel" data-field="orbits" data-where="key=all">—</b> orbits of maximal cones of the tropical E₆-Grassmannian give toric degenerations.</p>
     <p class="e6-meta">A companion to D.&nbsp;Corey, <cite>The E₆-Grassmannian, its minuscule Coxeter matroids, and the lines on a cubic surface</cite>, extended abstract submitted to FPSAC&nbsp;2027. Code and data: <a href="https://github.com/dcorey2814/E6P6CoxeterMatroids">github.com/dcorey2814/E6P6CoxeterMatroids</a>.</p>
+    <nav class="e6-nav" aria-label="Sections"><a href="#matroids">Matroids and strata</a><a href="#explore">Explore a matroid</a><a href="#tropical">Tropicalization</a><a href="#cones">All cones</a><a href="#toric">Toric degenerations</a></nav>
     <p class="e6-banner" id="e6-load-error" hidden>The data files didn't load. If you opened this page from disk, serve the <code>docs</code> folder over HTTP instead, for example with <code>python3 -m http.server</code>.</p>
   </header>
 
@@ -255,6 +330,50 @@ body{font-family:var(--font-sans);font-size:var(--cds-font-size-body);line-heigh
     </div>
   </section>
 
+  <section class="e6-section" id="explore">
+    <h2 class="e6-h2">Explore a matroid</h2>
+    <p class="e6-intro">Pick an orbit to see its representative Q, the graph Γ<sub>Q</sub> joining the lines of Q that meet, and how its stratum is cut out in a chart y, drawn as in Figure 1 of the abstract. In the formulas each line ℓ stands for its coordinate p<sub>ℓ</sub>, with p<sub>y</sub> = 1. Clicking a cell of the grid above also opens an orbit here.</p>
+    <div class="e6-card" id="explore-picker">
+      <div class="e6-pickrow">
+        <label class="e6-picklabel" for="e6-orbit">Orbit</label>
+        <select id="e6-orbit" class="e6-select" data-draw="orbitpicker"></select>
+        <button type="button" class="e6-btn" data-e6-step="-1" aria-label="Previous orbit">‹ Previous</button>
+        <button type="button" class="e6-btn" data-e6-step="1" aria-label="Next orbit">Next ›</button>
+      </div>
+      <div class="e6-quick">Jump to
+        <button type="button" class="e6-btn" data-e6-pick="example">Figure 1 example</button>
+        <button type="button" class="e6-btn" data-e6-pick="Q1">Q<sub>1</sub>, no leaf order</button>
+        <button type="button" class="e6-btn" data-e6-pick="Qnr">Q<sub>nr</sub>, not realizable</button>
+        <button type="button" class="e6-btn" data-e6-pick="all">All 27 lines</button>
+      </div>
+    </div>
+    <div class="e6-row">
+      <div class="e6-card e6-narrow" id="explore-stats">
+        <h3 class="e6-h3" data-draw="exploretitle">—</h3>
+        <dl class="e6-facts e6-facts-sm" data-draw="explorestats"></dl>
+        <p class="e6-sub">The lines of Q, with the chart y in black and the lines meeting y shaded.</p>
+        <div class="e6-chips" data-draw="explorelines"></div>
+      </div>
+      <div class="e6-card e6-wide" id="explore-gamma">
+        <h3 class="e6-h3">The graph Γ<sub>Q</sub></h3>
+        <p class="e6-sub" data-draw="gammasub">—</p>
+        <div class="e6-scroll"><div class="e6-graph dash-skeleton" data-draw="gamma" style="min-height:300px"></div></div>
+      </div>
+    </div>
+    <div class="e6-row">
+      <div class="e6-card e6-wide" id="explore-exchange">
+        <h3 class="e6-h3">Γ<sub>Q</sub> on the lines skew to y</h3>
+        <p class="e6-sub">Each edge {u, u′} is labeled by the line u + u′ − y, which meets y. Dashed edges have their label in Q and give the coordinate of that line. The other edges form the exchange graph Γ<sub>Q</sub>(y), one matching per equation; a ring marks the leaf solved for at each step.</p>
+        <div class="e6-legend" data-draw="exchangelegend"></div>
+        <div class="e6-scroll"><div class="e6-graph dash-skeleton" data-draw="exchange" style="min-height:160px"></div></div>
+      </div>
+      <div class="e6-card e6-narrow" id="explore-leaf">
+        <h3 class="e6-h3">Leaf order</h3>
+        <div data-draw="leaforder"></div>
+      </div>
+    </div>
+  </section>
+
   <section class="e6-section" id="tropical">
     <h2 class="e6-h2">The tropical E₆-Grassmannian</h2>
     <p class="e6-intro">The tropicalization of the open stratum is a simplicial fan with a 6-dimensional lineality space Λ. Every cone induces a subdivision of the Gosset polytope 2<sub>21</sub> into matroid polytopes. Dimensions below are taken modulo Λ.</p>
@@ -271,6 +390,45 @@ body{font-family:var(--font-sans);font-size:var(--cds-font-size-body);line-heigh
         <p class="e6-sub">Rays in each W(E₆)-orbit. Three orbits are spanned, modulo Λ, by indicator vectors of a double six, its complement, or the complement of a line.</p>
         <div class="e6-chart dash-skeleton" data-draw="rays" data-source="ray_orbits" style="min-height:240px"></div>
         <p class="e6-axisnote">Rays in the orbit</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="e6-section" id="cones">
+    <h2 class="e6-h2">Cones of the tropical E₆-Grassmannian</h2>
+    <p class="e6-intro">All 14,155 orbits of cones, numbered in the order of CONES_ORBITS in the gfan output. A cone is listed by its rays, grouped by their orbits R1 to R10. Every cone induces a subdivision of 2<sub>21</sub> into matroid polytopes, drawn by its dual graph: a vertex for each maximal cell and an edge between two cells that share a facet.</p>
+    <p class="e6-rayids" data-draw="rayids">—</p>
+    <div class="e6-card" id="cone-filters">
+      <div class="e6-filters" data-draw="conefilters">
+        <label class="e6-field">Dimension modulo Λ<select class="e6-select" data-e6-filter="dim"></select></label>
+        <label class="e6-field">Has a ray in<select class="e6-select" data-e6-filter="ray"></select></label>
+        <label class="e6-field">Initial ideal of a maximal cone<select class="e6-select" data-e6-filter="ideal">
+          <option value="">Any cone</option>
+          <option value="prime">Prime (toric degeneration)</option>
+          <option value="binomial">Binomial, not prime</option>
+          <option value="other">Not binomial</option>
+        </select></label>
+        <div class="e6-field">Go to cone<div class="e6-goto"><input class="e6-input" type="number" min="1" max="14155" inputmode="numeric" aria-label="Cone number" data-e6-goto><button type="button" class="e6-btn" data-e6-goto-btn>Show</button></div></div>
+      </div>
+      <p class="e6-count" data-draw="conecount">—</p>
+      <div class="e6-vlist dash-skeleton" data-draw="conelist" role="listbox" aria-label="Orbits of cones"></div>
+    </div>
+    <div class="e6-row">
+      <div class="e6-card e6-narrow" id="cone-detail">
+        <div data-draw="conedetail"><p class="e6-sub">Loading the cones…</p></div>
+      </div>
+      <div class="e6-card e6-wide" id="cone-dual">
+        <div class="e6-cardhead">
+          <h3 class="e6-h3">Dual graph of the induced subdivision</h3>
+          <div class="e6-toggle" role="group" aria-label="Layout">
+            <button type="button" data-e6-layout="symmetric" aria-pressed="true">Symmetric</button>
+            <button type="button" data-e6-layout="spring" aria-pressed="false">Spring</button>
+          </div>
+        </div>
+        <p class="e6-sub" data-draw="dualsub">—</p>
+        <div class="e6-legend" data-draw="duallegend"></div>
+        <div class="e6-graph dash-skeleton" data-draw="dualgraph" style="min-height:360px"></div>
+        <div class="e6-chips" data-draw="dualcells"></div>
       </div>
     </div>
   </section>
@@ -304,7 +462,7 @@ body{font-family:var(--font-sans);font-size:var(--cds-font-size-body);line-heigh
     </div>
     <div class="e6-card" id="toric-table">
       <h3 class="e6-h3">The prime orbits</h3>
-      <p class="e6-sub">Sorted by facets. Orbits are numbered from 1 in the order of MAXIMAL_CONES_ORBITS in the gfan output.</p>
+      <p class="e6-sub">Sorted by facets. Orbits are numbered from 1 in the order of MAXIMAL_CONES_ORBITS in the gfan output. Click a row to open its cone and subdivision.</p>
       <div class="e6-tablewrap">
         <table class="e6-table" data-source="toric" data-row-key="orbit">
           <thead><tr><th data-field="orbit">Orbit</th><th data-field="facets" class="e6-num">Facets</th><th data-field="quadric_generators" class="e6-num">Quadrics</th><th data-field="cubic_generators" class="e6-num">Cubics</th><th data-field="known_polytope">Known as</th><th data-field="f_vector">f-vector</th></tr></thead>
@@ -323,17 +481,25 @@ body{font-family:var(--font-sans);font-size:var(--cds-font-size-body);line-heigh
       <dd>Orbit <b data-draw="num" class="dash-skeleton" data-source="matroid_orbits" data-field="orbit" data-where="realizable=false">—</b>, of matroids with <b data-draw="num" class="dash-skeleton" data-source="matroid_orbits" data-field="lines" data-where="realizable=false">—</b> lines, is the only orbit whose stratum is empty over every field. Every other stratum has a point over the algebraic closure of every prime field.</dd>
       <dt>Stratum dimension</dt>
       <dd>dim M<sub>Q</sub>, read off in a chart that admits a leaf order.</dd>
+      <dt>Charts and leaf orders</dt>
+      <dd>The explorer uses the chart y that the repository's <code>good_chart</code> picks: a line of Q with a leaf order and as few equations as possible. The signs of the equations come from the cubic D = a<sup>T</sup>Cb + Pf(C).</dd>
       <dt>Tropical dimensions</dt>
       <dd>Cones of the tropical E₆-Grassmannian are counted modulo the lineality space Λ, so rays have dimension 1 and maximal cones dimension 10.</dd>
+      <dt>Subdivisions</dt>
+      <dd>The subdivision of 2<sub>21</sub> induced by a cone is the regular subdivision for the heights w, the sum of its rays, taken on the upper hull to match the max convention. Each cell is checked exactly, and the cells are identified with orbits of matroids. Two maximal cells are adjacent in the dual graph when they share a facet, that is, their common vertices span a 5-dimensional face. In the symmetric layout each cell is drawn at the barycenter of its vertices, projected to a plane in the span of 2<sub>21</sub> that the stabilizer of the cone preserves: a 2-dimensional irreducible piece of its action, or two 1-dimensional ones, or the rotation plane of one of its elements, chosen to keep at least half of the cells apart, the picture not too flat, and as much symmetry as possible. Cells that still land on the same point are spread on a small circle.</dd>
       <dt>Prime orbits</dt>
       <dd>Orbits of maximal cones whose initial ideal is binomial, with a saturated lattice, and saturated with respect to the variables. The order polytope gives the Hibi degeneration; the chain polytope is Stanley's chain polytope of the minuscule E₆ poset.</dd>
       <dt>Data</dt>
-      <dd>The page reads five tables:
+      <dd>The page reads nine files:
         <a href="data/matroid_orbits.csv">matroid_orbits.csv</a>,
         <a href="data/tropical_fvector.csv">tropical_fvector.csv</a>,
         <a href="data/ray_orbits.csv">ray_orbits.csv</a>,
-        <a href="data/maximal_cone_orbits.csv">maximal_cone_orbits.csv</a> and
-        <a href="data/toric_degenerations.csv">toric_degenerations.csv</a>.
+        <a href="data/maximal_cone_orbits.csv">maximal_cone_orbits.csv</a>,
+        <a href="data/toric_degenerations.csv">toric_degenerations.csv</a>,
+        <a href="data/matroids.json">matroids.json</a>,
+        <a href="data/cones.csv">cones.csv</a>,
+        <a href="data/rays.csv">rays.csv</a> and
+        <a href="data/subdivisions.json">subdivisions.json</a> with the files in <code>data/subdivisions/</code>.
         <code>scripts/dashboard_data.py</code> writes them from the files in <code>data/</code> of the repository; <a href="https://github.com/dcorey2814/E6P6CoxeterMatroids/blob/main/docs/data/README.md">docs/data/README.md</a> describes every column.</dd>
     </dl>
   </details>
@@ -725,6 +891,7 @@ dash.draw('stratagrid', (el) => {
   const hover = s.append('rect').attr('rx', 2).attr('fill', 'none')
     .style('stroke', 'var(--color-fg)').style('stroke-width', 1.5).style('display', 'none');
   s.append('rect').attr('x', ml).attr('y', 0).attr('width', width - ml).attr('height', H - 24).attr('fill', 'transparent')
+    .style('cursor', 'pointer')
     .on('pointerenter pointermove', (event) => {
       const [px, py] = d3.pointer(event);
       const k = sizes[Math.max(0, Math.min(sizes.length - 1, Math.floor((px - ml) / x.step())))];
@@ -734,10 +901,20 @@ dash.draw('stratagrid', (el) => {
       const n = r ? Number(r.orbits) : 0;
       tt.show([
         '|Q| = ' + k + (d === 'empty' ? ' · empty stratum' : ' · dim M_Q = ' + d),
-        E6.fmt(n) + (n === 1 ? ' orbit' : ' orbits')
+        E6.fmt(n) + (n === 1 ? ' orbit' : ' orbits') + (n ? ' · click to explore' : '')
       ], event);
     })
-    .on('pointerleave', () => { tt.hide(); hover.style('display', 'none'); });
+    .on('pointerleave', () => { tt.hide(); hover.style('display', 'none'); })
+    .on('click', (event) => {
+      const [px, py] = d3.pointer(event);
+      const k = sizes[Math.max(0, Math.min(sizes.length - 1, Math.floor((px - ml) / x.step())))];
+      const d = rowsY[Math.max(0, Math.min(rowsY.length - 1, Math.floor((py - 2) / y.step())))];
+      const orbits = dash.data('matroid_orbits');
+      if (orbits.status !== 'ok' || !window.E6explore) return;
+      const o = orbits.data.find((r) => Number(r.lines) === k &&
+        (d === 'empty' ? r.realizable !== 'true' : r.realizable === 'true' && Number(r.dim_stratum) === Number(d)));
+      if (o) E6explore.select(Number(o.orbit), true);
+    });
 });
 
 dash.draw('stratadim', (el) => {
@@ -812,7 +989,12 @@ dash.draw('fvector', (el) => {
       const [px] = d3.pointer(event);
       const d = data.reduce((best, cur) => (Math.abs(x(cur.k) - px) < Math.abs(x(best.k) - px) ? cur : best), data[0]);
       cross.style('display', null).attr('x1', x(d.k)).attr('x2', x(d.k));
-      tt.show(['Dimension ' + d.k + ' (mod Λ)', E6.fmt(d.cones) + ' cones', E6.fmt(d.orbits) + ' orbits'], event);
+      tt.show(['Dimension ' + d.k + ' (mod Λ)', E6.fmt(d.cones) + ' cones', E6.fmt(d.orbits) + ' orbits · click to list them'], event);
+    })
+    .on('click', (event) => {
+      const [px] = d3.pointer(event);
+      const d = data.reduce((best, cur) => (Math.abs(x(cur.k) - px) < Math.abs(x(best.k) - px) ? cur : best), data[0]);
+      if (window.E6cones) E6cones.showDimension(d.k);
     })
     .on('pointerleave', () => { tt.hide(); cross.style('display', 'none'); });
 });
@@ -823,7 +1005,7 @@ dash.draw('rays', (el) => {
   const data = got[0].slice().sort((a, b) => Number(b.rays) - Number(a.rays));
   const rowH = 22, H = data.length * rowH + 4;
   const { s, width } = E6.svg(el, H, 'Bar chart of the number of rays in each orbit');
-  const labels = data.map((r) => E6.fmt(r.rays) + (r.description ? ' · ' + r.description : ''));
+  const labels = data.map((r) => 'R' + r.ray_orbit + ' · ' + E6.fmt(r.rays) + (r.description ? ' · ' + r.description : ''));
   const lw = Math.ceil(E6.textWidth(s, labels, 'e6-val')) + 8;
   const x = d3.scaleLinear().domain([0, d3.max(data, (r) => Number(r.rays)) || 1]).range([0, Math.max(24, width - lw)]);
   const y = d3.scaleBand().domain(data.map((r) => r.ray_orbit)).range([2, H - 2]).paddingInner(0.25);
@@ -834,6 +1016,7 @@ dash.draw('rays', (el) => {
     .style('fill', E6.color(0));
   const t = s.append('g').selectAll('text').data(data).join('text')
     .attr('x', (r) => 1 + Math.max(2, x(Number(r.rays))) + 6).attr('y', (r) => y(r.ray_orbit) + bh / 2).attr('dy', '0.32em');
+  t.append('tspan').text((r) => 'R' + r.ray_orbit + ' · ');
   t.append('tspan').attr('class', 'e6-val').style('fill', 'var(--color-fg)').text((r) => E6.fmt(r.rays));
   t.append('tspan').text((r) => (r.description ? ' · ' + r.description : ''));
   const tt = E6.tip(el);
@@ -921,6 +1104,9 @@ dash.draw('torictable', (tbody) => {
   tbody.replaceChildren(...rows.map((r) => {
     const tr = document.createElement('tr');
     tr.setAttribute('data-key', String(r.orbit));
+    tr.style.cursor = 'pointer';
+    tr.title = 'Open the cone of maximal cone orbit ' + r.orbit;
+    tr.addEventListener('click', () => { if (window.E6cones) E6cones.selectMaximal(r.orbit, true); });
     if (r.known_polytope) tr.className = 'e6-known';
     const cells = [[r.orbit, ''], [r.facets, 'e6-num'], [r.quadric_generators, 'e6-num'], [r.cubic_generators, 'e6-num'], [r.known_polytope, ''], [r.f_vector, 'e6-mono']];
     for (const [v, cls] of cells) {
@@ -930,6 +1116,796 @@ dash.draw('torictable', (tbody) => {
       tr.append(td);
     }
     return tr;
+  }));
+});
+</script>
+<script>
+/* The matroid explorer: one orbit, or the example of Figure 1, at a time. */
+window.E6explore = (function () {
+  const SUB = '₀₁₂₃₄₅₆₇₈₉';
+  const uni = (name) => name[0] + name.slice(1).replace(/\d/g, (d) => SUB[d]);
+  const views = ['orbitpicker', 'exploretitle', 'explorestats', 'explorelines', 'gammasub', 'gamma', 'exchangelegend', 'exchange', 'leaforder'];
+  const fromHash = () => {
+    if (location.hash === '#example') return 'example';
+    const m = /^#orbit-(\d+)$/.exec(location.hash);
+    return m ? Number(m[1]) : null;
+  };
+  const state = { key: fromHash() || 'example', scrollOnLoad: fromHash() != null };
+  function all() { const d = dash.data('matroids'); return d.status === 'ok' ? d.data : null; }
+  function entry() {
+    const M = all();
+    if (!M) return null;
+    if (state.key === 'example') return M.example;
+    return M.orbits.find((o) => o.orbit === state.key) || M.example;
+  }
+  function select(key, scroll) {
+    const M = all();
+    if (M && typeof key === 'number') key = Math.max(1, Math.min(M.orbits.length, key));
+    state.key = key;
+    try { history.replaceState(null, '', key === 'example' ? '#example' : '#orbit-' + key); } catch (e) { /* ignore */ }
+    views.forEach((v) => dash.draw(v));
+    if (scroll) {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.getElementById('explore').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }
+  }
+  function line(name) {
+    const f = document.createDocumentFragment();
+    const i = document.createElement('i');
+    i.textContent = name[0];
+    const s = document.createElement('sub');
+    s.textContent = name.slice(1);
+    f.append(i, s);
+    return f;
+  }
+  function poly(terms) {
+    const f = document.createDocumentFragment();
+    terms.forEach(([s, u, w], k) => {
+      if (k === 0) { if (s < 0) f.append('−'); } else f.append(s < 0 ? ' − ' : ' + ');
+      f.append(line(u), line(w));
+    });
+    if (!terms.length) f.append('0');
+    return f;
+  }
+  function el(tag, cls, ...kids) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    e.append(...kids);
+    return e;
+  }
+  function svgLine(text, name) {
+    text.append('tspan').text(name[0]).style('font-style', 'italic');
+    text.append('tspan').attr('dy', '0.32em').attr('font-size', '0.72em').text(name.slice(1));
+  }
+  function layout(e, width) {
+    const bottom = e.skew_to_chart, middle = e.meeting_chart;
+    const step = Math.max(40, Math.min(66, (width - 40) / Math.max(1, bottom.length)));
+    const W = Math.max(width, step * Math.max(bottom.length, middle.length) + 40);
+    const x = {};
+    const x0 = (W - step * (bottom.length - 1)) / 2;
+    bottom.forEach((u, i) => { x[u] = x0 + i * step; });
+    const mstep = middle.length > 1 ? Math.min(step * 1.4, (W - 40) / (middle.length - 1)) : 0;
+    const m0 = (W - mstep * (middle.length - 1)) / 2;
+    middle.forEach((u, i) => { x[u] = m0 + i * mstep; });
+    x[e.chart] = W / 2;
+    return { x, W, step };
+  }
+  // Edges of Gamma_Q on N(y), each with its label, its equation (or null for a unit) and step.
+  function labelledEdges(e) {
+    const out = [];
+    e.equations.forEach((q, i) => q.terms.forEach(([, u, w]) => out.push({ u, w, label: q.line, eq: i })));
+    e.units.forEach((q) => q.terms.forEach(([, u, w]) => out.push({ u, w, label: q.line, eq: null })));
+    return out;
+  }
+  const arc = (x1, x2, y, depth) => 'M' + x1 + ',' + y + ' Q' + (x1 + x2) / 2 + ',' + (y + 2 * depth) + ' ' + x2 + ',' + y;
+  const depthFor = (x1, x2) => Math.min(110, 0.3 * Math.abs(x2 - x1) + 10);
+  window.addEventListener('hashchange', () => {
+    const key = fromHash();
+    if (key != null && key !== state.key) select(key, true);
+  });
+  return { state, all, entry, select, uni, line, poly, el, svgLine, layout, labelledEdges, arc, depthFor };
+})();
+
+document.querySelectorAll('[data-e6-step]').forEach((b) => b.addEventListener('click', () => {
+  const X = E6explore, M = X.all();
+  if (!M) return;
+  const cur = X.state.key === 'example' ? M.example.orbit : X.state.key;
+  X.select(cur + Number(b.getAttribute('data-e6-step')));
+}));
+document.querySelectorAll('[data-e6-pick]').forEach((b) => b.addEventListener('click', () => {
+  const X = E6explore, M = X.all();
+  if (!M) return;
+  const pick = b.getAttribute('data-e6-pick');
+  if (pick === 'example') return X.select('example');
+  const o = pick === 'all' ? M.orbits.find((q) => q.size === 27) : M.orbits.find((q) => q.kind === pick);
+  if (o) X.select(o.orbit);
+}));
+
+dash.draw('orbitpicker', (sel) => {
+  const X = E6explore, M = X.all();
+  if (!M) return;
+  if (!sel.options.length) {
+    sel.append(new Option('Figure 1 example (orbit ' + M.example.orbit + ', chart ' + X.uni(M.example.chart) + ')', 'example'));
+    d3.groups(M.orbits, (o) => o.size).forEach(([size, list]) => {
+      const g = document.createElement('optgroup');
+      g.label = '|Q| = ' + size;
+      list.forEach((o) => {
+        const note = o.kind === 'Q1' ? 'Q₁, stratum of dim ' + o.dim_stratum : o.kind === 'Qnr' ? 'Qnr, empty stratum' : 'stratum of dim ' + o.dim_stratum;
+        g.append(new Option('Orbit ' + o.orbit + ' · ' + note, String(o.orbit)));
+      });
+      sel.append(g);
+    });
+    sel.addEventListener('change', () => X.select(sel.value === 'example' ? 'example' : Number(sel.value)));
+  }
+  sel.value = String(X.state.key);
+  if (X.state.scrollOnLoad) { X.state.scrollOnLoad = false; requestAnimationFrame(() => X.select(X.state.key, true)); }
+});
+
+dash.draw('exploretitle', (h) => {
+  const e = E6explore.entry();
+  h.classList.remove('dash-skeleton');
+  if (!e) { h.textContent = '—'; return; }
+  h.textContent = E6explore.state.key === 'example' ? 'Figure 1 example, in orbit ' + e.orbit : 'Orbit ' + e.orbit;
+});
+
+dash.draw('explorestats', (dl) => {
+  const X = E6explore, e = X.entry();
+  if (!e) { dl.replaceChildren(); return; }
+  const fmt = d3.format(',');
+  const sub = (s) => X.el('sub', '', s);
+  const rows = [
+    [['Lines |Q|'], fmt(e.size)],
+    [['Matroids in the orbit'], fmt(e.matroids_in_orbit)],
+    [['Stabilizer in W(E₆)'], fmt(e.stabilizer_order)],
+    [['dim conv(Q)'], fmt(e.dim_polytope)],
+    [['dim M', sub('Q')], e.dim_stratum == null ? 'empty' : fmt(e.dim_stratum)],
+    [['Edges of Γ', sub('Q')], fmt(e.gamma_edges.length)],
+    [['Degrees in Γ', sub('Q')], e.degree_min === e.degree_max ? String(e.degree_min) : e.degree_min + '–' + e.degree_max],
+    [['Tritangent planes in Q'], fmt(e.tritangent_planes)],
+    [['Chart y'], X.line(e.chart)],
+    [['Equations |E', sub('y'), '|'], fmt(e.equations.length)],
+  ];
+  dl.replaceChildren(...rows.map(([k, v]) => X.el('div', '', X.el('dt', '', ...k), X.el('dd', '', v))));
+});
+
+dash.draw('explorelines', (box) => {
+  const X = E6explore, e = X.entry();
+  if (!e) { box.replaceChildren(); return; }
+  const meet = new Set(e.meeting_chart);
+  box.replaceChildren(...e.lines.map((n) => X.el('span', 'e6-chip' + (n === e.chart ? ' is-chart' : meet.has(n) ? ' is-meet' : ''), X.line(n))));
+});
+
+dash.draw('gammasub', (p) => {
+  const X = E6explore, e = X.entry();
+  p.classList.remove('dash-skeleton');
+  if (!e) { p.textContent = '—'; return; }
+  p.replaceChildren('Drawn in the chart y = ', X.line(e.chart), ': y on top, the ' + e.meeting_chart.length +
+    ' lines of Q meeting y in the middle row, and the ' + e.skew_to_chart.length + ' lines of Q skew to y in the bottom row. ' +
+    e.gamma_edges.length + ' edges. Hover a line to see its neighbours.');
+});
+
+dash.draw('gamma', (box) => {
+  const X = E6explore, e = X.entry();
+  if (dash.data('matroids').status === 'loading') return;
+  box.classList.remove('dash-skeleton');
+  box.replaceChildren();
+  if (!e) { box.textContent = 'Failed to load'; return; }
+  const r = 14;
+  const { x, W, step } = X.layout(e, box.clientWidth || 600);
+  const top = new Set([e.chart]), mid = new Set(e.meeting_chart), bot = new Set(e.skew_to_chart);
+  const yT = r + 8, yM = yT + 84, yB = yM + 96;
+  let down = 0, up = 0;
+  e.gamma_edges.forEach(([u, w]) => {
+    if (bot.has(u) && bot.has(w)) down = Math.max(down, X.depthFor(x[u], x[w], step));
+    if (mid.has(u) && mid.has(w)) up = Math.max(up, X.depthFor(x[u], x[w], step));
+  });
+  const H = yB + r + down + 12;
+  const s = d3.select(box).append('svg').attr('width', W).attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H)
+    .attr('role', 'img').attr('aria-label', 'The graph Gamma_Q of the lines of Q that meet, in the chart ' + e.chart);
+  const yOf = (u) => (top.has(u) ? yT : mid.has(u) ? yM : yB);
+  const edges = s.append('g').selectAll('path').data(e.gamma_edges).join('path')
+    .attr('d', ([u, w]) => {
+      if (bot.has(u) && bot.has(w)) return X.arc(x[u], x[w], yB + r, X.depthFor(x[u], x[w], step));
+      if (mid.has(u) && mid.has(w)) return X.arc(x[u], x[w], yM - r, -Math.min(60, X.depthFor(x[u], x[w], step)));
+      return 'M' + x[u] + ',' + yOf(u) + ' L' + x[w] + ',' + yOf(w);
+    })
+    .attr('fill', 'none').style('stroke', 'var(--cds-chart-axis)').style('stroke-width', 1.2);
+  const degree = {};
+  e.gamma_edges.forEach(([u, w]) => { degree[u] = (degree[u] || 0) + 1; degree[w] = (degree[w] || 0) + 1; });
+  const tt = E6.tip(box);
+  const nodes = s.append('g').selectAll('g').data([e.chart, ...e.meeting_chart, ...e.skew_to_chart]).join('g')
+    .attr('transform', (u) => 'translate(' + x[u] + ',' + yOf(u) + ')').style('cursor', 'default');
+  nodes.append('circle').attr('r', r)
+    .style('fill', (u) => (top.has(u) ? 'var(--color-fg)' : mid.has(u) ? 'var(--color-skeleton)' : 'var(--color-panel)'))
+    .style('stroke', (u) => (top.has(u) ? 'var(--color-fg)' : 'var(--cds-chart-reference)')).style('stroke-width', 1.2);
+  nodes.append('text').attr('text-anchor', 'middle').attr('y', 3)
+    .style('fill', (u) => (top.has(u) ? 'var(--color-bg)' : 'var(--color-fg)'))
+    .each(function (u) { X.svgLine(d3.select(this), u); });
+  nodes.on('pointerenter', (event, u) => {
+    edges.style('stroke', ([a, b]) => (a === u || b === u ? 'var(--color-fg)' : 'var(--cds-chart-grid)'))
+      .style('stroke-width', ([a, b]) => (a === u || b === u ? 2 : 1.2));
+    const where = top.has(u) ? 'the chart y' : mid.has(u) ? 'meets y' : 'skew to y';
+    tt.show([X.uni(u) + ' · ' + where, (degree[u] || 0) + ' neighbours in Γ_Q'], event);
+  }).on('pointermove', (event, u) => {
+    const where = top.has(u) ? 'the chart y' : mid.has(u) ? 'meets y' : 'skew to y';
+    tt.show([X.uni(u) + ' · ' + where, (degree[u] || 0) + ' neighbours in Γ_Q'], event);
+  }).on('pointerleave', () => {
+    edges.style('stroke', 'var(--cds-chart-axis)').style('stroke-width', 1.2);
+    tt.hide();
+  });
+});
+
+dash.draw('exchangelegend', (box) => {
+  const X = E6explore, e = X.entry();
+  if (!e) { box.replaceChildren(); return; }
+  const items = [X.el('span', '', X.el('i', 'e6-dash'), 'label in Q')];
+  e.equations.forEach((q, i) => {
+    const sw = X.el('i', 'e6-solid');
+    sw.style.borderColor = E6.color(i);
+    items.push(X.el('span', '', sw, 'equation of ', X.line(q.line)));
+  });
+  box.replaceChildren(...items);
+});
+
+dash.draw('exchange', (box) => {
+  const X = E6explore, e = X.entry();
+  if (dash.data('matroids').status === 'loading') return;
+  box.classList.remove('dash-skeleton');
+  box.replaceChildren();
+  if (!e) { box.textContent = 'Failed to load'; return; }
+  if (!e.skew_to_chart.length) {
+    box.append(X.el('p', 'e6-sub', 'No line of Q is skew to y.'));
+    return;
+  }
+  const r = 14;
+  const { x, W, step } = X.layout(e, box.clientWidth || 600);
+  const edges = X.labelledEdges(e);
+  let up = 0, down = 0;
+  edges.forEach((d) => {
+    const h = X.depthFor(x[d.u], x[d.w], step);
+    if (d.eq === null) up = Math.max(up, h); else down = Math.max(down, h);
+  });
+  const y = up + r + 14;
+  const H = y + r + down + 14;
+  const s = d3.select(box).append('svg').attr('width', W).attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H)
+    .attr('role', 'img').attr('aria-label', 'Edges of Gamma_Q on the lines of Q skew to the chart, with their labels and the matchings of the equations');
+  const leaves = {};
+  e.equations.forEach((q, i) => { if (q.leaf) leaves[q.leaf] = i; });
+  const showDashedLabels = edges.filter((d) => d.eq === null).length <= 14;
+  const paths = s.append('g').selectAll('path').data(edges).join('path')
+    .attr('d', (d) => {
+      const h = X.depthFor(x[d.u], x[d.w], step);
+      return d.eq === null ? X.arc(x[d.u], x[d.w], y - r, -h) : X.arc(x[d.u], x[d.w], y + r, h);
+    })
+    .attr('fill', 'none')
+    .style('stroke', (d) => (d.eq === null ? 'var(--cds-chart-axis)' : E6.color(d.eq)))
+    .style('stroke-width', (d) => (d.eq === null ? 1.4 : 2.6))
+    .style('stroke-dasharray', (d) => (d.eq === null ? '4 3' : null));
+  const labels = s.append('g').selectAll('g').data(edges.filter((d) => d.eq !== null || showDashedLabels)).join('g')
+    .attr('transform', (d) => {
+      const h = X.depthFor(x[d.u], x[d.w], step);
+      return 'translate(' + (x[d.u] + x[d.w]) / 2 + ',' + (d.eq === null ? y - r - h : y + r + h) + ')';
+    });
+  labels.append('rect').attr('x', -11).attr('y', -9).attr('width', 22).attr('height', 17).attr('rx', 4)
+    .style('fill', 'var(--color-panel)');
+  labels.append('text').attr('text-anchor', 'middle').attr('y', 3).style('font-size', '12px')
+    .each(function (d) { X.svgLine(d3.select(this), d.label); });
+  const nodes = s.append('g').selectAll('g').data(e.skew_to_chart).join('g')
+    .attr('transform', (u) => 'translate(' + x[u] + ',' + y + ')');
+  nodes.append('circle').attr('r', r).style('fill', 'var(--color-panel)')
+    .style('stroke', (u) => (u in leaves ? E6.color(leaves[u]) : 'var(--cds-chart-reference)'))
+    .style('stroke-width', (u) => (u in leaves ? 3 : 1.2));
+  nodes.append('text').attr('text-anchor', 'middle').attr('y', 3).each(function (u) { X.svgLine(d3.select(this), u); });
+  const badge = nodes.filter((u) => u in leaves).append('g').attr('transform', 'translate(' + (r * 0.85) + ',' + (-r * 0.85) + ')');
+  badge.append('circle').attr('r', 7).style('fill', (u) => E6.color(leaves[u]));
+  badge.append('text').attr('class', 'e6-sans').attr('text-anchor', 'middle').attr('y', 3.5)
+    .style('fill', 'var(--color-panel)').style('font-weight', 600).text((u) => leaves[u] + 1);
+  const tt = E6.tip(box);
+  s.append('g').selectAll('path').data(edges).join('path')
+    .attr('d', (d) => {
+      const h = X.depthFor(x[d.u], x[d.w], step);
+      return d.eq === null ? X.arc(x[d.u], x[d.w], y - r, -h) : X.arc(x[d.u], x[d.w], y + r, h);
+    })
+    .attr('fill', 'none').style('stroke', 'transparent').style('stroke-width', 10).style('pointer-events', 'stroke')
+    .on('pointerenter pointermove', (event, d) => {
+      paths.style('opacity', (o) => (o === d ? 1 : 0.25));
+      tt.show([X.uni(d.u) + ' — ' + X.uni(d.w), 'label ' + X.uni(d.label) + (d.eq === null ? ' ∈ Q, gives its coordinate' : ' ∉ Q, equation ' + (d.eq + 1))], event);
+    })
+    .on('pointerleave', () => { paths.style('opacity', 1); tt.hide(); });
+});
+
+dash.draw('leaforder', (box) => {
+  const X = E6explore, e = X.entry();
+  if (!e) { box.replaceChildren(); return; }
+  const parts = [];
+  const eqLine = (q) => X.el('div', 'e6-math', X.poly(q.terms), ' = 0');
+  if (e.kind === 'Q1') {
+    parts.push(X.el('p', 'e6-text', 'No chart of Q', X.el('sub', '', '1'), ' admits a leaf order. In the chart ', X.line(e.chart),
+      ', every vertex of the exchange graph lies on two of the three matchings, and the three equations are the 2×2 minors of the matrix with rows (', X.line('a4'), ', ', X.line('a5'), ', ', X.line('a6'), ') and (', X.line('c56'), ', −', X.line('c46'), ', ', X.line('c45'),
+      '), which cut out a translate of a subtorus of codimension 2, so dim M', X.el('sub', '', 'Q'), ' = ' + e.dim_stratum + '.'));
+    parts.push(X.el('ol', 'e6-steps', ...e.equations.map((q, i) => {
+      const no = X.el('span', 'e6-stepno', String(i + 1));
+      no.style.background = E6.color(i);
+      return X.el('li', '', no, X.el('div', 'e6-sub', 'equation of ', X.line(q.line)), eqLine(q));
+    })));
+  } else if (e.kind === 'Qnr') {
+    parts.push(X.el('p', 'e6-text', 'The stratum of Q', X.el('sub', '', 'nr'), ' is empty over every field. In the chart ', X.line(e.chart),
+      ' the equations below hold, while ', X.line('a4'), ' and the coordinate ', X.line('c14'), ' = ', X.line('a5'), X.line('c45'), ' + ', X.line('a6'), X.line('c46'),
+      ' must be nonzero. But ', X.line('a4'), '(', X.line('a5'), X.line('c45'), ' + ', X.line('a6'), X.line('c46'), ') equals −', X.line('a5'),
+      ' times equation 1 minus ', X.line('a6'), ' times equation 2, so it vanishes.'));
+    parts.push(X.el('ol', 'e6-steps', ...e.equations.map((q, i) => {
+      const no = X.el('span', 'e6-stepno', String(i + 1));
+      no.style.background = E6.color(i);
+      return X.el('li', '', no, X.el('div', 'e6-sub', 'equation of ', X.line(q.line)), eqLine(q));
+    })));
+  } else if (!e.equations.length && !e.units.length) {
+    parts.push(X.el('p', 'e6-text', 'No equations and no other conditions in this chart: M', X.el('sub', '', 'Q'),
+      e.skew_to_chart.length ? ' is the torus with coordinates Q ∩ N(y), of dimension ' + e.skew_to_chart.length + '.' : ' is a point.'));
+  } else if (!e.equations.length) {
+    parts.push(X.el('p', 'e6-text', 'No equations in this chart: M', X.el('sub', '', 'Q'), ' is the open subset of the torus with coordinates Q ∩ N(y) where the coordinates below are nonzero, so dim M', X.el('sub', '', 'Q'), ' = |Q ∩ N(y)| = ' + e.skew_to_chart.length + '.'));
+  } else {
+    parts.push(X.el('p', 'e6-sub', 'Each equation is solved for a leaf that occurs in none of the later ones.'));
+    parts.push(X.el('ol', 'e6-steps', ...e.equations.map((q, i) => {
+      const no = X.el('span', 'e6-stepno', String(i + 1));
+      no.style.background = E6.color(i);
+      const sol = q.solution;
+      const rhs = sol.terms.length > 1 ? X.el('span', '', '(', X.poly(sol.terms), ')') : X.poly(sol.terms);
+      const leaf = X.el('span', 'e6-leaf', X.line(q.leaf));
+      return X.el('li', '', no,
+        X.el('div', 'e6-sub', 'equation of ', X.line(q.line), ', solved for ', X.line(q.leaf)),
+        eqLine(q),
+        X.el('div', 'e6-math', leaf, ' = ', rhs, ' / ', X.line(sol.over)));
+    })));
+    const free = X.el('p', 'e6-text', 'The free coordinates are ');
+    e.free.forEach((n, i) => free.append(i ? ', ' : '', X.line(n)));
+    free.append(', so dim M', X.el('sub', '', 'Q'), ' = ' + e.free.length + '.');
+    parts.push(free);
+  }
+  if (e.units.length) {
+    const units = X.el('details', 'e6-units');
+    units.open = e.units.length <= 8;
+    units.append(X.el('summary', '', 'Coordinates of the ' + e.units.length + ' lines of Q meeting y, which must be nonzero'));
+    units.append(X.el('ul', 'e6-math', ...e.units.map((q) => X.el('li', '', X.line(q.line), ' = ', X.poly(q.terms)))));
+    parts.push(units);
+  }
+  box.replaceChildren(...parts);
+});
+</script>
+<script>
+/* The cone browser. Its three files load only when the section comes near the screen. */
+window.E6cones = (function () {
+  const fromHash = () => { const m = /^#cone-(\d+)$/.exec(location.hash); return m ? Number(m[1]) : null; };
+  const state = { active: fromHash() != null, dim: '', ray: '', ideal: '', selected: fromHash(), scrollList: true, scrollPage: fromHash() != null, layout: 'symmetric' };
+  const views = ['rayids', 'conefilters', 'conecount', 'conelist', 'conedetail', 'dualsub', 'duallegend', 'dualgraph', 'dualcells'];
+  const layouts = new Map();
+  let cache = { key: null, rows: [] };
+  function redraw() { views.forEach((v) => dash.draw(v)); }
+  function activate() { if (!state.active) { state.active = true; redraw(); } }
+  function cones() {
+    if (!state.active) return null;
+    const d = dash.data('cones');
+    return d.status === 'ok' ? d.data : null;
+  }
+  function maximalInfo() {
+    const d = dash.data('max_cone_orbits');
+    if (d.status !== 'ok') return new Map();
+    return new Map(d.data.map((r) => [Number(r.orbit), r]));
+  }
+  function filtered() {
+    const all = cones();
+    if (!all) return [];
+    const key = [state.dim, state.ray, state.ideal].join('|');
+    if (cache.key === key) return cache.rows;
+    const info = maximalInfo();
+    const rows = all.filter((r) => {
+      if (state.dim && r.dim !== state.dim) return false;
+      if (state.ray && !r.ray_orbits.split(' ').includes(state.ray)) return false;
+      if (state.ideal) {
+        const m = info.get(Number(r.maximal_cone_orbit));
+        if (!m) return false;
+        const kind = m.prime === 'true' ? 'prime' : m.binomial_initial_ideal === 'true' ? 'binomial' : 'other';
+        if (kind !== state.ideal) return false;
+      }
+      return true;
+    });
+    cache = { key, rows };
+    return rows;
+  }
+  function select(n, scroll) {
+    state.selected = n;
+    state.scrollList = true;
+    try { history.replaceState(null, '', '#cone-' + n); } catch (e) { /* ignore */ }
+    activate();
+    redraw();
+    if (scroll) document.getElementById('cones').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }
+  function setFilter(name, value) {
+    state[name] = value;
+    state.scrollList = true;
+    redraw();
+  }
+  function showDimension(k) {
+    state.dim = String(k); state.ray = ''; state.ideal = '';
+    activate();
+    const rows = filtered();
+    if (rows.length && !rows.some((r) => Number(r.cone) === state.selected)) state.selected = Number(rows[0].cone);
+    state.scrollList = true;
+    redraw();
+    document.getElementById('cones').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }
+  function selectMaximal(orbit, scroll) {
+    activate();
+    select(13734 + Number(orbit), scroll);
+  }
+  function raySummary(r) {
+    const counts = new Map();
+    r.ray_orbits.split(' ').forEach((k) => counts.set(k, (counts.get(k) || 0) + 1));
+    return [...counts].sort((a, b) => Number(a[0]) - Number(b[0])).map(([k, n]) => 'R' + k + (n > 1 ? '×' + n : '')).join(' · ');
+  }
+  window.addEventListener('hashchange', () => { const n = fromHash(); if (n != null && n !== state.selected) select(n, true); });
+  const section = document.getElementById('cones');
+  if (section && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { io.disconnect(); activate(); }
+    }, { rootMargin: '800px 0px' });
+    io.observe(section);
+  } else activate();
+  return { state, layouts, cones, filtered, maximalInfo, select, setFilter, showDimension, selectMaximal, raySummary, activate };
+})();
+
+document.querySelectorAll('[data-e6-layout]').forEach((btn) => btn.addEventListener('click', () => {
+  E6cones.state.layout = btn.getAttribute('data-e6-layout');
+  document.querySelectorAll('[data-e6-layout]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+  ['dualsub', 'dualgraph'].forEach((v) => dash.draw(v));
+}));
+document.querySelectorAll('[data-e6-filter]').forEach((sel) => sel.addEventListener('change', () => E6cones.setFilter(sel.getAttribute('data-e6-filter'), sel.value)));
+(function () {
+  const input = document.querySelector('[data-e6-goto]');
+  const go = () => { const n = Number(input.value); if (Number.isInteger(n) && n >= 1 && n <= 14155) E6cones.select(n); };
+  document.querySelector('[data-e6-goto-btn]').addEventListener('click', go);
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
+})();
+
+dash.draw('rayids', (p) => {
+  const d = dash.data('ray_orbits');
+  p.classList.remove('dash-skeleton');
+  if (d.status !== 'ok') { p.textContent = '—'; return; }
+  p.textContent = 'Ray orbits: ' + d.data.map((r) => 'R' + r.ray_orbit + ' (' + E6.fmt(Number(r.rays)) + (r.description ? ', ' + r.description.toLowerCase() : '') + ')').join(', ') + '.';
+});
+
+dash.draw('conefilters', (box) => {
+  const C = E6cones, all = C.cones();
+  const dimSel = box.querySelector('[data-e6-filter="dim"]');
+  const raySel = box.querySelector('[data-e6-filter="ray"]');
+  if (all && dimSel.options.length === 0) {
+    const counts = d3.rollup(all, (v) => v.length, (r) => r.dim);
+    dimSel.append(new Option('All (' + E6.fmt(all.length) + ' orbits)', ''));
+    [...counts].sort((a, b) => Number(a[0]) - Number(b[0])).forEach(([k, n]) => dimSel.append(new Option(k + ' (' + E6.fmt(n) + ' orbits)', k)));
+    const ro = dash.data('ray_orbits');
+    raySel.append(new Option('Any orbit', ''));
+    (ro.status === 'ok' ? ro.data : []).forEach((r) => raySel.append(new Option('R' + r.ray_orbit + ' (' + E6.fmt(Number(r.rays)) + ' rays)', r.ray_orbit)));
+  }
+  if (dimSel.options.length) dimSel.value = C.state.dim;
+  if (raySel.options.length) raySel.value = C.state.ray;
+  box.querySelector('[data-e6-filter="ideal"]').value = C.state.ideal;
+});
+
+dash.draw('conecount', (p) => {
+  const C = E6cones, all = C.cones();
+  p.classList.remove('dash-skeleton');
+  if (!all) { p.textContent = C.state.active ? 'Loading the cones…' : '—'; return; }
+  const n = C.filtered().length;
+  p.textContent = n === all.length ? 'Showing all ' + E6.fmt(n) + ' orbits of cones. Click a row to see the cone.'
+    : 'Showing ' + E6.fmt(n) + ' of ' + E6.fmt(all.length) + ' orbits of cones.';
+});
+
+dash.draw('conelist', {
+  mount(el) {
+    el.replaceChildren();
+    const head = document.createElement('div');
+    head.className = 'e6-vhead';
+    [['Cone', 'e6-r'], ['Dim', 'e6-r'], ['Orbit size', 'e6-r e6-hide-sm'], ['Cells', 'e6-r'], ['Rays by orbit', ''], ['Maximal cone', '']].forEach(([t, c]) => {
+      const s = document.createElement('span'); s.className = c; s.textContent = t; head.append(s);
+    });
+    const spacer = document.createElement('div');
+    const layer = document.createElement('div');
+    el.append(head, spacer, layer);
+    const made = { spacer, layer, rows: [], rowH: 32, headH: 30, frame: 0 };
+    made.render = () => {
+      const C = E6cones, info = made.info || new Map();
+      const top = Math.max(0, Math.floor((el.scrollTop - made.headH) / made.rowH) - 6);
+      const end = Math.min(made.rows.length, top + Math.ceil(el.clientHeight / made.rowH) + 12);
+      const kids = [];
+      for (let i = top; i < end; i++) {
+        const r = made.rows[i];
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'e6-vrow';
+        b.setAttribute('role', 'option');
+        b.setAttribute('aria-selected', String(Number(r.cone) === C.state.selected));
+        b.style.top = (made.headH + i * made.rowH) + 'px';
+        const m = r.maximal_cone_orbit ? info.get(Number(r.maximal_cone_orbit)) : null;
+        const maxText = r.maximal_cone_orbit ? 'M' + r.maximal_cone_orbit + (m && m.prime === 'true' ? ' · prime' : m && m.binomial_initial_ideal === 'true' ? ' · binomial' : '') : '';
+        [[E6.fmt(Number(r.cone)), 'e6-r'], [r.dim, 'e6-r'], [E6.fmt(Number(r.cones_in_orbit)), 'e6-r e6-hide-sm'], [r.cells, 'e6-r'], [C.raySummary(r), ''], [maxText, '']].forEach(([t, c]) => {
+          const s = document.createElement('span'); s.className = c; s.textContent = t; b.append(s);
+        });
+        b.addEventListener('click', () => E6cones.select(Number(r.cone)));
+        kids.push(b);
+      }
+      made.layer.replaceChildren(...kids);
+    };
+    el.addEventListener('scroll', () => { cancelAnimationFrame(made.frame); made.frame = requestAnimationFrame(made.render); });
+    return made;
+  },
+  update(el, made) {
+    const C = E6cones;
+    if (!C.cones()) return;
+    el.classList.remove('dash-skeleton');
+    made.info = C.maximalInfo();
+    made.rows = C.filtered();
+    made.spacer.style.height = (made.headH + made.rows.length * made.rowH) + 'px';
+    if (C.state.scrollList) {
+      const i = made.rows.findIndex((r) => Number(r.cone) === C.state.selected);
+      el.scrollTop = i >= 0 ? Math.max(0, made.headH + i * made.rowH - el.clientHeight / 2 + made.rowH) : 0;
+      C.state.scrollList = false;
+    }
+    made.render();
+  }
+});
+
+function e6SelectedCone() {
+  const C = E6cones, all = C.cones();
+  if (!all) return null;
+  if (C.state.selected == null) {   // start on the Hibi degeneration
+    const t = dash.data('toric');
+    const hibi = t.status === 'ok' ? t.data.find((r) => /^Order/.test(r.known_polytope || '')) : null;
+    C.state.selected = hibi ? 13734 + Number(hibi.orbit) : 1;
+  }
+  return all[C.state.selected - 1] || null;
+}
+
+dash.draw('conedetail', (box) => {
+  const C = E6cones;
+  if (!C.state.active) return;
+  const r = e6SelectedCone();
+  if (!r) { box.replaceChildren(E6explore.el('p', 'e6-sub', dash.data('cones').status === 'error' ? 'Failed to load' : 'Loading the cones…')); return; }
+  const X = E6explore, fmt = E6.fmt;
+  const m = r.maximal_cone_orbit ? C.maximalInfo().get(Number(r.maximal_cone_orbit)) : null;
+  const t = dash.data('toric');
+  const toric = m && t.status === 'ok' ? t.data.find((q) => q.orbit === r.maximal_cone_orbit) : null;
+  const facts = [
+    ['Dimension modulo Λ', r.dim],
+    ['Cones in the orbit', fmt(Number(r.cones_in_orbit))],
+    ['Stabilizer in W(E₆)', fmt(51840 / Number(r.cones_in_orbit))],
+    ['Maximal cells', r.cells],
+  ];
+  if (r.maximal_cone_orbit) {
+    facts.push(['Initial ideal', m ? (m.prime === 'true' ? 'prime' : m.binomial_initial_ideal === 'true' ? 'binomial, not prime' : 'not binomial') : '—']);
+    if (toric) facts.push(['Toric polytope', toric.facets + ' facets' + (toric.known_polytope ? ', ' + toric.known_polytope.replace(' (Hibi)', '').toLowerCase() : '')]);
+  }
+  const dl = X.el('dl', 'e6-facts e6-facts-sm', ...facts.map(([k, v]) => X.el('div', '', X.el('dt', '', k), X.el('dd', '', String(v)))));
+  const rays = r.rays.split(' '), orbits = r.ray_orbits.split(' ');
+  const vec = dash.data('rays');
+  const vectors = vec.status === 'ok' ? vec.data : null;
+  const rows = rays.map((ray, i) => X.el('tr', '', X.el('td', 'e6-r', ray), X.el('td', '', 'R' + orbits[i]), X.el('td', 'e6-vec', vectors ? vectors[Number(ray)].vector : '…')));
+  if (vectors) {
+    const sum = new Array(27).fill(0);
+    rays.forEach((ray) => vectors[Number(ray)].vector.split(' ').forEach((v, k) => { sum[k] += Number(v); }));
+    rows.push(X.el('tr', 'e6-sum', X.el('td', '', 'w'), X.el('td', '', 'sum'), X.el('td', 'e6-vec', sum.join(' '))));
+  }
+  const table = X.el('table', 'e6-raytable', X.el('thead', '', X.el('tr', '', X.el('th', 'e6-r', 'Ray'), X.el('th', '', 'Orbit'), X.el('th', '', 'Vector, coordinates a₁ … c₅₆'))), X.el('tbody', '', ...rows));
+  if (C.state.scrollPage) {
+    C.state.scrollPage = false;
+    requestAnimationFrame(() => document.getElementById('cones').scrollIntoView());
+  }
+  const parts = [X.el('h3', 'e6-h3', 'Cone ' + fmt(Number(r.cone)) + (r.maximal_cone_orbit ? ' · maximal cone orbit ' + r.maximal_cone_orbit : '')), dl,
+    X.el('p', 'e6-sub', 'Rays modulo the lineality space Λ, numbered as in RAYS of the gfan output. w is their sum, a point in the relative interior, which induces the subdivision.'),
+    X.el('div', 'e6-tablewrap', table)];
+  if (toric) {
+    const b = X.el('button', 'e6-btn', 'See the toric polytope in the table of prime orbits');
+    b.type = 'button';
+    b.addEventListener('click', () => document.getElementById('toric-table').scrollIntoView({ behavior: 'smooth' }));
+    parts.push(b);
+  }
+  box.replaceChildren(...parts);
+});
+
+function e6Popcount(mask) { let n = 0; while (mask) { n += mask & 1; mask = Math.floor(mask / 2); } return n; }
+
+// Rank of a small integer matrix (rows), by elimination with partial pivoting.
+function e6Rank(rows) {
+  const M = rows.map((r) => r.slice());
+  let rank = 0;
+  const cols = M.length ? M[0].length : 0;
+  for (let c = 0; c < cols && rank < M.length; c++) {
+    let piv = rank;
+    for (let r = rank + 1; r < M.length; r++) if (Math.abs(M[r][c]) > Math.abs(M[piv][c])) piv = r;
+    if (Math.abs(M[piv][c]) < 1e-9) continue;
+    [M[rank], M[piv]] = [M[piv], M[rank]];
+    for (let r = rank + 1; r < M.length; r++) {
+      const f = M[r][c] / M[rank][c];
+      for (let k = c; k < cols; k++) M[r][k] -= f * M[rank][k];
+    }
+    rank++;
+  }
+  return rank;
+}
+
+const e6SubCache = new Map();
+
+// The subdivision of the selected cone: cells [matroid orbit, mask], dual-graph edges,
+// the projection plane and the symmetry of the picture.
+function e6Subdivision() {
+  const r = e6SelectedCone();
+  if (!r) return { cone: null };
+  const n = Number(r.cone);
+  if (e6SubCache.has(n)) return { cone: r, sub: e6SubCache.get(n) };
+  const index = dash.data('subdivisions');
+  if (index.status !== 'ok') return { cone: r, sub: undefined, status: index.status };
+  const file = index.data.files[Math.floor((n - 1) / index.data.chunk)];
+  const shard = dash.data('subdivisions/' + file.replace('.json', ''));
+  if (shard.status !== 'ok') return { cone: r, sub: undefined, status: shard.status };
+  const entry = shard.data.find((e) => e[0] === n);
+  const cells = entry[1].split(' ').map((s) => s.split('.').map((x) => parseInt(x, 36)));
+  const verts = cells.map(([, mask]) => { const v = []; for (let j = 0; j < 27; j++) if (Math.floor(mask / 2 ** j) % 2) v.push(j); return v; });
+  const G = index.data.gosset, E = index.data.euclidean;
+  const edges = [];
+  for (let a = 0; a < cells.length; a++) {
+    for (let b = a + 1; b < cells.length; b++) {
+      const common = verts[a].filter((j) => verts[b].includes(j));
+      if (common.length < 6) continue;
+      const rows = common.slice(1).map((j) => G[j].map((x, k) => x - G[common[0]][k]));
+      if (e6Rank(rows) === 5) edges.push([a, b]);
+    }
+  }
+  const plane = [0, 1].map((c) => [0, 1, 2, 3, 4, 5].map((k) => entry[2][2 * k + c]));
+  const sub = { cone: n, cells, verts, edges, plane, rotation: entry[3], mirrors: entry[4], euclid: E };
+  e6SubCache.set(n, sub);
+  return { cone: r, sub };
+}
+
+function e6SymmetryText(sub, stab) {
+  const { rotation: k, mirrors: m } = sub;
+  let s;
+  if (k > 1 && m) s = (k === 2 ? 'a half turn' : k + '-fold rotations') + ' and ' + m + ' mirrors';
+  else if (k > 1) s = k === 2 ? 'a half turn' : k + '-fold rotations';
+  else if (m) s = m === 1 ? 'one mirror' : m + ' mirrors';
+  else s = 'no symmetry';
+  return 'The picture has ' + s + ', from the stabilizer of order ' + E6.fmt(stab) + '.';
+}
+
+dash.draw('dualsub', (p) => {
+  if (!E6cones.state.active) return;
+  p.classList.remove('dash-skeleton');
+  const { cone, sub } = e6Subdivision();
+  if (!cone) { p.textContent = '—'; return; }
+  if (!sub) { p.textContent = 'Loading the subdivision…'; return; }
+  const stab = 51840 / Number(cone.cones_in_orbit);
+  p.textContent = 'Cone ' + E6.fmt(Number(cone.cone)) + ' induces ' + sub.cells.length + ' maximal cells, each a matroid polytope conv(Q), and ' +
+    sub.edges.length + (sub.edges.length === 1 ? ' interior facet. ' : ' interior facets. ') +
+    (E6cones.state.layout === 'spring' ? 'Spring layout. '
+      : 'Each cell sits at the barycenter of its vertices, projected to a plane that the stabilizer of the cone preserves; the grey shadow is 2₂₁ in the same projection. ' + e6SymmetryText(sub, stab) + ' ') +
+    'Hover a cell to see its matroid; click it to open the matroid in the explorer above.';
+});
+
+dash.draw('duallegend', (box) => {
+  const { sub } = e6Subdivision();
+  if (!sub) { box.replaceChildren(); return; }
+  const sizes = sub.cells.map(([, mask]) => e6Popcount(mask));
+  const lo = d3.min(sizes), hi = d3.max(sizes);
+  const ramp = document.createElement('i');
+  ramp.className = 'e6-ramp';
+  ramp.style.background = 'linear-gradient(90deg, color-mix(in srgb, var(--series-0) 40%, var(--color-panel)), var(--series-0))';
+  box.replaceChildren(E6explore.el('span', '', 'Lines in Q: ' + lo, ramp, String(hi)));
+});
+
+function e6SpringLayout(sub) {
+  const nodes = sub.cells.map((c, i) => ({ i }));
+  const links = sub.edges.map(([a, b]) => ({ source: a, target: b }));
+  const sim = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).distance(30).strength(0.7))
+    .force('charge', d3.forceManyBody().strength(-90))
+    .force('center', d3.forceCenter(0, 0))
+    .force('collide', d3.forceCollide(10))
+    .stop();
+  for (let k = 0; k < 400; k++) sim.tick();
+  return nodes.map((n) => [n.x, -n.y]);
+}
+
+function e6SymmetricLayout(sub) {
+  const project = (v) => [0, 1].map((c) => v.reduce((s, x, k) => s + x * sub.plane[c][k], 0));
+  const pos = sub.verts.map((vs) => {
+    const b = [0, 1, 2, 3, 4, 5].map((k) => vs.reduce((s, j) => s + sub.euclid[j][k], 0) / vs.length);
+    return project(b);
+  });
+  const shadow = sub.euclid.map(project);
+  const span = Math.max(d3.max(shadow, (p) => p[0]) - d3.min(shadow, (p) => p[0]), d3.max(shadow, (p) => p[1]) - d3.min(shadow, (p) => p[1])) || 1;
+  // cells that land on the same point are fanned out on a small circle
+  const groups = d3.group(pos.map((p, i) => i), (i) => pos[i].map((x) => x.toFixed(4)).join(','));
+  const out = pos.map((p) => p.slice());
+  for (const ids of groups.values()) {
+    if (ids.length < 2) continue;
+    ids.forEach((i, t) => {
+      const a = 2 * Math.PI * t / ids.length + Math.PI / 4;
+      out[i][0] += 0.014 * span * Math.cos(a);
+      out[i][1] += 0.014 * span * Math.sin(a);
+    });
+  }
+  return { pos: out, shadow };
+}
+
+dash.draw('dualgraph', (box) => {
+  const C = E6cones, X = E6explore;
+  if (!C.state.active) return;
+  const { cone, sub, status } = e6Subdivision();
+  if (!cone || !sub) { if (status === 'error') { box.classList.remove('dash-skeleton'); box.textContent = 'Failed to load'; } return; }
+  box.classList.remove('dash-skeleton');
+  box.replaceChildren();
+  const symmetric = C.state.layout !== 'spring';
+  const key = sub.cone + (symmetric ? 's' : 'f');
+  let lay = C.layouts.get(key);
+  if (!lay) {
+    lay = symmetric ? e6SymmetricLayout(sub) : { pos: e6SpringLayout(sub), shadow: null };
+    C.layouts.set(key, lay);
+  }
+  const pos = lay.pos;
+  const W = Math.max(280, box.clientWidth || 600), H = Math.min(540, Math.max(320, W * 0.75)), pad = 20;
+  // fit the graph, showing at least half of the shadow of 2_21 around it
+  let xs = d3.extent(pos, (p) => p[0]), ys = d3.extent(pos, (p) => p[1]);
+  if (lay.shadow) {
+    const sx = d3.extent(lay.shadow, (p) => p[0]), sy = d3.extent(lay.shadow, (p) => p[1]);
+    const grow = (e, s) => { const need = 0.5 * (s[1] - s[0]), mid = (e[0] + e[1]) / 2, half = Math.max((e[1] - e[0]) / 2, need / 2); return [mid - half, mid + half]; };
+    xs = grow(xs, sx); ys = grow(ys, sy);
+  }
+  const k = Math.min((W - 2 * pad) / (xs[1] - xs[0] || 1), (H - 2 * pad) / (ys[1] - ys[0] || 1));
+  const cx = (xs[0] + xs[1]) / 2, cy = (ys[0] + ys[1]) / 2;
+  const toScreen = ([x, y]) => [W / 2 + k * (x - cx), H / 2 - k * (y - cy)];
+  const P = pos.map(toScreen);
+  const s = d3.select(box).append('svg').attr('width', W).attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H)
+    .attr('role', 'img').attr('aria-label', 'Dual graph of the subdivision of 2_21 induced by cone ' + cone.cone + ': ' + sub.cells.length + ' cells and ' + sub.edges.length + ' shared facets');
+  if (lay.shadow) {
+    const hull = d3.polygonHull(lay.shadow.map(toScreen));
+    s.append('path').attr('d', 'M' + hull.join('L') + 'Z').style('fill', 'var(--color-bg)').style('stroke', 'var(--color-border-line)');
+    s.append('g').selectAll('circle').data(lay.shadow.map(toScreen)).join('circle')
+      .attr('cx', (p) => p[0]).attr('cy', (p) => p[1]).attr('r', 2.2).style('fill', 'var(--cds-chart-axis)');
+  }
+  const sizes = sub.cells.map(([, mask]) => e6Popcount(mask));
+  const lo = d3.min(sizes), hi = d3.max(sizes);
+  const shade = d3.scaleLinear().domain([lo, Math.max(lo + 1, hi)]).range([0.4, 1]);
+  const degree = sub.cells.map(() => 0);
+  sub.edges.forEach(([a, b]) => { degree[a]++; degree[b]++; });
+  const edges = s.append('g').selectAll('line').data(sub.edges).join('line')
+    .attr('x1', ([a]) => P[a][0]).attr('y1', ([a]) => P[a][1]).attr('x2', ([, b]) => P[b][0]).attr('y2', ([, b]) => P[b][1])
+    .style('stroke', 'var(--cds-chart-reference)').style('stroke-width', 1).style('stroke-opacity', 0.8);
+  const tt = E6.tip(box);
+  const LINES = ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'c12', 'c13', 'c14', 'c15', 'c16', 'c23', 'c24', 'c25', 'c26', 'c34', 'c35', 'c36', 'c45', 'c46', 'c56'];
+  const r = sub.cells.length > 40 ? 6.5 : 8;
+  const nodes = s.append('g').selectAll('circle').data(sub.cells.map((c, i) => i)).join('circle')
+    .attr('cx', (i) => P[i][0]).attr('cy', (i) => P[i][1]).attr('r', r)
+    .style('fill', 'var(--series-0)').style('fill-opacity', (i) => shade(sizes[i]))
+    .style('stroke', 'var(--color-panel)').style('stroke-width', 1.5).style('cursor', 'pointer');
+  nodes.on('pointerenter pointermove', (event, i) => {
+    edges.style('stroke', ([a, b]) => (a === i || b === i ? 'var(--color-fg)' : 'var(--cds-chart-grid)'))
+      .style('stroke-width', ([a, b]) => (a === i || b === i ? 2 : 1));
+    const lines = sub.verts[i].map((j) => X.uni(LINES[j]));
+    tt.show(['Cell ' + (i + 1) + ': |Q| = ' + sizes[i] + ', matroid orbit ' + sub.cells[i][0], degree[i] + ' neighbouring cells', lines.slice(0, 14).join(' ') + (lines.length > 14 ? ' …' : '')], event);
+  }).on('pointerleave', () => {
+    edges.style('stroke', 'var(--cds-chart-reference)').style('stroke-width', 1);
+    tt.hide();
+  }).on('click', (event, i) => E6explore.select(sub.cells[i][0], true));
+});
+
+dash.draw('dualcells', (box) => {
+  const X = E6explore;
+  const { sub } = e6Subdivision();
+  if (!sub) { box.replaceChildren(); return; }
+  const counts = d3.rollups(sub.cells, (v) => v.length, ([orbit]) => orbit).sort((a, b) => b[1] - a[1] || a[0] - b[0]);
+  box.replaceChildren(X.el('span', 'e6-sub', 'Cells by matroid orbit:'), ...counts.map(([orbit, n]) => {
+    const b = X.el('button', 'e6-chipbtn', 'orbit ' + orbit + (n > 1 ? ' ×' + n : ''));
+    b.type = 'button';
+    b.title = 'Open matroid orbit ' + orbit + ' in the explorer';
+    b.addEventListener('click', () => E6explore.select(orbit, true));
+    return b;
   }));
 });
 </script>

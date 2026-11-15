@@ -4,3 +4,4 @@ Manifest.toml
 *~
 \#*\#
 data/gfan/*.tmp
+__pycache__/
